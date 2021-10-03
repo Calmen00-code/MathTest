@@ -18,4 +18,28 @@ public class Student {
         emailList = new EmailList();
         phoneNumberList = new PhoneNumberList();
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public EmailList getEmailList() {
+        return emailList;
+    }
+
+    public PhoneNumberList getPhoneNumberList() {
+        return phoneNumberList;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
 }
