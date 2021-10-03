@@ -14,7 +14,7 @@ import com.calmen.mathtest.registration.phone_number.RegistrationPhoneNumber;
 
 public class Registration extends AppCompatActivity {
 
-    EditText firstNameEditTxt, lastNameEditTxt;
+    EditText firstNameEditTxt, lastNameEditTxt, studentIDEditTxt;
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
 
     @Override
@@ -24,6 +24,7 @@ public class Registration extends AppCompatActivity {
 
         firstNameEditTxt = findViewById(R.id.firstNameEditTxt);
         lastNameEditTxt = findViewById(R.id.lastNameEditTxt);
+        studentIDEditTxt = findViewById(R.id.studentIDInput);
         phoneNoBtn = findViewById(R.id.addPhoneNo);
         emailBtn = findViewById(R.id.addEmail);
         profilePicBtn = findViewById(R.id.addPhoto);
@@ -59,6 +60,9 @@ public class Registration extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else if (lastNameEditTxt.getText().toString().equals("")) {
                     Toast.makeText(Registration.this, "Last name is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (studentIDEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "Student ID is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: Confirm registration here

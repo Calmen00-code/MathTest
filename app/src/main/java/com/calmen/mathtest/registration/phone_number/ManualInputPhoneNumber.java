@@ -30,7 +30,7 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                     Toast.makeText(ManualInputPhoneNumber.this, "Phone number is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    
+
                 }
             }
         });
