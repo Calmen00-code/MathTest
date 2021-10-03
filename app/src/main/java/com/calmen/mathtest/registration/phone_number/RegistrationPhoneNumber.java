@@ -1,3 +1,9 @@
+/***
+ * @studentId is used to reference the phone number belongs to which student
+ * @contactId is used to reference the contact entry in the contact app of the phone
+ * @phoneNumbers is the list which will be returned to caller so that caller can use it to
+ *               store the phone number(s) in DB when registration is confirmed
+ */
 package com.calmen.mathtest.registration.phone_number;
 
 import androidx.annotation.NonNull;
@@ -6,6 +12,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -26,9 +33,11 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
 
     public static final int REQUEST_CONTACT = 2;
     public static final int REQUEST_READ_CONTACT_PERMISSION = 3;
+    public static final int REQUEST_MANUAL_INPUT = 4;
     Button manualPhoneNoReg, contactPhoneNoReg;
     private int studentId;
     private int contactId;
+    ArrayList<PhoneNumber> phoneNumbers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +56,10 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(RegistrationPhoneNumber.this, ManualInputPhoneNumber.class);
                 intent.putExtra("ID", studentId);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_MANUAL_INPUT);
+                Intent intentReturn = new Intent();
+                intentReturn.putExtra("phoneNumberList", phoneNumbers);
+                setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
                 finish();
             }
         });
@@ -56,6 +68,10 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pickContactButtonPressed();
+                Intent intent = new Intent();
+                intent.putExtra("phoneNumberList", phoneNumbers);
+                setResult(RegistrationPhoneNumber.RESULT_OK, intent);
+                ((Activity) view.getContext()).finish();
             }
         });
     }
@@ -84,25 +100,13 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 contactUri, queryNumbers, whereClauseContactNo, whereValuesContactNo, null);
 
         try {
-            PhoneNumberList phoneNumberList = new PhoneNumberList();
-            phoneNumberList.load(this);
-
             cursorNumber.moveToFirst();
+            phoneNumbers = new ArrayList<>();
             do {
                 String phoneNo = cursorNumber.getString(0);
                 PhoneNumber phoneNumber = new PhoneNumber(phoneNo, studentId);
-                phoneNumberList.addPhoneNo(phoneNumber);
+                phoneNumbers.add(phoneNumber);
             } while (cursorNumber.moveToNext());
-
-            // FIXME: For testing ONLY
-            phoneNumberList.load(this);
-            ArrayList<PhoneNumber> phoneNumbers = phoneNumberList.getPhoneNumbers();
-            System.out.println("Phone Numbers DB");
-            for (PhoneNumber number : phoneNumbers) {
-                System.out.print(number.getPhoneNo() + ", ");
-            }
-            System.out.println();
-            // FIXME: End for testing
         } finally {
             cursorNumber.close();
         }
@@ -112,29 +116,35 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
-            Uri contactUri = data.getData();
-            String[] queryFields = new String[]{
-                    ContactsContract.Contacts._ID
-            };
-            Cursor cursor = getContentResolver().query(
-                    contactUri, queryFields, null, null, null);
-            try {
-                if (cursor.getCount() > 0) {
-                    cursor.moveToFirst();
-                    this.contactId = cursor.getInt(0); // Contact ID in the first entry
+            boolean isManual = data.getBooleanExtra("isManual", false);
 
-                    // Request permission then read the contact
-                    if(ContextCompat.checkSelfPermission(RegistrationPhoneNumber.this,
-                            Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(RegistrationPhoneNumber.this,
-                                new String[]{Manifest.permission.READ_CONTACTS},
-                                REQUEST_READ_CONTACT_PERMISSION);
-                    } else {
-                        selectContact();
+            if (isManual) {
+                phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
+            } else {
+                Uri contactUri = data.getData();
+                String[] queryFields = new String[]{
+                        ContactsContract.Contacts._ID
+                };
+                Cursor cursor = getContentResolver().query(
+                        contactUri, queryFields, null, null, null);
+                try {
+                    if (cursor.getCount() > 0) {
+                        cursor.moveToFirst();
+                        this.contactId = cursor.getInt(0); // Contact ID in the first entry
+
+                        // Request permission then read the contact
+                        if (ContextCompat.checkSelfPermission(RegistrationPhoneNumber.this,
+                                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                            ActivityCompat.requestPermissions(RegistrationPhoneNumber.this,
+                                    new String[]{Manifest.permission.READ_CONTACTS},
+                                    REQUEST_READ_CONTACT_PERMISSION);
+                        } else {
+                            selectContact();
+                        }
                     }
+                } finally {
+                    cursor.close();
                 }
-            } finally {
-                cursor.close();
             }
         }
     }

@@ -5,7 +5,9 @@
 
 package com.calmen.mathtest.models;
 
-public class PhoneNumber {
+import java.io.Serializable;
+
+public class PhoneNumber implements Serializable {
     private String phoneNo;
     private int id;
 

@@ -2,7 +2,9 @@ package com.calmen.mathtest.registration.phone_number;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
 
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
@@ -40,21 +43,14 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                 } else {
                     PhoneNumber phoneNumber = new PhoneNumber(
                             phoneNoInput.getText().toString(), studentId);
-                    PhoneNumberList phoneNumberList = new PhoneNumberList();
-                    phoneNumberList.load(view.getContext());
-                    phoneNumberList.addPhoneNo(phoneNumber);
+                    ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
+                    phoneNumbers.add(phoneNumber);
 
-                    // FIXME: For testing ONLY
-                    phoneNumberList.load(view.getContext());
-                    ArrayList<PhoneNumber> phoneNumbers = phoneNumberList.getPhoneNumbers();
-                    System.out.println("Phone Numbers DB");
-                    for (PhoneNumber number : phoneNumbers) {
-                        System.out.print(number.getPhoneNo() + ", ");
-                    }
-                    System.out.println();
-                    // FIXME: End for testing
-
-                    finish();
+                    Intent intent = new Intent();
+                    intent.putExtra("phoneNumberList", phoneNumbers);
+                    intent.putExtra("isManual", true);
+                    setResult(ManualInputPhoneNumber.RESULT_OK, intent);
+                    ((Activity) view.getContext()).finish();
                 }
             }
         });

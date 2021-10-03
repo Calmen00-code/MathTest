@@ -1,21 +1,38 @@
+/***
+ * @phoneNumbers is the returned list from either Register By choosing contact method
+ *               or manually input contact method
+ */
 package com.calmen.mathtest.registration;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.models.PhoneNumber;
+import com.calmen.mathtest.models.PhoneNumberList;
 import com.calmen.mathtest.registration.phone_number.RegistrationPhoneNumber;
+
+import java.util.ArrayList;
 
 public class Registration extends AppCompatActivity {
 
+    public static final int REQUEST_REGISTRATION = 1;
     EditText firstNameEditTxt, lastNameEditTxt, studentIDEditTxt;
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
+    ArrayList<PhoneNumber> phoneNumbers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +62,23 @@ public class Registration extends AppCompatActivity {
                 } else {
                     Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
                     intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
-                    startActivity(intent);
+                    startActivityForResult(intent, REQUEST_REGISTRATION);
+
+                    // FIXME: for testing only
+                    // Store the returned phoneNumberList into DB
+                    PhoneNumberList phoneNumberList = new PhoneNumberList();
+                    phoneNumberList.load(view.getContext());
+                    if (phoneNumbers != null) {
+                        for (PhoneNumber number: phoneNumbers) {
+                            phoneNumberList.addPhoneNo(number);
+                        }
+
+                        phoneNumberList.load(view.getContext());
+                        for (PhoneNumber phoneNumber: phoneNumberList.getPhoneNumbers()) {
+                            System.out.println(phoneNumber + ", ");
+                        }
+                    }
+                    // FIXME: for testing only
                 }
             }
         });
@@ -78,8 +111,25 @@ public class Registration extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     // TODO: Confirm registration here
+
+                    // Store the returned phoneNumberList into DB
+                    PhoneNumberList phoneNumberList = new PhoneNumberList();
+                    phoneNumberList.load(view.getContext());
+                    for (PhoneNumber number: phoneNumbers) {
+                        phoneNumberList.addPhoneNo(number);
+                    }
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_REGISTRATION && resultCode == RESULT_OK) {
+            phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
+        } else {
+            System.out.println("FAILED to return from phone registration");
+        }
     }
 }

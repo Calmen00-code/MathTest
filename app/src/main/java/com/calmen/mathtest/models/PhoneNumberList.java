@@ -12,9 +12,10 @@ import android.content.Context;
 
 import com.calmen.mathtest.database.DBModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PhoneNumberList {
+public class PhoneNumberList implements Serializable {
     private DBModel dbModel;
     private ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
 
