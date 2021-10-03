@@ -44,7 +44,7 @@ public class Registration extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
-                    intent.putExtra("ID", studentIDEditTxt.getText().toString());
+                    intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
                     startActivity(intent);
                 }
             }

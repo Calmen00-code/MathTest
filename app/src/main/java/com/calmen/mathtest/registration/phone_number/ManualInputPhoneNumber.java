@@ -38,9 +38,9 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                     Toast.makeText(ManualInputPhoneNumber.this, "Phone number is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    PhoneNumberList phoneNumberList = new PhoneNumberList();
                     PhoneNumber phoneNumber = new PhoneNumber(
                             phoneNoInput.getText().toString(), studentId);
+                    PhoneNumberList phoneNumberList = new PhoneNumberList();
                     phoneNumberList.load(view.getContext());
                     phoneNumberList.addPhoneNo(phoneNumber);
 
@@ -52,6 +52,7 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                         System.out.print(number.getPhoneNo() + ", ");
                     }
                     System.out.println();
+                    // FIXME: End for testing
 
                     finish();
                 }
