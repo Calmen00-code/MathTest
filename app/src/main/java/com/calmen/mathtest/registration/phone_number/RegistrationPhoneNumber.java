@@ -57,10 +57,12 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 Intent intent = new Intent(RegistrationPhoneNumber.this, ManualInputPhoneNumber.class);
                 intent.putExtra("ID", studentId);
                 startActivityForResult(intent, REQUEST_MANUAL_INPUT);
+                /*
                 Intent intentReturn = new Intent();
                 intentReturn.putExtra("phoneNumberList", phoneNumbers);
                 setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
-                finish();
+                ((Activity) view.getContext()).finish();
+                */
             }
         });
 
@@ -83,6 +85,9 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
         startActivityForResult(intent, REQUEST_CONTACT);
     }
 
+    /***
+     * Retrieve all the numbers from selected contact
+     */
     public void selectContact() {
         Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
         String[] queryNumbers = new String[] {
@@ -112,39 +117,54 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
         }
     }
 
+    /***
+     * @param requestCode could be REQUEST_CONTACT or REQUEST_MANUAL_INPUT
+     *                    REQUEST_CONTACT if the contact is added from contact entry
+     *                    REQUEST_MANUAL_INPUT if the contact is added by manually typed
+     *
+     * @param phoneNumberList will be returned back to the caller using Intent
+     *                        which will be used to identify if the user cancel registration so that
+     *                        phoneNumbers will only be added into DB when user select Confirm.
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
+            Uri contactUri = data.getData();
+            String[] queryFields = new String[]{
+                    ContactsContract.Contacts._ID
+            };
+            Cursor cursor = getContentResolver().query(
+                    contactUri, queryFields, null, null, null);
+            try {
+                if (cursor.getCount() > 0) {
+                    cursor.moveToFirst();
+                    this.contactId = cursor.getInt(0); // Contact ID in the first entry
+
+                    // Request permission then read the contact
+                    if (ContextCompat.checkSelfPermission(RegistrationPhoneNumber.this,
+                            Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(RegistrationPhoneNumber.this,
+                                new String[]{Manifest.permission.READ_CONTACTS},
+                                REQUEST_READ_CONTACT_PERMISSION);
+                    } else {
+                        selectContact();
+                    }
+                }
+            } finally {
+                cursor.close();
+            }
+        } else if (requestCode == REQUEST_MANUAL_INPUT && resultCode == RESULT_OK) {
             boolean isManual = data.getBooleanExtra("isManual", false);
 
             if (isManual) {
                 phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
-            } else {
-                Uri contactUri = data.getData();
-                String[] queryFields = new String[]{
-                        ContactsContract.Contacts._ID
-                };
-                Cursor cursor = getContentResolver().query(
-                        contactUri, queryFields, null, null, null);
-                try {
-                    if (cursor.getCount() > 0) {
-                        cursor.moveToFirst();
-                        this.contactId = cursor.getInt(0); // Contact ID in the first entry
 
-                        // Request permission then read the contact
-                        if (ContextCompat.checkSelfPermission(RegistrationPhoneNumber.this,
-                                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
-                            ActivityCompat.requestPermissions(RegistrationPhoneNumber.this,
-                                    new String[]{Manifest.permission.READ_CONTACTS},
-                                    REQUEST_READ_CONTACT_PERMISSION);
-                        } else {
-                            selectContact();
-                        }
-                    }
-                } finally {
-                    cursor.close();
-                }
+                Intent intentReturn = new Intent();
+                intentReturn.putExtra("phoneNumberList", phoneNumbers);
+                setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
+                finish();
+
             }
         }
     }

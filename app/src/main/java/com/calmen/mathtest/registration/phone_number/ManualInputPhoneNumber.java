@@ -50,6 +50,7 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                     intent.putExtra("phoneNumberList", phoneNumbers);
                     intent.putExtra("isManual", true);
                     setResult(ManualInputPhoneNumber.RESULT_OK, intent);
+
                     ((Activity) view.getContext()).finish();
                 }
             }

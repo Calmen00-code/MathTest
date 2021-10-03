@@ -63,22 +63,6 @@ public class Registration extends AppCompatActivity {
                     Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
                     intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
                     startActivityForResult(intent, REQUEST_REGISTRATION);
-
-                    // FIXME: for testing only
-                    // Store the returned phoneNumberList into DB
-                    PhoneNumberList phoneNumberList = new PhoneNumberList();
-                    phoneNumberList.load(view.getContext());
-                    if (phoneNumbers != null) {
-                        for (PhoneNumber number: phoneNumbers) {
-                            phoneNumberList.addPhoneNo(number);
-                        }
-
-                        phoneNumberList.load(view.getContext());
-                        for (PhoneNumber phoneNumber: phoneNumberList.getPhoneNumbers()) {
-                            System.out.println(phoneNumber + ", ");
-                        }
-                    }
-                    // FIXME: for testing only
                 }
             }
         });
@@ -128,8 +112,23 @@ public class Registration extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_REGISTRATION && resultCode == RESULT_OK) {
             phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
-        } else {
-            System.out.println("FAILED to return from phone registration");
+
+            // FIXME: for testing only
+            // Store the returned phoneNumberList into DB
+            PhoneNumberList phoneNumberList = new PhoneNumberList();
+            phoneNumberList.load(this);
+            if (phoneNumbers != null) {
+                for (PhoneNumber number: phoneNumbers) {
+                    phoneNumberList.addPhoneNo(number);
+                }
+
+                phoneNumberList.load(this);
+                for (PhoneNumber phoneNumber: phoneNumberList.getPhoneNumbers()) {
+                    System.out.print(phoneNumber.getPhoneNo() + ", ");
+                }
+                System.out.println();
+            }
+            // FIXME: for testing only
         }
     }
 }
