@@ -2,9 +2,12 @@ package com.calmen.mathtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import com.calmen.mathtest.registration.Registration;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -21,7 +24,8 @@ public class MainActivity extends AppCompatActivity {
         registerStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: register new student
+                Intent intent = new Intent(MainActivity.this, Registration.class);
+                startActivity(intent);
             }
         });
 
