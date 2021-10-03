@@ -2,6 +2,7 @@ package com.calmen.mathtest.registration.phone_number;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,9 @@ import android.widget.Toast;
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 public class ManualInputPhoneNumber extends AppCompatActivity {
 
@@ -37,7 +41,17 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                     PhoneNumberList phoneNumberList = new PhoneNumberList();
                     PhoneNumber phoneNumber = new PhoneNumber(
                             phoneNoInput.getText().toString(), studentId);
+                    phoneNumberList.load(view.getContext());
                     phoneNumberList.addPhoneNo(phoneNumber);
+
+                    // FIXME: For testing
+                    phoneNumberList.load(view.getContext());
+                    ArrayList<PhoneNumber> phoneNumbers = phoneNumberList.getPhoneNumbers();
+                    System.out.println("Phone Numbers DB");
+                    for (PhoneNumber number : phoneNumbers) {
+                        System.out.print(number.getPhoneNo() + ", ");
+                    }
+                    System.out.println();
                 }
             }
         });

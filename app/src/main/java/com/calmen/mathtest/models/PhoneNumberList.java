@@ -28,6 +28,12 @@ public class PhoneNumberList {
 
     public void addPhoneNo(PhoneNumber number) {
         phoneNumbers.add(number);
+
+        if (dbModel == null) {
+            throw new NullPointerException("Database does not exist");
+        } else {
+            dbModel.addPhoneNumber(number);
+        }
     }
 
     public ArrayList<PhoneNumber> getPhoneNumbers() {
