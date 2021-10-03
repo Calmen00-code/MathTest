@@ -8,12 +8,27 @@
 
 package com.calmen.mathtest.models;
 
+import android.content.Context;
+
+import com.calmen.mathtest.database.DBModel;
+
 import java.util.ArrayList;
 
 public class EmailList {
+    private DBModel dbModel;
     private ArrayList<Email> emails = new ArrayList<>();
 
     public EmailList() { }
+
+    public void load (Context context) {
+        dbModel = new DBModel();
+        dbModel.load(context);
+        emails = dbModel.getAllEmails();
+    }
+
+    public ArrayList<Email> getEmails() {
+        return this.emails;
+    }
 
     public void addEmail(Email email) {
         emails.add(email);

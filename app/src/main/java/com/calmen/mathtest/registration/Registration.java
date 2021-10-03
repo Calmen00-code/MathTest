@@ -33,8 +33,20 @@ public class Registration extends AppCompatActivity {
         phoneNoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
-                startActivity(intent);
+                if (firstNameEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "First name is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (lastNameEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "Last name is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (studentIDEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "Student ID is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
+                    intent.putExtra("ID", studentIDEditTxt.getText().toString());
+                    startActivity(intent);
+                }
             }
         });
 

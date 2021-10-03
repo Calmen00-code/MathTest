@@ -51,4 +51,22 @@ public class DBModel {
         }
         return phoneNumbers;
     }
+
+    public ArrayList<Email> getAllEmails() {
+        ArrayList<Email> emails = new ArrayList<>();
+        Cursor cursor = db.query(EmailTable.NAME, null, null,
+                null, null, null, null);
+        DBCursor dbCursor = new DBCursor(cursor);
+
+        try {
+            dbCursor.moveToFirst();
+            while (!dbCursor.isAfterLast()) {
+                emails.add(dbCursor.getEmail());
+                dbCursor.moveToNext();
+            }
+        } finally {
+            dbCursor.close();
+        }
+        return emails;
+    }
 }

@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.models.PhoneNumber;
+import com.calmen.mathtest.models.PhoneNumberList;
 
 public class ManualInputPhoneNumber extends AppCompatActivity {
 
@@ -23,6 +25,8 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
         phoneNoInput = findViewById(R.id.phoneNumberInput);
         addPhoneNoBtn = findViewById(R.id.manualAddPhoneNumberBtn);
 
+        int studentId = getIntent().getIntExtra("ID", -1);
+
         addPhoneNoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -30,7 +34,10 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                     Toast.makeText(ManualInputPhoneNumber.this, "Phone number is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-
+                    PhoneNumberList phoneNumberList = new PhoneNumberList();
+                    PhoneNumber phoneNumber = new PhoneNumber(
+                            phoneNoInput.getText().toString(), studentId);
+                    phoneNumberList.addPhoneNo(phoneNumber);
                 }
             }
         });

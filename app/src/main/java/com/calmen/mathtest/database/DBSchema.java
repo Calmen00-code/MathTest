@@ -11,10 +11,26 @@ public class DBSchema {
         }
     }
 
+    /***
+     * @reference by ID in StudentTable
+     * Storing each student's phone number(s)
+     */
     public static class PhoneNumberTable {
         public static final String NAME = "PHONE_NUMBER";
         public static class Cols {
             public static final String PHONE_NO = "phoneno";
+            public static final String ID = "id";
+        }
+    }
+
+    /***
+     * @reference by ID in StudentTable
+     * Storing each student's phone email(s)
+     */
+    public static class EmailTable {
+        public static final String NAME = "EMAIL";
+        public static class Cols {
+            public static final String EMAIL = "email";
             public static final String ID = "id";
         }
     }

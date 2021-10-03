@@ -15,7 +15,7 @@ import com.calmen.mathtest.database.DBModel;
 import java.util.ArrayList;
 
 public class PhoneNumberList {
-    DBModel dbModel;
+    private DBModel dbModel;
     private ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
 
     public PhoneNumberList() { }

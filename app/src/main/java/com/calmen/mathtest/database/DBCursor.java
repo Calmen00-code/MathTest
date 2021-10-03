@@ -13,13 +13,6 @@ import java.util.ArrayList;
 public class DBCursor extends CursorWrapper {
     public DBCursor (Cursor cursor) { super(cursor); }
 
-    public PhoneNumber getPhoneNumber() {
-        String phoneNo = getString(getColumnIndex(PhoneNumberTable.Cols.PHONE_NO));
-        int id = getInt(getColumnIndex(PhoneNumberTable.Cols.ID));
-
-        return new PhoneNumber(phoneNo, id);
-    }
-
     /***
      * @param context is used to retrieve the PhoneNumberTable and EmailTable from DB
      * @return student object for Student List retrieval
@@ -35,8 +28,8 @@ public class DBCursor extends CursorWrapper {
         existingPhoneNumberList.load(context);
         ArrayList<PhoneNumber> existingPhoneNumbers = existingPhoneNumberList.getPhoneNumbers();
 
-        // select only the phone numbers that matches with the id
-        // since the existingPhoneNumbers retrieves from DB included all student's phone number
+        // select only the phone numbers that matches with the id since the existingPhoneNumbers
+        // retrieves from DB included all student's phone number but not individual's
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         for (PhoneNumber phoneNumber: existingPhoneNumbers) {
             if (phoneNumber.getId() == id) {
@@ -44,9 +37,34 @@ public class DBCursor extends CursorWrapper {
             }
         }
 
-        
+        // load the existing email list from DB
+        EmailList existingEmailList = new EmailList();
+        existingEmailList.load(context);
+        ArrayList<Email> existingEmails = existingEmailList.getEmails();
 
-        return new Student();
+        // select only the emails that matches with the id since the existingEmails
+        // retrieves from DB included all student's emails but not individual's
+        EmailList emailList = new EmailList();
+        for (Email email: existingEmails) {
+            if (email.getId() == id) {
+                emailList.addEmail(email);
+            }
+        }
+
+        return new Student(firstname, lastname, id, photoURL, emailList, phoneNumberList);
     }
 
+    public PhoneNumber getPhoneNumber() {
+        String phoneNo = getString(getColumnIndex(PhoneNumberTable.Cols.PHONE_NO));
+        int id = getInt(getColumnIndex(PhoneNumberTable.Cols.ID));
+
+        return new PhoneNumber(phoneNo, id);
+    }
+
+    public Email getEmail() {
+        String email = getString(getColumnIndex(EmailTable.Cols.EMAIL));
+        int id = getInt(getColumnIndex(PhoneNumberTable.Cols.ID));
+
+        return new Email(email, id);
+    }
 }
