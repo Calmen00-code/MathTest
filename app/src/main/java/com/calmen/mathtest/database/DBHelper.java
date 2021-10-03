@@ -3,6 +3,8 @@ package com.calmen.mathtest.database;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.ContactsContract;
+
 import com.calmen.mathtest.database.DBSchema.*;
 
 public class DBHelper extends SQLiteOpenHelper {
@@ -16,7 +18,15 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE " + );
+        db.execSQL("CREATE TABLE " + StudentTable.NAME + "(" +
+                StudentTable.Cols.FIRST_NAME + " TEXT," +
+                StudentTable.Cols.LAST_NAME + " TEXT," +
+                StudentTable.Cols.ID + " INTEGER," +
+                StudentTable.Cols.PHOTO_URL + " TEXT);");
+
+        db.execSQL("CREATE TABLE " + PhoneNumberTable.NAME + "(" +
+                PhoneNumberTable.Cols.PHONE_NO + " TEXT," +
+                PhoneNumberTable.Cols.ID + " INTEGER);");
     }
 
     @Override

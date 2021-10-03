@@ -10,4 +10,12 @@ public class DBSchema {
             public static final String ID = "id";
         }
     }
+
+    public static class PhoneNumberTable {
+        public static final String NAME = "PHONE_NUMBER";
+        public static class Cols {
+            public static final String PHONE_NO = "phoneno";
+            public static final String ID = "id";
+        }
+    }
 }

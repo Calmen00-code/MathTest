@@ -26,4 +26,29 @@ public class DBModel {
         cv.put(StudentTable.Cols.PHOTO_URL, student.getPhotoURL());
         db.insert(StudentTable.NAME, null, cv);
     }
+
+    public void addPhoneNumber(PhoneNumber phoneNo) {
+        ContentValues cv = new ContentValues();
+        cv.put(PhoneNumberTable.Cols.PHONE_NO, phoneNo.getPhoneNo());
+        cv.put(PhoneNumberTable.Cols.ID, phoneNo.getId());
+        db.insert(PhoneNumberTable.NAME, null, cv);
+    }
+
+    public ArrayList<PhoneNumber> getAllPhoneNumbers() {
+        ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
+        Cursor cursor = db.query(PhoneNumberTable.NAME, null, null,
+                null, null, null, null);
+        DBCursor dbCursor = new DBCursor(cursor);
+
+        try {
+            dbCursor.moveToFirst();
+            while (!dbCursor.isAfterLast()) {
+                phoneNumbers.add(dbCursor.getPhoneNumber());
+                dbCursor.moveToNext();
+            }
+        } finally {
+            dbCursor.close();
+        }
+        return phoneNumbers;
+    }
 }

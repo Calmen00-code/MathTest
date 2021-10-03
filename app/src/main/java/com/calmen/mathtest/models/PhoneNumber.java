@@ -1,3 +1,8 @@
+/***
+ * Stores each student's phone number details
+ * @id is the studentID which identify who does the phone number belongs
+ */
+
 package com.calmen.mathtest.models;
 
 public class PhoneNumber {

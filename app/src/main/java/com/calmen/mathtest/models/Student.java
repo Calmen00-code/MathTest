@@ -1,6 +1,8 @@
-package com.calmen.mathtest.models;
+/***
+ * Student models that stores the fields of the student
+ */
 
-import java.util.ArrayList;
+package com.calmen.mathtest.models;
 
 public class Student {
     private String firstname;

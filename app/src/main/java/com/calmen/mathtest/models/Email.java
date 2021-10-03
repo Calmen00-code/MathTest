@@ -1,3 +1,8 @@
+/***
+ * Stores each student's email details
+ * @id is the studentID which identify who does the email belongs
+ */
+
 package com.calmen.mathtest.models;
 
 public class Email {
