@@ -44,7 +44,7 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                     phoneNumberList.load(view.getContext());
                     phoneNumberList.addPhoneNo(phoneNumber);
 
-                    // FIXME: For testing
+                    // FIXME: For testing ONLY
                     phoneNumberList.load(view.getContext());
                     ArrayList<PhoneNumber> phoneNumbers = phoneNumberList.getPhoneNumbers();
                     System.out.println("Phone Numbers DB");
@@ -52,6 +52,8 @@ public class ManualInputPhoneNumber extends AppCompatActivity {
                         System.out.print(number.getPhoneNo() + ", ");
                     }
                     System.out.println();
+
+                    finish();
                 }
             }
         });

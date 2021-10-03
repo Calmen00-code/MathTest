@@ -31,6 +31,7 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 Intent intent = new Intent(RegistrationPhoneNumber.this, ManualInputPhoneNumber.class);
                 intent.putExtra("ID", studentId);
                 startActivity(intent);
+                finish();
             }
         });
     }
