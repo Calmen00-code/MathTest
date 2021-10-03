@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.calmen.mathtest" >
+    package="com.calmen.mathtest">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
@@ -14,16 +14,19 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MathTest" >
+        android:theme="@style/Theme.MathTest">
         <activity
-            android:name=".registration.RegistrationPhoneNumber"
+            android:name=".registration.phone_number.ManualInputPhoneNumber"
+            android:exported="true" />
+        <activity
+            android:name=".registration.phone_number.RegistrationPhoneNumber"
             android:exported="true" />
         <activity
             android:name=".registration.Registration"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
