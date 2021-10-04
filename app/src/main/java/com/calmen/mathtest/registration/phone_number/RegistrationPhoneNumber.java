@@ -70,10 +70,6 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pickContactButtonPressed();
-                Intent intent = new Intent();
-                intent.putExtra("phoneNumberList", phoneNumbers);
-                setResult(RegistrationPhoneNumber.RESULT_OK, intent);
-                ((Activity) view.getContext()).finish();
             }
         });
     }
@@ -87,6 +83,7 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
 
     /***
      * Retrieve all the numbers from selected contact
+     * @return phoneNumberList back to caller using Intent
      */
     public void selectContact() {
         Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
@@ -112,8 +109,13 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 PhoneNumber phoneNumber = new PhoneNumber(phoneNo, studentId);
                 phoneNumbers.add(phoneNumber);
             } while (cursorNumber.moveToNext());
+
         } finally {
             cursorNumber.close();
+            Intent intentReturn = new Intent();
+            intentReturn.putExtra("phoneNumberList", phoneNumbers);
+            setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
+            finish();
         }
     }
 
@@ -122,14 +124,16 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
      *                    REQUEST_CONTACT if the contact is added from contact entry
      *                    REQUEST_MANUAL_INPUT if the contact is added by manually typed
      *
-     * @param phoneNumberList will be returned back to the caller using Intent
+     * @phoneNumberList will be returned back to the caller using Intent
      *                        which will be used to identify if the user cancel registration so that
      *                        phoneNumbers will only be added into DB when user select Confirm.
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        System.out.println("requestCode: " + requestCode);
         if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
+            System.out.println("REQUEST CONTACT");
             Uri contactUri = data.getData();
             String[] queryFields = new String[]{
                     ContactsContract.Contacts._ID
@@ -150,6 +154,8 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                     } else {
                         selectContact();
                     }
+                } else {
+                    System.out.println("getCount is ELSE");
                 }
             } finally {
                 cursor.close();
@@ -160,6 +166,7 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
             if (isManual) {
                 phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
 
+                // return the phone number back to the caller
                 Intent intentReturn = new Intent();
                 intentReturn.putExtra("phoneNumberList", phoneNumbers);
                 setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
@@ -177,6 +184,7 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 Toast.makeText(RegistrationPhoneNumber.this,
                         "Contact Reading Permission Granted", Toast.LENGTH_SHORT).show();
                 selectContact();
+                System.out.println("RUN SelectContact");
             }
         }
     }
