@@ -30,6 +30,8 @@ import java.util.ArrayList;
 public class Registration extends AppCompatActivity {
 
     public static final int REQUEST_REGISTRATION = 1;
+    public static final int MAXIMUM_PHONE_NUMBER = 10;
+
     EditText firstNameEditTxt, lastNameEditTxt, studentIDEditTxt;
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
     ArrayList<PhoneNumber> phoneNumbers;
@@ -62,11 +64,13 @@ public class Registration extends AppCompatActivity {
                 } else {
                     int studentID = Integer.parseInt(studentIDEditTxt.getText().toString());
                     if (maximumPhoneNumberReached(studentID)) {
-
+                        Toast.makeText(Registration.this, "Maximum " + MAXIMUM_PHONE_NUMBER +
+                                        " numbers has been allocated!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
+                        intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
+                        startActivityForResult(intent, REQUEST_REGISTRATION);
                     }
-                    Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
-                    intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
-                    startActivityForResult(intent, REQUEST_REGISTRATION);
                 }
             }
         });
@@ -136,8 +140,18 @@ public class Registration extends AppCompatActivity {
         }
     }
 
+    /***
+     * @param studentID is used to determine the phone number(s) allocated to the student
+     * @return true if there are already 10 numbers allocated to the student and false otherwise
+     */
     public boolean maximumPhoneNumberReached(int studentID) {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        phoneNumberList.getPhoneNumbersByID(studentID, this);
+        ArrayList<PhoneNumber> phoneNumbers = phoneNumberList.getPhoneNumbersByID(
+                studentID, this);
+        System.out.println("size: " + phoneNumbers.size());
+        if (phoneNumbers.size() >= MAXIMUM_PHONE_NUMBER)
+            return true;
+        else
+            return false;
     }
 }
