@@ -87,20 +87,23 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
      */
     public void selectContact() {
         Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
-        Uri nameUri = ContactsContract.Contacts.CONTENT_URI;
-        String[] queryNames = new String[] {
-                ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
-                ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE
-        };
-        String[] queryNumbers = new String[] {
+        String[] queryFields = new String[] {
+                // ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+                // ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_ALTERNATIVE,
                 ContactsContract.CommonDataKinds.Phone.NUMBER
         };
+        // String[] queryNumbers = new String[] {
+        //         ContactsContract.CommonDataKinds.Phone.NUMBER
+        // };
 
         // Define the search conditions
-        String whereClauseContactNo = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
-        String whereClauseName = ContactsContract.CommonDataKinds.Phone.MIMETYPE + "=? AND " +
-                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
+        String whereClauseFields = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
+        //String whereClauseName = ContactsContract.CommonDataKinds.Phone.MIMETYPE + "=? AND " +
+        //        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
 
+        /*
         String[] whereValuesContactNo = new String[] {
                 String.valueOf(this.contactId)
         };
@@ -108,23 +111,31 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
         String[] whereValuesName = new String[] {
                 String.valueOf(this.contactId)
         };
+         */
 
-        Cursor cursorNumber = getContentResolver().query(
-                contactUri, queryNumbers, whereClauseContactNo, whereValuesContactNo, null);
+        String[] whereValuesFields = new String[] {
+                String.valueOf(this.contactId)
+        };
 
-        Cursor cursorName = getContentResolver().query(
-                nameUri, queryNames, null, null, null);
+        // Cursor cursorNumber = getContentResolver().query(
+        //         contactUri, queryNumbers, whereClauseContactNo, whereValuesContactNo, null);
+
+        Cursor cursor = getContentResolver().query(
+                contactUri, queryFields, whereClauseFields, whereValuesFields, null);
 
         try {
-            cursorName.moveToFirst();
+            cursor.moveToFirst();
             do {
                 /* String firstname = cursorName.getString(cursorName.getColumnIndex(ContactsContract
                         .CommonDataKinds.StructuredName.GIVEN_NAME)); */
-                String firstname = cursorName.getString(0);
-                String lastname = cursorName.getString(1);
+                String firstname = cursor.getString(0);
+                String lastname = cursor.getString(1);
+                String phoneNo = cursor.getString(2);
                 System.out.println(firstname + "," + lastname );
-            } while (cursorName.moveToNext());
+                System.out.println(phoneNo);
+            } while (cursor.moveToNext());
 
+            /*
             cursorNumber.moveToFirst();
             phoneNumbers = new ArrayList<>();
             do {
@@ -132,10 +143,11 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 PhoneNumber phoneNumber = new PhoneNumber(phoneNo, studentId);
                 phoneNumbers.add(phoneNumber);
             } while (cursorNumber.moveToNext());
+             */
 
         } finally {
-            cursorNumber.close();
-            cursorName.close();
+            cursor.close();
+            // cursorName.close();
             Intent intentReturn = new Intent();
             intentReturn.putExtra("phoneNumberList", phoneNumbers);
             setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
