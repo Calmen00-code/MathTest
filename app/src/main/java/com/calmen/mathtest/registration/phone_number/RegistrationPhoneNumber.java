@@ -87,12 +87,18 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
      */
     public void selectContact() {
         Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        Uri emailUri = ContactsContract.CommonDataKinds.Email.CONTENT_URI;
+
         String[] queryNames = new String[] {
                 ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME_PRIMARY,
         };
 
         String[] queryNumbers = new String[] {
                 ContactsContract.CommonDataKinds.Phone.NUMBER
+        };
+
+        String[] queryEmails = new String[] {
+                ContactsContract.CommonDataKinds.Email.ADDRESS
         };
 
         // Define the search conditions
@@ -107,6 +113,9 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
 
         Cursor cursorNumber = getContentResolver().query(
                 contactUri, queryNumbers, whereClauseFields, whereValuesFields, null);
+
+        Cursor cursorEmail = getContentResolver().query(
+                emailUri, queryEmails, whereClauseFields, whereValuesFields, null);
 
         try {
             cursorName.moveToFirst();
@@ -126,9 +135,17 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
             } while (cursorNumber.moveToNext());
             System.out.println();
 
+            cursorEmail.moveToFirst();
+            do {
+                String email = cursorEmail.getString(0);
+                System.out.print(email + ",");
+            } while (cursorEmail.moveToNext());
+            System.out.println();
+
         } finally {
             cursorName.close();
             cursorNumber.close();
+            cursorEmail.close();
             Intent intentReturn = new Intent();
             intentReturn.putExtra("phoneNumberList", phoneNumbers);
             setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
