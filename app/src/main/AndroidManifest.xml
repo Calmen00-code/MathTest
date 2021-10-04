@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MathTest">
         <activity
+            android:name=".registration.email.EmailRegistration"
+            android:exported="true" />
+        <activity
             android:name=".registration.phone_number.ManualInputPhoneNumber"
             android:exported="true" />
         <activity

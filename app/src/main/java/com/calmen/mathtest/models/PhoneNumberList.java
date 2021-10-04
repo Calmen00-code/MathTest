@@ -40,4 +40,21 @@ public class PhoneNumberList implements Serializable {
     public ArrayList<PhoneNumber> getPhoneNumbers() {
         return this.phoneNumbers;
     }
+
+    /***
+     * @param id the reference which determines the number to be retrieved
+     * @param context needed for load(context) to communicate with DB
+     * @return all the phone number(s) allocated to the particular student determine by ID
+     */
+    public ArrayList<PhoneNumber> getPhoneNumbersByID(int id, Context context) {
+        ArrayList<PhoneNumber> retPhoneNumbers = new ArrayList<>();
+        load(context);
+
+        for (PhoneNumber number: phoneNumbers) {
+            if (number.getId() == id) {
+                retPhoneNumbers.add(number);
+            }
+        }
+        return retPhoneNumbers;
+    }
 }

@@ -60,6 +60,10 @@ public class Registration extends AppCompatActivity {
                     Toast.makeText(Registration.this, "Student ID is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
+                    int studentID = Integer.parseInt(studentIDEditTxt.getText().toString());
+                    if (maximumPhoneNumberReached(studentID)) {
+
+                    }
                     Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
                     intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
                     startActivityForResult(intent, REQUEST_REGISTRATION);
@@ -113,7 +117,7 @@ public class Registration extends AppCompatActivity {
         if (requestCode == REQUEST_REGISTRATION && resultCode == RESULT_OK) {
             phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
 
-            // FIXME: for testing only
+            // FIXME: for testing only (REMOVED when implemented Confirm Button)
             // Store the returned phoneNumberList into DB
             PhoneNumberList phoneNumberList = new PhoneNumberList();
             phoneNumberList.load(this);
@@ -130,5 +134,10 @@ public class Registration extends AppCompatActivity {
             }
             // FIXME: for testing only
         }
+    }
+
+    public boolean maximumPhoneNumberReached(int studentID) {
+        PhoneNumberList phoneNumberList = new PhoneNumberList();
+        phoneNumberList.getPhoneNumbersByID(studentID, this);
     }
 }
