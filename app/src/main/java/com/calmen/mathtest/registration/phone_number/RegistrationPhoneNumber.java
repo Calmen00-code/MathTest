@@ -131,9 +131,7 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println("requestCode: " + requestCode);
         if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
-            System.out.println("REQUEST CONTACT");
             Uri contactUri = data.getData();
             String[] queryFields = new String[]{
                     ContactsContract.Contacts._ID
@@ -154,8 +152,6 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                     } else {
                         selectContact();
                     }
-                } else {
-                    System.out.println("getCount is ELSE");
                 }
             } finally {
                 cursor.close();
@@ -184,7 +180,6 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 Toast.makeText(RegistrationPhoneNumber.this,
                         "Contact Reading Permission Granted", Toast.LENGTH_SHORT).show();
                 selectContact();
-                System.out.println("RUN SelectContact");
             }
         }
     }
