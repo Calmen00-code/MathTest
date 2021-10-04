@@ -87,21 +87,44 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
      */
     public void selectContact() {
         Uri contactUri = ContactsContract.CommonDataKinds.Phone.CONTENT_URI;
+        Uri nameUri = ContactsContract.Contacts.CONTENT_URI;
+        String[] queryNames = new String[] {
+                ContactsContract.Contacts.DISPLAY_NAME_PRIMARY,
+                ContactsContract.Contacts.DISPLAY_NAME_ALTERNATIVE
+        };
         String[] queryNumbers = new String[] {
                 ContactsContract.CommonDataKinds.Phone.NUMBER
         };
 
         // Define the search conditions
         String whereClauseContactNo = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
+        String whereClauseName = ContactsContract.CommonDataKinds.Phone.MIMETYPE + "=? AND " +
+                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
 
         String[] whereValuesContactNo = new String[] {
+                String.valueOf(this.contactId)
+        };
+
+        String[] whereValuesName = new String[] {
                 String.valueOf(this.contactId)
         };
 
         Cursor cursorNumber = getContentResolver().query(
                 contactUri, queryNumbers, whereClauseContactNo, whereValuesContactNo, null);
 
+        Cursor cursorName = getContentResolver().query(
+                nameUri, queryNames, null, null, null);
+
         try {
+            cursorName.moveToFirst();
+            do {
+                /* String firstname = cursorName.getString(cursorName.getColumnIndex(ContactsContract
+                        .CommonDataKinds.StructuredName.GIVEN_NAME)); */
+                String firstname = cursorName.getString(0);
+                String lastname = cursorName.getString(1);
+                System.out.println(firstname + "," + lastname );
+            } while (cursorName.moveToNext());
+
             cursorNumber.moveToFirst();
             phoneNumbers = new ArrayList<>();
             do {
@@ -112,6 +135,7 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
 
         } finally {
             cursorNumber.close();
+            cursorName.close();
             Intent intentReturn = new Intent();
             intentReturn.putExtra("phoneNumberList", phoneNumbers);
             setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
