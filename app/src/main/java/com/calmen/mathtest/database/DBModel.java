@@ -76,4 +76,25 @@ public class DBModel {
         }
         return emails;
     }
+
+    /***
+     * @param context is used in DBCursor to retrieve student list from DB
+     */
+    public ArrayList<Student> getAllStudents(Context context) {
+        ArrayList<Student> students = new ArrayList<>();
+        Cursor cursor = db.query(StudentTable.NAME, null, null,
+                null, null, null, null);
+        DBCursor dbCursor = new DBCursor(cursor);
+
+        try {
+            dbCursor.moveToFirst();
+            while (!dbCursor.isAfterLast()) {
+                students.add(dbCursor.getStudent(context));
+                dbCursor.moveToNext();
+            }
+        } finally {
+            dbCursor.close();
+        }
+        return students;
+    }
 }

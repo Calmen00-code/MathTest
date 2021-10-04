@@ -27,17 +27,19 @@ public class EmailList implements Serializable {
         emails = dbModel.getAllEmails();
     }
 
-    public ArrayList<Email> getEmails() {
+    public ArrayList<Email> getEmails(Context context) {
+        if (dbModel == null) {
+            load(context);
+        }
         return this.emails;
     }
 
-    public void addEmail(Email email) {
+    public void addEmail(Email email, Context context) {
         emails.add(email);
 
         if (dbModel == null) {
-            throw new NullPointerException("Database does not exist");
-        } else {
-            dbModel.addEmail(email);
+            load(context);
         }
+        dbModel.addEmail(email);
     }
 }

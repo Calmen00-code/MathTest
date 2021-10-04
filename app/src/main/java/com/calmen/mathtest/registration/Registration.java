@@ -27,6 +27,7 @@ import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
 import com.calmen.mathtest.registration.email.EmailRegistration;
 import com.calmen.mathtest.registration.phone_number.RegistrationPhoneNumber;
+import com.calmen.mathtest.shared.Validation;
 
 import java.util.ArrayList;
 
@@ -34,7 +35,6 @@ public class Registration extends AppCompatActivity {
 
     public static final int REQUEST_REGISTRATION_PHONE = 1;
     public static final int REQUEST_REGISTRATION_EMAIL = 2;
-    public static final int MAXIMUM_PHONE_NUMBER = 10;
 
     EditText firstNameEditTxt, lastNameEditTxt, studentIDEditTxt;
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
@@ -68,13 +68,20 @@ public class Registration extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
                 } else {
                     int studentID = Integer.parseInt(studentIDEditTxt.getText().toString());
-                    if (maximumPhoneNumberReached(studentID)) {
-                        Toast.makeText(Registration.this, "Maximum " + MAXIMUM_PHONE_NUMBER +
-                                        " numbers has been allocated!", Toast.LENGTH_SHORT).show();
+                    if (Validation.isStudentIDExist(studentID, view.getContext())) {
+                        Toast.makeText(Registration.this, "Student ID has been taken!",
+                                Toast.LENGTH_SHORT).show();
                     } else {
-                        Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
-                        intent.putExtra("ID", studentID);
-                        startActivityForResult(intent, REQUEST_REGISTRATION_PHONE);
+                        if (Validation.maximumPhoneNumberReached(studentID, view.getContext())) {
+                            Toast.makeText(Registration.this, "Maximum " +
+                                            Validation.MAXIMUM_PHONE_NUMBER + " numbers has been allocated!",
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent intent = new Intent(Registration.this,
+                                    RegistrationPhoneNumber.class);
+                            intent.putExtra("ID", studentID);
+                            startActivityForResult(intent, REQUEST_REGISTRATION_PHONE);
+                        }
                     }
                 }
             }
@@ -93,9 +100,15 @@ public class Registration extends AppCompatActivity {
                     Toast.makeText(Registration.this, "Student ID is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Intent intent = new Intent(Registration.this, EmailRegistration.class);
-                    intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
-                    startActivityForResult(intent, REQUEST_REGISTRATION_EMAIL);
+                    int studentID = Integer.parseInt(studentIDEditTxt.getText().toString());
+                    if (Validation.isStudentIDExist(studentID, view.getContext())) {
+                        Toast.makeText(Registration.this, "Student ID already exist!",
+                                Toast.LENGTH_SHORT).show();
+                    } else {
+                        Intent intent = new Intent(Registration.this, EmailRegistration.class);
+                        intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
+                        startActivityForResult(intent, REQUEST_REGISTRATION_EMAIL);
+                    }
                 }
             }
         });
@@ -126,7 +139,7 @@ public class Registration extends AppCompatActivity {
                     PhoneNumberList phoneNumberList = new PhoneNumberList();
                     phoneNumberList.load(view.getContext());
                     for (PhoneNumber number: phoneNumbers) {
-                        phoneNumberList.addPhoneNo(number);
+                        phoneNumberList.addPhoneNo(number, view.getContext());
                     }
                 }
             }
@@ -142,35 +155,29 @@ public class Registration extends AppCompatActivity {
             // FIXME: for testing only (REMOVED when implemented Confirm Button)
             // Store the returned phoneNumberList into DB
             PhoneNumberList phoneNumberList = new PhoneNumberList();
-            phoneNumberList.load(this);
             if (phoneNumbers != null) {
                 for (PhoneNumber number: phoneNumbers) {
-                    phoneNumberList.addPhoneNo(number);
+                    phoneNumberList.addPhoneNo(number, this);
                 }
 
-                phoneNumberList.load(this);
-                for (PhoneNumber phoneNumber: phoneNumberList.getPhoneNumbers()) {
+                for (PhoneNumber phoneNumber: phoneNumberList.getPhoneNumbers(this)) {
                     System.out.print(phoneNumber.getPhoneNo() + ", ");
                 }
                 System.out.println();
             }
             // FIXME: for testing only
         } else if (requestCode == REQUEST_REGISTRATION_EMAIL && resultCode == RESULT_OK) {
-            System.out.println("EMAIL REGISTRATION");
             emails = (ArrayList<Email>) data.getSerializableExtra("Email");
-            System.out.println(emails.size());
 
             // FIXME: for testing only (REMOVED when implemented Confirm Button)
             // Store the returned phoneNumberList into DB
             EmailList emailList = new EmailList();
-            emailList.load(this);
             if (emails != null) {
                 for (Email email: emails) {
-                    emailList.addEmail(email);
+                    emailList.addEmail(email, this);
                 }
 
-                emailList.load(this);
-                for (Email email : emailList.getEmails()) {
+                for (Email email : emailList.getEmails(this)) {
                     System.out.print(email.getEmail() + ", ");
                 }
                 System.out.println();
@@ -181,18 +188,4 @@ public class Registration extends AppCompatActivity {
         }
     }
 
-    /***
-     * @param studentID is used to determine the phone number(s) allocated to the student
-     * @return true if there are already 10 numbers allocated to the student and false otherwise
-     */
-    public boolean maximumPhoneNumberReached(int studentID) {
-        PhoneNumberList phoneNumberList = new PhoneNumberList();
-        ArrayList<PhoneNumber> phoneNumbers = phoneNumberList.getPhoneNumbersByID(
-                studentID, this);
-        System.out.println("size: " + phoneNumbers.size());
-        if (phoneNumbers.size() >= MAXIMUM_PHONE_NUMBER)
-            return true;
-        else
-            return false;
-    }
 }

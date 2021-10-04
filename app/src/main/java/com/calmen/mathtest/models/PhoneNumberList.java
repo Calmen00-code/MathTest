@@ -27,18 +27,20 @@ public class PhoneNumberList implements Serializable {
         phoneNumbers = dbModel.getAllPhoneNumbers();
     }
 
-    public void addPhoneNo(PhoneNumber number) {
+    public void addPhoneNo(PhoneNumber number, Context context) {
         phoneNumbers.add(number);
 
         if (dbModel == null) {
-            throw new NullPointerException("Database does not exist");
-        } else {
-            dbModel.addPhoneNumber(number);
+            load(context);
         }
+        dbModel.addPhoneNumber(number);
     }
 
-    public ArrayList<PhoneNumber> getPhoneNumbers() {
-        return this.phoneNumbers;
+    public ArrayList<PhoneNumber> getPhoneNumbers(Context context) {
+        if (dbModel == null) {
+            load(context);
+        }
+        return dbModel.getAllPhoneNumbers();
     }
 
     /***
