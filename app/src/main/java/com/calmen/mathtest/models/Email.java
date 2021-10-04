@@ -5,7 +5,9 @@
 
 package com.calmen.mathtest.models;
 
-public class Email {
+import java.io.Serializable;
+
+public class Email implements Serializable {
     private String email;
     private int id;
 

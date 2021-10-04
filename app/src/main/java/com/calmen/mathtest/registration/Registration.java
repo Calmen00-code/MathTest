@@ -21,20 +21,25 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.models.Email;
+import com.calmen.mathtest.models.EmailList;
 import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
+import com.calmen.mathtest.registration.email.EmailRegistration;
 import com.calmen.mathtest.registration.phone_number.RegistrationPhoneNumber;
 
 import java.util.ArrayList;
 
 public class Registration extends AppCompatActivity {
 
-    public static final int REQUEST_REGISTRATION = 1;
+    public static final int REQUEST_REGISTRATION_PHONE = 1;
+    public static final int REQUEST_REGISTRATION_EMAIL = 2;
     public static final int MAXIMUM_PHONE_NUMBER = 10;
 
     EditText firstNameEditTxt, lastNameEditTxt, studentIDEditTxt;
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
     ArrayList<PhoneNumber> phoneNumbers;
+    ArrayList<Email> emails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,8 +73,8 @@ public class Registration extends AppCompatActivity {
                                         " numbers has been allocated!", Toast.LENGTH_SHORT).show();
                     } else {
                         Intent intent = new Intent(Registration.this, RegistrationPhoneNumber.class);
-                        intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
-                        startActivityForResult(intent, REQUEST_REGISTRATION);
+                        intent.putExtra("ID", studentID);
+                        startActivityForResult(intent, REQUEST_REGISTRATION_PHONE);
                     }
                 }
             }
@@ -78,7 +83,20 @@ public class Registration extends AppCompatActivity {
         emailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: Register email here
+                if (firstNameEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "First name is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (lastNameEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "Last name is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else if (studentIDEditTxt.getText().toString().equals("")) {
+                    Toast.makeText(Registration.this, "Student ID is empty!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent = new Intent(Registration.this, EmailRegistration.class);
+                    intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
+                    startActivityForResult(intent, REQUEST_REGISTRATION_EMAIL);
+                }
             }
         });
 
@@ -118,7 +136,7 @@ public class Registration extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_REGISTRATION && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_REGISTRATION_PHONE && resultCode == RESULT_OK) {
             phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
 
             // FIXME: for testing only (REMOVED when implemented Confirm Button)
@@ -137,6 +155,29 @@ public class Registration extends AppCompatActivity {
                 System.out.println();
             }
             // FIXME: for testing only
+        } else if (requestCode == REQUEST_REGISTRATION_EMAIL && resultCode == RESULT_OK) {
+            System.out.println("EMAIL REGISTRATION");
+            emails = (ArrayList<Email>) data.getSerializableExtra("Email");
+            System.out.println(emails.size());
+
+            // FIXME: for testing only (REMOVED when implemented Confirm Button)
+            // Store the returned phoneNumberList into DB
+            EmailList emailList = new EmailList();
+            emailList.load(this);
+            if (emails != null) {
+                for (Email email: emails) {
+                    emailList.addEmail(email);
+                }
+
+                emailList.load(this);
+                for (Email email : emailList.getEmails()) {
+                    System.out.print(email.getEmail() + ", ");
+                }
+                System.out.println();
+            }
+            // FIXME: for testing only
+        } else {
+            System.out.println("FAILED REGISTRATION");
         }
     }
 

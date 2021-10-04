@@ -31,9 +31,9 @@ import java.util.ArrayList;
 
 public class RegistrationPhoneNumber extends AppCompatActivity {
 
-    public static final int REQUEST_CONTACT = 2;
-    public static final int REQUEST_READ_CONTACT_PERMISSION = 3;
-    public static final int REQUEST_MANUAL_INPUT = 4;
+    public static final int REQUEST_CONTACT = 3;
+    public static final int REQUEST_READ_CONTACT_PERMISSION = 4;
+    public static final int REQUEST_MANUAL_INPUT = 5;
     Button manualPhoneNoReg, contactPhoneNoReg;
     private int studentId;
     private int contactId;

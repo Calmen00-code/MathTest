@@ -12,9 +12,10 @@ import android.content.Context;
 
 import com.calmen.mathtest.database.DBModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class EmailList {
+public class EmailList implements Serializable {
     private DBModel dbModel;
     private ArrayList<Email> emails = new ArrayList<>();
 
@@ -32,5 +33,11 @@ public class EmailList {
 
     public void addEmail(Email email) {
         emails.add(email);
+
+        if (dbModel == null) {
+            throw new NullPointerException("Database does not exist");
+        } else {
+            dbModel.addEmail(email);
+        }
     }
 }

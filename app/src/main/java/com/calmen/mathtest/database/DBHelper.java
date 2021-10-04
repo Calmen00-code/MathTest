@@ -27,6 +27,10 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + PhoneNumberTable.NAME + "(" +
                 PhoneNumberTable.Cols.PHONE_NO + " TEXT," +
                 PhoneNumberTable.Cols.ID + " INTEGER);");
+
+        db.execSQL("CREATE TABLE " + EmailTable.NAME + "(" +
+                EmailTable.Cols.EMAIL + " TEXT," +
+                EmailTable.Cols.ID + " INTEGER);");
     }
 
     @Override

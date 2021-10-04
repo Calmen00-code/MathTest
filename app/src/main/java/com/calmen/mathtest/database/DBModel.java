@@ -34,6 +34,13 @@ public class DBModel {
         db.insert(PhoneNumberTable.NAME, null, cv);
     }
 
+    public void addEmail(Email email) {
+        ContentValues cv = new ContentValues();
+        cv.put(EmailTable.Cols.EMAIL, email.getEmail());
+        cv.put(EmailTable.Cols.ID, email.getId());
+        db.insert(EmailTable.NAME, null, cv);
+    }
+
     public ArrayList<PhoneNumber> getAllPhoneNumbers() {
         ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
         Cursor cursor = db.query(PhoneNumberTable.NAME, null, null,
