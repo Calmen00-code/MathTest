@@ -101,6 +101,10 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
                 ContactsContract.CommonDataKinds.Email.ADDRESS
         };
 
+        String[] queryProfilePic = new String[] {
+                ContactsContract.CommonDataKinds.Phone.PHOTO_URI
+        };
+
         // Define the search conditions
         String whereClauseFields = ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?";
 
@@ -116,6 +120,9 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
 
         Cursor cursorEmail = getContentResolver().query(
                 emailUri, queryEmails, whereClauseFields, whereValuesFields, null);
+
+        Cursor cursorProfilePic = getContentResolver().query(
+                contactUri, queryProfilePic, whereClauseFields, whereValuesFields, null);
 
         try {
             cursorName.moveToFirst();
@@ -138,14 +145,22 @@ public class RegistrationPhoneNumber extends AppCompatActivity {
             cursorEmail.moveToFirst();
             do {
                 String email = cursorEmail.getString(0);
-                System.out.print(email + ",");
+                System.out.print(email + ", ");
             } while (cursorEmail.moveToNext());
+            System.out.println();
+
+            cursorProfilePic.moveToFirst();
+            do {
+                String picURL = cursorProfilePic.getString(0);
+                System.out.print(picURL + ", ");
+            } while (cursorProfilePic.moveToNext());
             System.out.println();
 
         } finally {
             cursorName.close();
             cursorNumber.close();
             cursorEmail.close();
+            cursorProfilePic.close();
             Intent intentReturn = new Intent();
             intentReturn.putExtra("phoneNumberList", phoneNumbers);
             setResult(RegistrationPhoneNumber.RESULT_OK, intentReturn);
