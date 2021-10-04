@@ -27,6 +27,7 @@ import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
 import com.calmen.mathtest.registration.email.EmailRegistration;
 import com.calmen.mathtest.registration.phone_number.RegistrationPhoneNumber;
+import com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration;
 import com.calmen.mathtest.shared.Validation;
 
 import java.util.ArrayList;
@@ -116,7 +117,8 @@ public class Registration extends AppCompatActivity {
         profilePicBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: profile picture selection here
+                Intent intent = new Intent(Registration.this, ProfilePictureRegistration.class);
+                startActivity(intent);
             }
         });
 

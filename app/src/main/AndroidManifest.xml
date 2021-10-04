@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MathTest">
         <activity
+            android:name=".registration.profile_picture.ProfilePictureRegistration"
+            android:exported="true" />
+        <activity
             android:name=".registration.email.EmailRegistration"
             android:exported="true" />
         <activity
@@ -35,6 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
