@@ -1,6 +1,9 @@
 package com.calmen.mathtest.shared;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -15,5 +18,11 @@ public class Conversion {
         bitmap.compress(Bitmap.CompressFormat.PNG, 0, outputStream);
         outputStream.close();
         return outputStream.toByteArray();
+    }
+
+    public static Bitmap getImageAsBitmap(String pictureURI, Context context) throws IOException {
+        Uri uri = Uri.parse(pictureURI);
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        return bitmap;
     }
 }

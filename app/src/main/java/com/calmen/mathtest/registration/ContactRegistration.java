@@ -158,11 +158,13 @@ public class ContactRegistration extends AppCompatActivity {
             // Traverse profile pic
             // --------------------------
             cursorProfilePic.moveToFirst();
-            String picURL = cursorProfilePic.getString(0);
+            String picURI = cursorProfilePic.getString(0);
 
             StudentList studentList = new StudentList();
-            studentList.addStudent(new Student(firstname, lastname, studentID, picURL), this);
+            studentList.addStudent(new Student(firstname, lastname, studentID, picURI), this);
 
+        } catch (IOException e) {
+            e.printStackTrace();
         } finally {
             cursorName.close();
             cursorNumber.close();

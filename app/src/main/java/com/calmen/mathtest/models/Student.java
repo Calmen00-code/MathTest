@@ -12,28 +12,29 @@ public class Student {
     private String firstname;
     private String lastname;
     private int id;
-    private String photoURL;
+    private String photoURI;
     private EmailList emailList;
     private PhoneNumberList phoneNumberList;
+    private byte[] image; // used only for retrieving the image in DB
 
     // Call when creating/registering a new student
-    public Student(String inFirstname, String inLastname, int inId, String inPhotoURL) {
+    public Student(String inFirstname, String inLastname, int inId, String inPhotoURI) {
         this.firstname = inFirstname;
         this.lastname = inLastname;
         this.id = inId;
-        this.photoURL = inPhotoURL;
+        this.photoURI = inPhotoURI;
         emailList = new EmailList();
         phoneNumberList = new PhoneNumberList();
     }
 
     // Call in DBCursor when retrieving the list of student
     // This is not called when the app is creating/registering a new Student
-    public Student(String inFirstname, String inLastname, int inId, String inPhotoURL,
+    public Student(String inFirstname, String inLastname, int inId, byte[] inImage,
                    EmailList inEmailList, PhoneNumberList inPhoneNumberList) {
         this.firstname = inFirstname;
         this.lastname = inLastname;
         this.id = inId;
-        this.photoURL = inPhotoURL;
+        this.image = inImage;
         this.emailList = inEmailList;
         this.phoneNumberList = inPhoneNumberList;
     }
@@ -58,8 +59,8 @@ public class Student {
         return lastname;
     }
 
-    public String getPhotoURL() {
-        return photoURL;
+    public String getPhotoURI() {
+        return photoURI;
     }
 
 }

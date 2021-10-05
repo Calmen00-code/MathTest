@@ -9,9 +9,13 @@
 package com.calmen.mathtest.models;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 import com.calmen.mathtest.database.DBModel;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 

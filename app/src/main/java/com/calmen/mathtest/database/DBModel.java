@@ -4,9 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+
 import com.calmen.mathtest.database.DBSchema.*;
 
 import com.calmen.mathtest.models.*;
+import com.calmen.mathtest.shared.Conversion;
+
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class DBModel {
@@ -18,12 +23,16 @@ public class DBModel {
         this.activityContext = context;
     }
 
-    public void addStudent(Student student) {
+    public void addStudent(Student student) throws IOException {
         ContentValues cv = new ContentValues();
         cv.put(StudentTable.Cols.FIRST_NAME, student.getFirstname());
         cv.put(StudentTable.Cols.LAST_NAME, student.getLastname());
         cv.put(StudentTable.Cols.ID, student.getId());
-        cv.put(StudentTable.Cols.PHOTO_URL, student.getPhotoURL());
+
+        // Get the byte[] data that represents the image using the photoURI
+        Bitmap bitmap = Conversion.getImageAsBitmap(student.getPhotoURI(), activityContext);
+        byte[] image = Conversion.getBitmapAsByteArray(bitmap);
+        cv.put(StudentTable.Cols.PROFILE_PICTURE, image);
         db.insert(StudentTable.NAME, null, cv);
     }
 

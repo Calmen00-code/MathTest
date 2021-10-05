@@ -3,7 +3,6 @@ package com.calmen.mathtest.database;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
-import android.provider.ContactsContract;
 
 import com.calmen.mathtest.database.DBSchema.*;
 import com.calmen.mathtest.models.*;
@@ -21,7 +20,7 @@ public class DBCursor extends CursorWrapper {
         String firstname = getString(getColumnIndex(StudentTable.Cols.FIRST_NAME));
         String lastname = getString(getColumnIndex(StudentTable.Cols.LAST_NAME));
         int id = getInt(getColumnIndex(StudentTable.Cols.ID));
-        String photoURL = getString(getColumnIndex(StudentTable.Cols.PHOTO_URL));
+        byte[] image = getBlob(getColumnIndex(StudentTable.Cols.PROFILE_PICTURE));
 
         // load the existing phone number list from DB
         PhoneNumberList existingPhoneNumberList = new PhoneNumberList();
@@ -50,7 +49,7 @@ public class DBCursor extends CursorWrapper {
             }
         }
 
-        return new Student(firstname, lastname, id, photoURL, emailList, phoneNumberList);
+        return new Student(firstname, lastname, id, image, emailList, phoneNumberList);
     }
 
     public PhoneNumber getPhoneNumber() {

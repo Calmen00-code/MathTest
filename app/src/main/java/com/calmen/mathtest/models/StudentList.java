@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.calmen.mathtest.database.DBModel;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -29,7 +30,7 @@ public class StudentList implements Serializable {
         return dbModel.getAllStudents(context);
     }
 
-    public void addStudent(Student student, Context context) {
+    public void addStudent(Student student, Context context) throws IOException {
         students.add(student);
 
         if (dbModel == null)

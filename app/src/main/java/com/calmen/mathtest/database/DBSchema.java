@@ -6,8 +6,8 @@ public class DBSchema {
         public static class Cols {
             public static final String FIRST_NAME = "firstname";
             public static final String LAST_NAME = "lastname";
-            public static final String PHOTO_URL = "photourl";
             public static final String ID = "id";
+            public static final String PROFILE_PICTURE = "profilepic";
         }
     }
 
