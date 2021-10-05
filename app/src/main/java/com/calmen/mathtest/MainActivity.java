@@ -8,6 +8,7 @@ import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 
+import com.calmen.mathtest.display.ViewStudents;
 import com.calmen.mathtest.models.Email;
 import com.calmen.mathtest.models.EmailList;
 import com.calmen.mathtest.models.PhoneNumber;
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button registerStudent, takeTest;
+    Button registerStudent, takeTest, viewStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         registerStudent = findViewById(R.id.studentRegistration);
         takeTest = findViewById(R.id.takeTest);
+        viewStudent = findViewById(R.id.viewStudentBtn);
 
         registerStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +60,17 @@ public class MainActivity extends AppCompatActivity {
                     }
                     System.out.println();
 
-                    System.out.println(student.getPhotoURL());
+                    System.out.println("image byte: " + student.getImage());
                     System.out.println("---------------------------------------");
                 }
+            }
+        });
+
+        viewStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, ViewStudents.class);
+                startActivity(intent);
             }
         });
 

@@ -30,9 +30,13 @@ public class DBModel {
         cv.put(StudentTable.Cols.ID, student.getId());
 
         // Get the byte[] data that represents the image using the photoURI
-        Bitmap bitmap = Conversion.getImageAsBitmap(student.getPhotoURI(), activityContext);
-        byte[] image = Conversion.getBitmapAsByteArray(bitmap);
-        cv.put(StudentTable.Cols.PROFILE_PICTURE, image);
+        if (student.getPhotoURI() != null) {
+            Bitmap bitmap = Conversion.getImageAsBitmap(student.getPhotoURI(), activityContext);
+            byte[] image = Conversion.getBitmapAsByteArray(bitmap);
+            cv.put(StudentTable.Cols.PROFILE_PICTURE, image);
+        } else {
+            cv.put(StudentTable.Cols.PROFILE_PICTURE, (byte[]) null);
+        }
         db.insert(StudentTable.NAME, null, cv);
     }
 

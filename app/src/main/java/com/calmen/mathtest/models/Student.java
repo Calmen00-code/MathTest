@@ -63,4 +63,7 @@ public class Student {
         return photoURI;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
 }

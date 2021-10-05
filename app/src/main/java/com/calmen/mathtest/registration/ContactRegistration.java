@@ -159,6 +159,7 @@ public class ContactRegistration extends AppCompatActivity {
             // --------------------------
             cursorProfilePic.moveToFirst();
             String picURI = cursorProfilePic.getString(0);
+            System.out.println("picURI: " + picURI);
 
             StudentList studentList = new StudentList();
             studentList.addStudent(new Student(firstname, lastname, studentID, picURI), this);
