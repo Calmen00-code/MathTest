@@ -9,9 +9,11 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,8 +22,13 @@ import android.widget.Toast;
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Email;
 import com.calmen.mathtest.models.PhoneNumber;
+import com.calmen.mathtest.models.Student;
+import com.calmen.mathtest.models.StudentList;
+import com.calmen.mathtest.shared.Conversion;
 import com.calmen.mathtest.shared.Validation;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class ContactRegistration extends AppCompatActivity {
@@ -68,7 +75,6 @@ public class ContactRegistration extends AppCompatActivity {
         intent.setAction(Intent.ACTION_PICK);
         intent.setData(ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, REQUEST_CONTACT);
-        finish();
     }
 
     /***
@@ -115,14 +121,16 @@ public class ContactRegistration extends AppCompatActivity {
                 contactUri, queryProfilePic, whereClauseFields, whereValuesFields, null);
 
         try {
+            String firstname, lastname, phoneNo, email;
+
             // Traverse name
             // --------------------------
             cursorName.moveToFirst();
             do {
                 String name = cursorName.getString(0);
                 String[] nameSplit = name.split(" ");
-                String firstname = nameSplit[0];
-                String lastname = nameSplit[1];
+                firstname = nameSplit[0];
+                lastname = nameSplit[1];
                 System.out.print(firstname + "," + lastname );
             } while (cursorName.moveToNext());
             System.out.println();
@@ -132,7 +140,7 @@ public class ContactRegistration extends AppCompatActivity {
             cursorNumber.moveToFirst();
             phoneNumbers = new ArrayList<>();
             do {
-                String phoneNo = cursorNumber.getString(0);
+                phoneNo = cursorNumber.getString(0);
                 System.out.print(phoneNo + ", ");
                 phoneNumbers.add(new PhoneNumber(phoneNo, studentID));
             } while (cursorNumber.moveToNext());
@@ -143,7 +151,7 @@ public class ContactRegistration extends AppCompatActivity {
             cursorEmail.moveToFirst();
             emails = new ArrayList<>();
             do {
-                String email = cursorEmail.getString(0);
+                email = cursorEmail.getString(0);
                 System.out.print(email + ", ");
                 emails.add(new Email(email, studentID));
             } while (cursorEmail.moveToNext());
@@ -152,17 +160,38 @@ public class ContactRegistration extends AppCompatActivity {
             // Traverse profile pic
             // --------------------------
             cursorProfilePic.moveToFirst();
-            do {
-                String picURL = cursorProfilePic.getString(0);
-                System.out.print(picURL + ", ");
-            } while (cursorProfilePic.moveToNext());
-            System.out.println();
+            String picURL = cursorProfilePic.getString(0);
 
+            StudentList studentList = new StudentList();
+            studentList.addStudent(new Student(firstname, lastname, studentID, picURL), this);
+
+            // FIXME: For testing purpose only
+            System.out.println("DEBUG MODE NOT MAIN");
+            studentList = new StudentList();
+            ArrayList<Student> students = studentList.getStudents(this);
+            System.out.println(students.size());
+            for (Student student : students) {
+                System.out.println(student.getFirstname() + " " + student.getLastname());
+
+                ArrayList<PhoneNumber> phoneNumbers = student.getPhoneNumberList().getPhoneNumbers(this);
+                for (PhoneNumber number : phoneNumbers) {
+                    System.out.println(number.getPhoneNo() + ", ");
+                }
+
+                ArrayList<Email> emails = student.getEmailList().getEmails(this);
+                for (Email emailDisplay : emails) {
+                    System.out.println(emailDisplay.getEmail() + ", ");
+                }
+
+                System.out.println(student.getPhotoURL());
+                System.out.println("---------------------------------------");
+            }
         } finally {
             cursorName.close();
             cursorNumber.close();
             cursorEmail.close();
             cursorProfilePic.close();
+            finish();
         }
     }
 
@@ -180,6 +209,7 @@ public class ContactRegistration extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
             Uri contactUri = data.getData();
+            // Query the special ID of the contact created by the system
             String[] queryFields = new String[]{
                     ContactsContract.Contacts._ID
             };

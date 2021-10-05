@@ -30,11 +30,11 @@ public class StudentList implements Serializable {
         return dbModel.getAllStudents(context);
     }
 
-    public void addStudent(Student student) {
+    public void addStudent(Student student, Context context) {
         students.add(student);
 
         if (dbModel == null) {
-            throw new NullPointerException("Database does not exist");
+            load(context);
         } else {
             dbModel.addStudent(student);
         }
