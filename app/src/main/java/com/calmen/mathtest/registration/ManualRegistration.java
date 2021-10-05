@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -156,11 +157,23 @@ public class ManualRegistration extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_REGISTRATION_PHONE && resultCode == RESULT_OK) {
-            phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumberList");
+            phoneNumbers = (ArrayList<PhoneNumber>) (((PhoneNumberList) data
+                    .getSerializableExtra("phoneNumberList")).getPhoneNumbers(this));
+
+            System.out.println("RETURNED PHONE NUMBERS");
+            for (PhoneNumber phoneNumber : phoneNumbers) {
+                System.out.println(phoneNumber.getPhoneNo() + ", ");
+            }
         } else if (requestCode == REQUEST_REGISTRATION_EMAIL && resultCode == RESULT_OK) {
-            emails = (ArrayList<Email>) data.getSerializableExtra("Email");
+            emails = (ArrayList<Email>) (((EmailList) data
+                    .getSerializableExtra("Email")).getEmails(this));
         } else {
             System.out.println("FAILED REGISTRATION");
+            if (resultCode == RESULT_OK) {
+                System.out.println("RESULT IS OK");
+            } else {
+                System.out.println("RESULT IS NOT OK");
+            }
         }
     }
 }

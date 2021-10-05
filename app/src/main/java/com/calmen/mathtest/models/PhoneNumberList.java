@@ -16,7 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class PhoneNumberList implements Serializable {
-    private DBModel dbModel;
+    transient DBModel dbModel;
     private ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
 
     public PhoneNumberList() { }

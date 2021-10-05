@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 public class StudentList implements Serializable {
-    private DBModel dbModel;
+    transient DBModel dbModel;
     private ArrayList<Student> students = new ArrayList<>();
 
     public StudentList() { }
