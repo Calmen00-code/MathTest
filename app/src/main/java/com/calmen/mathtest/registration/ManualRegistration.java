@@ -167,6 +167,11 @@ public class ManualRegistration extends AppCompatActivity {
         } else if (requestCode == REQUEST_REGISTRATION_EMAIL && resultCode == RESULT_OK) {
             emails = (ArrayList<Email>) (((EmailList) data
                     .getSerializableExtra("Email")).getEmails(this));
+
+            System.out.println("RETURNED EMAILS");
+            for (Email email : emails) {
+                System.out.println(email.getEmail() + ", ");
+            }
         } else {
             System.out.println("FAILED REGISTRATION");
             if (resultCode == RESULT_OK) {

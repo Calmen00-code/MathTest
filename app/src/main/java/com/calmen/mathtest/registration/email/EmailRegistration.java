@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Email;
+import com.calmen.mathtest.models.EmailList;
+import com.calmen.mathtest.models.PhoneNumber;
+import com.calmen.mathtest.models.PhoneNumberList;
 
 import java.util.ArrayList;
 
@@ -19,6 +22,7 @@ public class EmailRegistration extends AppCompatActivity {
 
     Button addEmailBtn;
     EditText inputEmailTxt;
+    private int studentID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +32,7 @@ public class EmailRegistration extends AppCompatActivity {
         addEmailBtn = findViewById(R.id.addEmailBtn);
         inputEmailTxt = findViewById(R.id.emailTextInput);
 
-        int studentId = getIntent().getIntExtra("ID", -1);
+        studentID = getIntent().getIntExtra("ID", -1);
 
         addEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,12 +41,12 @@ public class EmailRegistration extends AppCompatActivity {
                     Toast.makeText(EmailRegistration.this, "Email is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    Email email = new Email(inputEmailTxt.getText().toString(), studentId);
-                    ArrayList<Email> emails = new ArrayList<>();
-                    emails.add(email);
+                    EmailList emailList = new EmailList();
+                    emailList.addEmail(new Email(inputEmailTxt.getText().toString(),
+                            studentID), view.getContext());
 
                     Intent intent = new Intent();
-                    intent.putExtra("Email", emails);
+                    intent.putExtra("Email", emailList);
                     setResult(EmailRegistration.RESULT_OK, intent);
                     ((Activity) view.getContext()).finish();
                 }
