@@ -13,7 +13,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.calmen.mathtest.R;
-import com.calmen.mathtest.registration.phone_number.ManualInputPhoneNumber;
 
 public class ProfilePictureRegistration extends AppCompatActivity {
 
@@ -47,7 +46,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             if (image != null) {
                 Intent intent = new Intent();
                 intent.putExtra("profileImage", image);
-                setResult(ManualInputPhoneNumber.RESULT_OK, intent);
+                setResult(ProfilePictureRegistration.RESULT_OK, intent);
             }
             finish();
         }

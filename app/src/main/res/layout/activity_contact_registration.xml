@@ -4,28 +4,26 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registration.phone_number.ManualInputPhoneNumber">
+    tools:context=".registration.ContactRegistration">
 
     <EditText
-        android:id="@+id/phoneNumberInput"
+        android:id="@+id/studentIDContactReg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="96dp"
         android:ems="10"
-        android:inputType="numberSigned"
-        android:hint="Phone Number"
-        app:layout_constraintBottom_toTopOf="@+id/manualAddPhoneNumberBtn"
+        android:inputType="textPersonName"
+        android:hint="Student ID"
+        app:layout_constraintBottom_toTopOf="@+id/pickContactBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/manualAddPhoneNumberBtn"
+        android:id="@+id/pickContactBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="316dp"
-        android:text="Add"
+        android:layout_marginBottom="360dp"
+        android:text="Pick Contact"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

@@ -4,25 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registration.Registration">
+    tools:context=".registration.phone_number.PhoneNumberRegistration">
 
-
-    <Button
-        android:id="@+id/manualInputBtn"
+    <EditText
+        android:id="@+id/phoneNumberManual"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manual Input"
-        app:layout_constraintBottom_toTopOf="@+id/pickContactRegBtn"
+        android:layout_marginTop="124dp"
+        android:ems="10"
+        android:hint="Phone Number"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/pickContactBtn"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/pickContactRegBtn"
+        android:id="@+id/confirmPhoneNoBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="280dp"
-        android:text="Pick Contact"
+        android:layout_marginBottom="388dp"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
