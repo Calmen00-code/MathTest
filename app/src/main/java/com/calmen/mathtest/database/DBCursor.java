@@ -25,7 +25,6 @@ public class DBCursor extends CursorWrapper {
 
         // load the existing phone number list from DB
         PhoneNumberList existingPhoneNumberList = new PhoneNumberList();
-        existingPhoneNumberList.load(context);
         ArrayList<PhoneNumber> existingPhoneNumbers = existingPhoneNumberList.getPhoneNumbers(context);
 
         // select only the phone numbers that matches with the id since the existingPhoneNumbers
@@ -33,7 +32,7 @@ public class DBCursor extends CursorWrapper {
         PhoneNumberList phoneNumberList = new PhoneNumberList();
         for (PhoneNumber phoneNumber: existingPhoneNumbers) {
             if (phoneNumber.getId() == id) {
-                phoneNumberList.addPhoneNo(phoneNumber, context);
+                phoneNumberList.addPhoneNo(phoneNumber);
             }
         }
 
@@ -47,7 +46,7 @@ public class DBCursor extends CursorWrapper {
         EmailList emailList = new EmailList();
         for (Email email: existingEmails) {
             if (email.getId() == id) {
-                emailList.addEmail(email, context);
+                emailList.addEmail(email);
             }
         }
 

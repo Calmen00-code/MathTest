@@ -24,7 +24,7 @@ public class EmailList implements Serializable {
     public void load (Context context) {
         dbModel = new DBModel();
         dbModel.load(context);
-        emails = dbModel.getAllEmails();
+        this.emails = dbModel.getAllEmails();
     }
 
     public ArrayList<Email> getEmails(Context context) {
@@ -34,6 +34,11 @@ public class EmailList implements Serializable {
         return this.emails;
     }
 
+    /***
+     * Method overloading
+     * This is used to register a new email of a student
+     * @param context is used to load the DB
+     */
     public void addEmail(Email email, Context context) {
         emails.add(email);
 
@@ -41,5 +46,32 @@ public class EmailList implements Serializable {
             load(context);
         }
         dbModel.addEmail(email);
+    }
+
+    /***
+     * Method overloading
+     * This is used by the DBCursor to retrieve the email(s) list of a student
+     */
+    public void addEmail(Email email) {
+        emails.add(email);
+    }
+
+    /***
+     * @param id the reference which determines the number to be retrieved
+     * @param context needed for load(context) to communicate with DB
+     * @return all the email(s) allocated to the particular student determine by ID
+     */
+    public ArrayList<Email> getEmailsByID(int id, Context context) {
+        ArrayList<Email> retEmails = new ArrayList<>();
+        if (dbModel == null) {
+            load(context);
+        }
+
+        for (Email email : emails) {
+            if (email.getId() == id) {
+                retEmails.add(email);
+            }
+        }
+        return retEmails;
     }
 }

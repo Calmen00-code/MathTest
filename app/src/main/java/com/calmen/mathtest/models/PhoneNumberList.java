@@ -24,9 +24,14 @@ public class PhoneNumberList implements Serializable {
     public void load (Context context) {
         dbModel = new DBModel();
         dbModel.load(context);
-        phoneNumbers = dbModel.getAllPhoneNumbers();
+        this.phoneNumbers = dbModel.getAllPhoneNumbers();
     }
 
+    /***
+     * Method overloading
+     * This is used to register a new number to a student
+     * @param context is used to load the DB
+     */
     public void addPhoneNo(PhoneNumber number, Context context) {
         phoneNumbers.add(number);
 
@@ -34,6 +39,14 @@ public class PhoneNumberList implements Serializable {
             load(context);
         }
         dbModel.addPhoneNumber(number);
+    }
+
+    /***
+     * Method overloading
+     * This is used by the DBCursor to retrieve the phone number(s) list of a student
+     */
+    public void addPhoneNo(PhoneNumber number) {
+        phoneNumbers.add(number);
     }
 
     public ArrayList<PhoneNumber> getPhoneNumbers(Context context) {
@@ -50,7 +63,9 @@ public class PhoneNumberList implements Serializable {
      */
     public ArrayList<PhoneNumber> getPhoneNumbersByID(int id, Context context) {
         ArrayList<PhoneNumber> retPhoneNumbers = new ArrayList<>();
-        load(context);
+        if (dbModel == null) {
+            load(context);
+        }
 
         for (PhoneNumber number: phoneNumbers) {
             if (number.getId() == id) {

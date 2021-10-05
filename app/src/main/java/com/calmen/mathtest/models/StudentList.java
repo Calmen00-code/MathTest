@@ -24,19 +24,16 @@ public class StudentList implements Serializable {
      *                for retrieval of student list from database
      */
     public ArrayList<Student> getStudents(Context context) {
-        if (dbModel == null) {
+        if (dbModel == null)
             load(context);
-        }
         return dbModel.getAllStudents(context);
     }
 
     public void addStudent(Student student, Context context) {
         students.add(student);
 
-        if (dbModel == null) {
+        if (dbModel == null)
             load(context);
-        } else {
-            dbModel.addStudent(student);
-        }
+        dbModel.addStudent(student);
     }
 }

@@ -6,6 +6,8 @@ package com.calmen.mathtest.models;
 
 import android.provider.ContactsContract;
 
+import java.util.ArrayList;
+
 public class Student {
     private String firstname;
     private String lastname;
@@ -59,4 +61,5 @@ public class Student {
     public String getPhotoURL() {
         return photoURL;
     }
+
 }

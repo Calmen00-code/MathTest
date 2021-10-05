@@ -21,7 +21,9 @@ import android.widget.Toast;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Email;
+import com.calmen.mathtest.models.EmailList;
 import com.calmen.mathtest.models.PhoneNumber;
+import com.calmen.mathtest.models.PhoneNumberList;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.models.StudentList;
 import com.calmen.mathtest.shared.Conversion;
@@ -122,6 +124,8 @@ public class ContactRegistration extends AppCompatActivity {
 
         try {
             String firstname, lastname, phoneNo, email;
+            PhoneNumberList phoneNumberList = new PhoneNumberList();
+            EmailList emailList = new EmailList();
 
             // Traverse name
             // --------------------------
@@ -131,9 +135,7 @@ public class ContactRegistration extends AppCompatActivity {
                 String[] nameSplit = name.split(" ");
                 firstname = nameSplit[0];
                 lastname = nameSplit[1];
-                System.out.print(firstname + "," + lastname );
             } while (cursorName.moveToNext());
-            System.out.println();
 
             // Traverse number
             // --------------------------
@@ -141,10 +143,8 @@ public class ContactRegistration extends AppCompatActivity {
             phoneNumbers = new ArrayList<>();
             do {
                 phoneNo = cursorNumber.getString(0);
-                System.out.print(phoneNo + ", ");
-                phoneNumbers.add(new PhoneNumber(phoneNo, studentID));
+                phoneNumberList.addPhoneNo(new PhoneNumber(phoneNo, studentID), this);
             } while (cursorNumber.moveToNext());
-            System.out.println();
 
             // Traverse email
             // --------------------------
@@ -152,10 +152,8 @@ public class ContactRegistration extends AppCompatActivity {
             emails = new ArrayList<>();
             do {
                 email = cursorEmail.getString(0);
-                System.out.print(email + ", ");
-                emails.add(new Email(email, studentID));
+                emailList.addEmail(new Email(email, studentID), this);
             } while (cursorEmail.moveToNext());
-            System.out.println();
 
             // Traverse profile pic
             // --------------------------
@@ -165,27 +163,6 @@ public class ContactRegistration extends AppCompatActivity {
             StudentList studentList = new StudentList();
             studentList.addStudent(new Student(firstname, lastname, studentID, picURL), this);
 
-            // FIXME: For testing purpose only
-            System.out.println("DEBUG MODE NOT MAIN");
-            studentList = new StudentList();
-            ArrayList<Student> students = studentList.getStudents(this);
-            System.out.println(students.size());
-            for (Student student : students) {
-                System.out.println(student.getFirstname() + " " + student.getLastname());
-
-                ArrayList<PhoneNumber> phoneNumbers = student.getPhoneNumberList().getPhoneNumbers(this);
-                for (PhoneNumber number : phoneNumbers) {
-                    System.out.println(number.getPhoneNo() + ", ");
-                }
-
-                ArrayList<Email> emails = student.getEmailList().getEmails(this);
-                for (Email emailDisplay : emails) {
-                    System.out.println(emailDisplay.getEmail() + ", ");
-                }
-
-                System.out.println(student.getPhotoURL());
-                System.out.println("---------------------------------------");
-            }
         } finally {
             cursorName.close();
             cursorNumber.close();
