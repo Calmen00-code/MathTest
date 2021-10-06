@@ -2,6 +2,7 @@ package com.calmen.mathtest.shared;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
@@ -23,6 +24,11 @@ public class Conversion {
     public static Bitmap getImageAsBitmap(String pictureURI, Context context) throws IOException {
         Uri uri = Uri.parse(pictureURI);
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+        return bitmap;
+    }
+
+    public static Bitmap convertImageFromByteToBitmap(byte[] imageByte) {
+        Bitmap bitmap = BitmapFactory.decodeByteArray(imageByte, 0, imageByte.length);
         return bitmap;
     }
 }
