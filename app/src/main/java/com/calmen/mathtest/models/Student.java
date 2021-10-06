@@ -18,18 +18,20 @@ public class Student implements Serializable {
     private PhoneNumberList phoneNumberList;
     private byte[] image; // used only for retrieving the image in DB
 
-    // Call when creating/registering a new student
-    public Student(String inFirstname, String inLastname, int inId, String inPhotoURI) {
+    // Call when creating/registering a new student in ContactRegistration OR
+    // Call when creating/registering a new student in ManualRegistration when Browse Photo selected
+    public Student(String inFirstname, String inLastname, int inId, String inPhotoURI,
+                   EmailList inEmailList, PhoneNumberList inPhoneNumberList) {
         this.firstname = inFirstname;
         this.lastname = inLastname;
         this.id = inId;
         this.photoURI = inPhotoURI;
-        emailList = new EmailList();
-        phoneNumberList = new PhoneNumberList();
+        this.emailList = inEmailList;
+        this.phoneNumberList = inPhoneNumberList;
     }
 
-    // Call in DBCursor when retrieving the list of student
-    // This is not called when the app is creating/registering a new Student
+    // Call in DBCursor when retrieving the list of student OR
+    // Call in ManualRegistration when Browse photo online / Take live photo as profile picture
     public Student(String inFirstname, String inLastname, int inId, byte[] inImage,
                    EmailList inEmailList, PhoneNumberList inPhoneNumberList) {
         this.firstname = inFirstname;

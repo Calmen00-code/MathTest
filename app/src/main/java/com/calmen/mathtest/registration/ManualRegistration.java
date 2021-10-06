@@ -20,11 +20,14 @@ import com.calmen.mathtest.models.Email;
 import com.calmen.mathtest.models.EmailList;
 import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
+import com.calmen.mathtest.models.Student;
+import com.calmen.mathtest.models.StudentList;
 import com.calmen.mathtest.registration.email.EmailRegistration;
 import com.calmen.mathtest.registration.phone_number.PhoneNumberRegistration;
 import com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration;
 import com.calmen.mathtest.shared.Validation;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -151,6 +154,21 @@ public class ManualRegistration extends AppCompatActivity {
                         EmailList emailList = new EmailList();
                         for (Email email : emails) {
                             emailList.addEmail(email, view.getContext());
+                        }
+
+                        StudentList studentList = new StudentList();
+                        try{
+                            if (image != null) {
+                                // take photo OR browse photo online selected
+                                studentList.addStudent(new Student(firstname, lastname, id,
+                                        image, emailList, phoneNumberList), view.getContext());
+                            } else {
+                                // browse photo internally selected
+                                studentList.addStudent(new Student(firstname, lastname, id, imageURI,
+                                        emailList, phoneNumberList), view.getContext());
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
                         }
                         finish();
                     }
