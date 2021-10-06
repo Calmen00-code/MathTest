@@ -64,10 +64,12 @@ public class ProfilePictureRegistration extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_THUMBNAIL) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
+            System.out.println("image in ProfileRegistration: " + image);
             if (image != null) {
                 Intent intent = new Intent();
                 try {
                     intent.putExtra("profileImage", Conversion.getBitmapAsByteArray(image));
+                    System.out.println("image in ProfileRegistration (2): " + image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

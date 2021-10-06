@@ -29,13 +29,14 @@ public class DBModel {
         cv.put(StudentTable.Cols.LAST_NAME, student.getLastname());
         cv.put(StudentTable.Cols.ID, student.getId());
 
-        // Get the byte[] data that represents the image using the photoURI
-        if (student.getPhotoURI() != null) {
+        // student.getPhotoURI is NULL if photo selected is not within internal system
+        // could either be: online selected image, OR live taking photo
+        if (student.getPhotoURI() == null) {
+            cv.put(StudentTable.Cols.PROFILE_PICTURE, student.getImage());
+        } else {
             Bitmap bitmap = Conversion.getImageAsBitmap(student.getPhotoURI(), activityContext);
             byte[] image = Conversion.getBitmapAsByteArray(bitmap);
             cv.put(StudentTable.Cols.PROFILE_PICTURE, image);
-        } else {
-            cv.put(StudentTable.Cols.PROFILE_PICTURE, (byte[]) null);
         }
         db.insert(StudentTable.NAME, null, cv);
     }

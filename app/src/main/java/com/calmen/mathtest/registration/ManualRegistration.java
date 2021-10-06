@@ -173,6 +173,7 @@ public class ManualRegistration extends AppCompatActivity {
                         StudentList studentList = new StudentList();
                         try{
                             if (image != null) {
+                                System.out.println("image in confirm (byte[]): " + image);
                                 // take photo OR browse photo online selected
                                 studentList.addStudent(new Student(firstname, lastname, id,
                                         image, emailList, phoneNumberList), view.getContext());
@@ -211,6 +212,7 @@ public class ManualRegistration extends AppCompatActivity {
             }
         } else if (requestCode == REQUEST_REGISTRATION_PICTURE && resultCode == RESULT_OK) {
             image = (byte[]) data.getSerializableExtra("profileImage");
+            System.out.println("image (byte[]): " + image);
             imageURI = data.getStringExtra("imageURI");
         } else {
             System.out.println("FAILED REGISTRATION");
