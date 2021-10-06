@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MathTest">
         <activity
-            android:name=".display.ViewStudents"
+            android:name=".view_list.ViewStudents"
             android:exported="true" />
         <activity
             android:name=".registration.phone_number.PhoneNumberRegistration"

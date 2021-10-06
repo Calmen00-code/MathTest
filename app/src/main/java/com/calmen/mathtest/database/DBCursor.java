@@ -29,23 +29,22 @@ public class DBCursor extends CursorWrapper {
         // select only the phone numbers that matches with the id since the existingPhoneNumbers
         // retrieves from DB included all student's phone number but not individual's
         PhoneNumberList phoneNumberList = new PhoneNumberList();
-        for (PhoneNumber phoneNumber: existingPhoneNumbers) {
-            if (phoneNumber.getId() == id) {
-                phoneNumberList.addPhoneNo(phoneNumber);
+        for (PhoneNumber existingPhoneNumber: existingPhoneNumbers) {
+            if (existingPhoneNumber.getId() == id) {
+                phoneNumberList.addPhoneNo(existingPhoneNumber);
             }
         }
 
         // load the existing email list from DB
         EmailList existingEmailList = new EmailList();
-        existingEmailList.load(context);
         ArrayList<Email> existingEmails = existingEmailList.getEmails(context);
 
         // select only the emails that matches with the id since the existingEmails
         // retrieves from DB included all student's emails but not individual's
         EmailList emailList = new EmailList();
-        for (Email email: existingEmails) {
-            if (email.getId() == id) {
-                emailList.addEmail(email);
+        for (Email existingEmail: existingEmails) {
+            if (existingEmail.getId() == id) {
+                emailList.addEmail(existingEmail);
             }
         }
 

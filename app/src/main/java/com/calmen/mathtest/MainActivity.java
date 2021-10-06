@@ -4,11 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 
-import com.calmen.mathtest.display.ViewStudents;
+import com.calmen.mathtest.view_list.ViewStudents;
 import com.calmen.mathtest.models.Email;
 import com.calmen.mathtest.models.EmailList;
 import com.calmen.mathtest.models.PhoneNumber;
