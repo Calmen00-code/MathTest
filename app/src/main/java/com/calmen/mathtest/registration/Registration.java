@@ -21,6 +21,7 @@ public class Registration extends AppCompatActivity {
 
     public static final int REQUEST_REGISTRATION_PHONE = 1;
     public static final int REQUEST_REGISTRATION_EMAIL = 2;
+    public static final int REQUEST_REGISTRATION_PICTURE = 3;
 
     Button pickContactBtn, manualInputBtn;
     ArrayList<PhoneNumber> phoneNumbers;

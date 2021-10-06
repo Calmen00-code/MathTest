@@ -6,9 +6,10 @@ package com.calmen.mathtest.models;
 
 import android.provider.ContactsContract;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Student {
+public class Student implements Serializable {
     private String firstname;
     private String lastname;
     private int id;

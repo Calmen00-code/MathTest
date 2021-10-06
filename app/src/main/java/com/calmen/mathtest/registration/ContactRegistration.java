@@ -34,9 +34,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class ContactRegistration extends AppCompatActivity {
-    public static final int REQUEST_CONTACT = 3;
-    public static final int REQUEST_READ_CONTACT_PERMISSION = 4;
-    public static final int REQUEST_MANUAL_INPUT = 5;
+    public static final int REQUEST_CONTACT = 4;
+    public static final int REQUEST_READ_CONTACT_PERMISSION = 5;
 
     Button pickContactBtn;
     EditText studentIDInput;
@@ -176,9 +175,11 @@ public class ContactRegistration extends AppCompatActivity {
     }
 
     /***
-     * @param requestCode could be REQUEST_CONTACT or REQUEST_MANUAL_INPUT
-     *                    REQUEST_CONTACT if the contact is added from contact entry
-     *                    REQUEST_MANUAL_INPUT if the contact is added by manually typed
+     * This function acts as an initialization that initialize the contact ID which represents
+     * the user in the contact.
+     *
+     * It will also grant permission to access to phone contact for first
+     * time load.
      *
      * @phoneNumberList will be returned back to the caller using Intent
      *                        which will be used to identify if the user cancel registration so that

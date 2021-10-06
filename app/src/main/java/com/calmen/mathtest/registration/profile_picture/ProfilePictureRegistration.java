@@ -13,10 +13,14 @@ import android.view.View;
 import android.widget.Button;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.shared.Conversion;
+
+import java.io.IOException;
 
 public class ProfilePictureRegistration extends AppCompatActivity {
 
     public static final int REQUEST_THUMBNAIL = 1;
+    public static final int REQUEST_BROWSE_PHOTO = 2;
     Button takePhoto, browsePhoto, browsePhotoOnline;
 
     @Override
@@ -36,6 +40,15 @@ public class ProfilePictureRegistration extends AppCompatActivity {
                 startActivityForResult(intent, REQUEST_THUMBNAIL);
             }
         });
+
+        browsePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Intent intent = new Intent();
+                // TODO: implement browse photo internal here
+                // startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
+            }
+        });
     }
 
     @Override
@@ -45,10 +58,23 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             if (image != null) {
                 Intent intent = new Intent();
-                intent.putExtra("profileImage", image);
+                try {
+                    intent.putExtra("profileImage", Conversion.getBitmapAsByteArray(image));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 setResult(ProfilePictureRegistration.RESULT_OK, intent);
             }
             finish();
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_BROWSE_PHOTO) {
+            String imageURI = data.getStringExtra("data");
+            if (imageURI != null) {
+                Intent intent = new Intent();
+                intent.putExtra("imageURI", imageURI);
+                setResult(ProfilePictureRegistration.RESULT_OK, intent);
+            }
+            finish();
+
         }
     }
 }

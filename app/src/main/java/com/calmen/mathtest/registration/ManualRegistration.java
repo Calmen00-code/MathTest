@@ -2,10 +2,12 @@ package com.calmen.mathtest.registration;
 
 import static com.calmen.mathtest.registration.Registration.REQUEST_REGISTRATION_EMAIL;
 import static com.calmen.mathtest.registration.Registration.REQUEST_REGISTRATION_PHONE;
+import static com.calmen.mathtest.registration.Registration.REQUEST_REGISTRATION_PICTURE;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
@@ -23,6 +25,7 @@ import com.calmen.mathtest.registration.phone_number.PhoneNumberRegistration;
 import com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration;
 import com.calmen.mathtest.shared.Validation;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class ManualRegistration extends AppCompatActivity {
@@ -31,6 +34,8 @@ public class ManualRegistration extends AppCompatActivity {
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
     ArrayList<PhoneNumber> phoneNumbers;
     ArrayList<Email> emails;
+    byte[] image = null; // use when option for browse photo online or take photo selected
+    String imageURI;     // use when option for browse photo selected
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +114,7 @@ public class ManualRegistration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ManualRegistration.this, ProfilePictureRegistration.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_REGISTRATION_PICTURE);
             }
         });
 
@@ -134,6 +139,7 @@ public class ManualRegistration extends AppCompatActivity {
                     } else {
                         String firstname = firstNameEditTxt.getText().toString();
                         String lastname = lastNameEditTxt.getText().toString();
+                        int id = Integer.parseInt(studentIDEditTxt.getText().toString());
 
                         // Store the returned phoneNumberList into DB
                         PhoneNumberList phoneNumberList = new PhoneNumberList();
@@ -172,6 +178,9 @@ public class ManualRegistration extends AppCompatActivity {
             for (Email email : emails) {
                 System.out.println(email.getEmail() + ", ");
             }
+        } else if (requestCode == REQUEST_REGISTRATION_PICTURE && resultCode == RESULT_OK) {
+            image = (byte[]) data.getSerializableExtra("profileImage");
+            imageURI = data.getStringExtra("imageURI");
         } else {
             System.out.println("FAILED REGISTRATION");
             if (resultCode == RESULT_OK) {
