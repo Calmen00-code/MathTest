@@ -164,6 +164,7 @@ public class ManualRegistration extends AppCompatActivity {
                                         image, emailList, phoneNumberList), view.getContext());
                             } else {
                                 // browse photo internally selected
+                                System.out.println("ImageURI: " + imageURI);
                                 studentList.addStudent(new Student(firstname, lastname, id, imageURI,
                                         emailList, phoneNumberList), view.getContext());
                             }
@@ -181,7 +182,7 @@ public class ManualRegistration extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_REGISTRATION_PHONE && resultCode == RESULT_OK) {
-            phoneNumbers = (ArrayList<PhoneNumber>) (((PhoneNumberList) data
+            phoneNumbers = (((PhoneNumberList) data
                     .getSerializableExtra("phoneNumberList")).getPhoneNumbers(this));
 
             System.out.println("RETURNED PHONE NUMBERS");
@@ -189,7 +190,7 @@ public class ManualRegistration extends AppCompatActivity {
                 System.out.println(phoneNumber.getPhoneNo() + ", ");
             }
         } else if (requestCode == REQUEST_REGISTRATION_EMAIL && resultCode == RESULT_OK) {
-            emails = (ArrayList<Email>) (((EmailList) data
+            emails = (((EmailList) data
                     .getSerializableExtra("Email")).getEmails(this));
 
             System.out.println("RETURNED EMAILS");

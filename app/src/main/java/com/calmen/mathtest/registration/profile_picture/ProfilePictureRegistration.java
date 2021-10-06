@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.provider.MediaStore;
@@ -44,9 +45,16 @@ public class ProfilePictureRegistration extends AppCompatActivity {
         browsePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Intent intent = new Intent();
-                // TODO: implement browse photo internal here
-                // startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
+                /***
+                 * Below code referred is created by JMRboosties at
+                 * https://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
+                 */
+                Intent intent = new Intent(Intent.ACTION_PICK,
+                        MediaStore.Images.Media.INTERNAL_CONTENT_URI);
+                // intent.setType("image/*");
+                // intent.setAction(Intent.ACTION_GET_CONTENT);
+                // startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_BROWSE_PHOTO);
+                startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
             }
         });
     }
@@ -67,10 +75,11 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             }
             finish();
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_BROWSE_PHOTO) {
-            String imageURI = data.getStringExtra("data");
+            Uri imageURI = data.getData();
+            System.out.println(imageURI.toString());
             if (imageURI != null) {
                 Intent intent = new Intent();
-                intent.putExtra("imageURI", imageURI);
+                intent.putExtra("imageURI", imageURI.toString());
                 setResult(ProfilePictureRegistration.RESULT_OK, intent);
             }
             finish();
