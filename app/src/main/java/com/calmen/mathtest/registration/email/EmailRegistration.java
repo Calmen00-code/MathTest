@@ -23,6 +23,7 @@ public class EmailRegistration extends AppCompatActivity {
     Button addEmailBtn;
     EditText inputEmailTxt;
     private int studentID;
+    ArrayList<Email> emails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +34,7 @@ public class EmailRegistration extends AppCompatActivity {
         inputEmailTxt = findViewById(R.id.emailTextInput);
 
         studentID = getIntent().getIntExtra("ID", -1);
+        emails = (ArrayList<Email>) getIntent().getSerializableExtra("emails");
 
         addEmailBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,12 +43,10 @@ public class EmailRegistration extends AppCompatActivity {
                     Toast.makeText(EmailRegistration.this, "Email is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    EmailList emailList = new EmailList();
-                    emailList.addEmail(new Email(inputEmailTxt.getText().toString(),
-                            studentID), view.getContext());
+                    emails.add(new Email(inputEmailTxt.getText().toString(), studentID));
 
                     Intent intent = new Intent();
-                    intent.putExtra("Email", emailList);
+                    intent.putExtra("Email", emails);
                     setResult(EmailRegistration.RESULT_OK, intent);
                     ((Activity) view.getContext()).finish();
                 }

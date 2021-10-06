@@ -35,8 +35,8 @@ public class ManualRegistration extends AppCompatActivity {
 
     EditText firstNameEditTxt, lastNameEditTxt, studentIDEditTxt;
     Button phoneNoBtn, emailBtn, profilePicBtn, confirmRegBtn;
-    ArrayList<PhoneNumber> phoneNumbers;
-    ArrayList<Email> emails;
+    ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
+    ArrayList<Email> emails = new ArrayList<>();
     byte[] image = null; // use when option for browse photo online or take photo selected
     String imageURI;     // use when option for browse photo selected
 
@@ -79,6 +79,7 @@ public class ManualRegistration extends AppCompatActivity {
                             Intent intent = new Intent(ManualRegistration.this,
                                     PhoneNumberRegistration.class);
                             intent.putExtra("ID", studentID);
+                            intent.putExtra("phoneNumbers", phoneNumbers);
                             startActivityForResult(intent, REQUEST_REGISTRATION_PHONE);
                         }
                     }
@@ -107,6 +108,7 @@ public class ManualRegistration extends AppCompatActivity {
                         Intent intent = new Intent(ManualRegistration.this,
                                 EmailRegistration.class);
                         intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
+                        intent.putExtra("emails", emails);
                         startActivityForResult(intent, REQUEST_REGISTRATION_EMAIL);
                     }
                 }
@@ -148,12 +150,24 @@ public class ManualRegistration extends AppCompatActivity {
                         PhoneNumberList phoneNumberList = new PhoneNumberList();
                         for (PhoneNumber number : phoneNumbers) {
                             phoneNumberList.addPhoneNo(number, view.getContext());
+                            System.out.println("Number saved in DB: " + number.getPhoneNo());
                         }
 
                         // Store the returned emailList into DB
                         EmailList emailList = new EmailList();
                         for (Email email : emails) {
                             emailList.addEmail(email, view.getContext());
+                            System.out.println("Email saved in DB: " + email.getEmail());
+                        }
+
+                        System.out.println("PhoneNo in DB");
+                        for (PhoneNumber displayNumber: phoneNumberList.getPhoneNumbers(view.getContext())) {
+                            System.out.println(displayNumber.getPhoneNo());
+                        }
+
+                        System.out.println("Email in DB");
+                        for (Email displayEmail: emailList.getEmails(view.getContext())) {
+                            System.out.println(displayEmail.getEmail());
                         }
 
                         StudentList studentList = new StudentList();
@@ -182,16 +196,14 @@ public class ManualRegistration extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_REGISTRATION_PHONE && resultCode == RESULT_OK) {
-            phoneNumbers = (((PhoneNumberList) data
-                    .getSerializableExtra("phoneNumberList")).getPhoneNumbers(this));
+            phoneNumbers = (ArrayList<PhoneNumber>) data.getSerializableExtra("phoneNumbers");
 
             System.out.println("RETURNED PHONE NUMBERS");
             for (PhoneNumber phoneNumber : phoneNumbers) {
                 System.out.println(phoneNumber.getPhoneNo() + ", ");
             }
         } else if (requestCode == REQUEST_REGISTRATION_EMAIL && resultCode == RESULT_OK) {
-            emails = (((EmailList) data
-                    .getSerializableExtra("Email")).getEmails(this));
+            emails = (ArrayList<Email>) data.getSerializableExtra("Email");
 
             System.out.println("RETURNED EMAILS");
             for (Email email : emails) {

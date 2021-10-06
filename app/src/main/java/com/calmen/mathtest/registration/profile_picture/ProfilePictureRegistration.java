@@ -49,7 +49,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
                  * Below code referred is created by JMRboosties at
                  * https://stackoverflow.com/questions/5309190/android-pick-images-from-gallery
                  */
-                Intent intent = new Intent(Intent.ACTION_PICK,
+                Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT,
                         MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 // intent.setType("image/*");
                 // intent.setAction(Intent.ACTION_GET_CONTENT);

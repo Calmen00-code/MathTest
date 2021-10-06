@@ -35,7 +35,7 @@ public class EmailList implements Serializable {
         if (dbModel == null) {
             load(context);
         }
-        return this.emails;
+        return dbModel.getAllEmails();
     }
 
     /***
