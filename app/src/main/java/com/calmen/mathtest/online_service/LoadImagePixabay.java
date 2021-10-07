@@ -1,10 +1,13 @@
 package com.calmen.mathtest.online_service;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
@@ -22,14 +25,21 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap> {
+public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
     public static final String BASE_URL = "https://pixabay.com/api/";
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
     public static final int NUM_IMAGES = 20;
 
+    private Bitmap[] images = new Bitmap[NUM_IMAGES];
+    private ProgressBar progressBar;
+
+    public LoadImagePixabay(ProgressBar inProgressBar) {
+        this.progressBar = inProgressBar;
+    }
+
     @Override
-    protected Bitmap doInBackground(String... searchKey) throws InternalError {
+    protected Bitmap[] doInBackground(String... searchKey) throws InternalError {
         String data;
         try {
             Uri.Builder url = Uri.parse(BASE_URL).buildUpon()
@@ -54,14 +64,12 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap> {
                 }
 
                 data = downloadToString(connection);
-                Bitmap image;
                 if (data != null) {
-                    String imageUrl = getImageLargeUrl(data);
-                    if (imageUrl != null) {
-                        Log.d("Hello imageUrl", imageUrl);
-                        image = getImageFromUrl(imageUrl);
-                        if (image != null) {
-                            return image;
+                    String[] imageUrls = getImagesLargeUrl(data);
+                    if (imageUrls != null) {
+                        for (int i = 0; i < imageUrls.length; ++i) {
+                            Log.d("Hello imageUrl", imageUrls[i]);
+                            images[i] = getImageFromUrl(imageUrls[i]);
                         }
                     }
                 }
@@ -74,7 +82,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap> {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return images;
     }
 
     private String downloadToString(HttpURLConnection conn){
@@ -90,21 +98,34 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap> {
         return data;
     }
 
-    private String getImageLargeUrl(String data) {
-        String[] imageUrl = new String[];
+    @Override
+    protected void onProgressUpdate(Integer... values) {
+        progressBar.setIndeterminate(false);
+        progressBar.setProgress(values[0]);
+    }
+
+    @Override
+    protected void onPostExecute(Bitmap[] bitmaps) {
+        progressBar.setVisibility(View.INVISIBLE);
+        // TODO: call the activity that display images as GRID here
+        Intent intent = new Intent();
+    }
+
+    private String[] getImagesLargeUrl(String data) {
+        String[] imageUrls = new String[NUM_IMAGES];
         try {
             JSONObject jBase = new JSONObject(data);
             JSONArray jHits = jBase.getJSONArray("hits");
             if(jHits.length() > 0) {
                 for (int i = 0; i < NUM_IMAGES; ++i) {
                     JSONObject jHitsItem = jHits.getJSONObject(0);
-                    imageUrl = jHitsItem.getString("largeImageURL");
+                    imageUrls[i] = jHitsItem.getString("largeImageURL");
                 }
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return imageUrl;
+        return imageUrls;
     }
 
     private Bitmap getImageFromUrl(String imageUrl) throws InternalError {
@@ -112,7 +133,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap> {
 
         Uri.Builder url = Uri.parse(imageUrl).buildUpon();
         String urlString = url.build().toString();
-        Log.d("Hello", "ImageUrl: "+urlString);
+        Log.d("Hello", "ImageUrl: " + urlString);
 
         HttpURLConnection connection = openConnection(urlString);
         if(connection == null){
@@ -123,7 +144,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap> {
         } else{
             image = downloadToBitmap(connection);
             if(image !=null) {
-                // Log.d("Hello", image.toString());
+                Log.d("Hello", image.toString());
             }
             else{
                 Log.d("Hello", "Nothing returned");
