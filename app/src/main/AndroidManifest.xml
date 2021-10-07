@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MathTest">
         <activity
+            android:name=".registration.profile_picture.browse_online.BrowsePictureOnline"
+            android:exported="true" />
+        <activity
             android:name=".view_list.ViewStudents"
             android:exported="true" />
         <activity
