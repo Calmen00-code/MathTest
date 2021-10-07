@@ -21,6 +21,10 @@ public class Conversion {
         return outputStream.toByteArray();
     }
 
+    /***
+     * Returning the image as array of byte[]
+     * Use by the retrieval of the images to display in grid as Bitmap[] is not supporting Serializable
+     */
     public static byte[][] getBitmapImagesAsByteArray(Bitmap[] bitmap) throws IOException {
         byte[][] byteArray = new byte[bitmap.length][];
         for (int i = 0; i < bitmap.length; ++i) {

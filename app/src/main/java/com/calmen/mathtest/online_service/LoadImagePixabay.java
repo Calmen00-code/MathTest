@@ -34,7 +34,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
     public static final String BASE_URL = "https://pixabay.com/api/";
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
-    public static final int NUM_IMAGES = 20;
+    public static final int NUM_IMAGES = 6;
 
     private Bitmap[] images = new Bitmap[NUM_IMAGES];
     private ProgressBar progressBar;
@@ -120,6 +120,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
             byte[][] imagesByteArray;
             imagesByteArray = Conversion.getBitmapImagesAsByteArray(images);
             intent.putExtra("images", imagesByteArray);
+            System.out.println("STARTING THE ACTIVITY");
             context.startActivity(intent);
         } catch (IOException e) {
             e.printStackTrace();
