@@ -8,11 +8,15 @@
 
     <application
         android:allowBackup="true"
+        android:usesCleartextTraffic="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathTest">
+        <activity
+            android:name=".view_list.grid_view_image.GridViewImage"
+            android:exported="true" />
         <activity
             android:name=".registration.profile_picture.browse_online.BrowsePictureOnline"
             android:exported="true" />
@@ -33,9 +37,6 @@
             android:exported="true" />
         <activity
             android:name=".registration.email.EmailRegistration"
-            android:exported="true" />
-        <activity
-            android:name=".registration.phone_number.PhoneNumberRegistration"
             android:exported="true" />
         <activity
             android:name=".registration.Registration"

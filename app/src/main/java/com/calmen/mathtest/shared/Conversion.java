@@ -21,6 +21,17 @@ public class Conversion {
         return outputStream.toByteArray();
     }
 
+    public static byte[][] getBitmapImagesAsByteArray(Bitmap[] bitmap) throws IOException {
+        byte[][] byteArray = new byte[bitmap.length][];
+        for (int i = 0; i < bitmap.length; ++i) {
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            bitmap[i].compress(Bitmap.CompressFormat.PNG, 0, outputStream);
+            outputStream.close();
+            byteArray[i] = outputStream.toByteArray();
+        }
+        return byteArray;
+    }
+
     public static Bitmap getImageAsBitmap(String pictureURI, Context context) throws IOException {
         Uri uri = Uri.parse(pictureURI);
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);

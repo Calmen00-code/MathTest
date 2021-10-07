@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.registration.profile_picture.browse_online.BrowsePictureOnline;
 import com.calmen.mathtest.shared.Conversion;
 
 import java.io.IOException;
@@ -55,6 +56,15 @@ public class ProfilePictureRegistration extends AppCompatActivity {
                 // intent.setAction(Intent.ACTION_GET_CONTENT);
                 // startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_BROWSE_PHOTO);
                 startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
+            }
+        });
+
+        browsePhotoOnline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ProfilePictureRegistration.this, BrowsePictureOnline.class);
+                startActivity(intent);
+                finish();
             }
         });
     }

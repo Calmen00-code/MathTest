@@ -1,5 +1,6 @@
 package com.calmen.mathtest.online_service;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,9 +11,13 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.calmen.mathtest.shared.Conversion;
+import com.calmen.mathtest.view_list.grid_view_image.GridViewImage;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -25,7 +30,7 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
+public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> implements Serializable {
     public static final String BASE_URL = "https://pixabay.com/api/";
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
@@ -33,9 +38,11 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
 
     private Bitmap[] images = new Bitmap[NUM_IMAGES];
     private ProgressBar progressBar;
+    private Context context;
 
-    public LoadImagePixabay(ProgressBar inProgressBar) {
+    public LoadImagePixabay(ProgressBar inProgressBar, Context inContext) {
         this.progressBar = inProgressBar;
+        this.context = inContext;
     }
 
     @Override
@@ -43,7 +50,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
         String data;
         try {
             Uri.Builder url = Uri.parse(BASE_URL).buildUpon()
-                    .appendQueryParameter("api_key", API_KEY)
+                    .appendQueryParameter("key", API_KEY)
                     .appendQueryParameter("q", searchKey[0]);
             String urlString = url.build().toString();
             Log.d("Hello", "pictureRetrievalTask: " + urlString);
@@ -107,8 +114,16 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
     @Override
     protected void onPostExecute(Bitmap[] bitmaps) {
         progressBar.setVisibility(View.INVISIBLE);
-        // TODO: call the activity that display images as GRID here
-        Intent intent = new Intent();
+        Intent intent = new Intent(context, GridViewImage.class);
+        try {
+            // Converting to array of byte[] before passing as Bitmap does not support serializable
+            byte[][] imagesByteArray;
+            imagesByteArray = Conversion.getBitmapImagesAsByteArray(images);
+            intent.putExtra("images", imagesByteArray);
+            context.startActivity(intent);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private String[] getImagesLargeUrl(String data) {
@@ -118,8 +133,9 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
             JSONArray jHits = jBase.getJSONArray("hits");
             if(jHits.length() > 0) {
                 for (int i = 0; i < NUM_IMAGES; ++i) {
-                    JSONObject jHitsItem = jHits.getJSONObject(0);
+                    JSONObject jHitsItem = jHits.getJSONObject(i);
                     imageUrls[i] = jHitsItem.getString("largeImageURL");
+                    System.out.println("imageUrl[" + i + "]: " + imageUrls[i]);
                 }
             }
         } catch (JSONException e) {
@@ -136,7 +152,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> {
         Log.d("Hello", "ImageUrl: " + urlString);
 
         HttpURLConnection connection = openConnection(urlString);
-        if(connection == null){
+        if(connection == null) {
             throw new InternalError("Check internet");
         }
         else if (isConnectionOkay(connection) == false){
