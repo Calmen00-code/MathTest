@@ -30,13 +30,13 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> implements Serializable {
+public class LoadImagePixabay extends AsyncTask<String, Integer, String[]> implements Serializable {
     public static final String BASE_URL = "https://pixabay.com/api/";
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
-    public static final int NUM_IMAGES = 6;
+    public static final int NUM_IMAGES = 50;
 
-    private Bitmap[] images = new Bitmap[NUM_IMAGES];
+    private String[] imagesUrl = new String[NUM_IMAGES];
     private ProgressBar progressBar;
     private Context context;
 
@@ -46,7 +46,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
     }
 
     @Override
-    protected Bitmap[] doInBackground(String... searchKey) throws InternalError {
+    protected String[] doInBackground(String... searchKey) throws InternalError {
         String data;
         try {
             Uri.Builder url = Uri.parse(BASE_URL).buildUpon()
@@ -74,10 +74,15 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
                 if (data != null) {
                     String[] imageUrls = getImagesLargeUrl(data);
                     if (imageUrls != null) {
+                        imagesUrl = imageUrls;
+                        /*
+                        FIXME: Has been replaced to store using URL String
                         for (int i = 0; i < imageUrls.length; ++i) {
                             Log.d("Hello imageUrl", imageUrls[i]);
-                            images[i] = getImageFromUrl(imageUrls[i]);
+                            // images[i] = getImageFromUrl(imageUrls[i]);
+                            imagesUrl[i] = o,age
                         }
+                         */
                     }
                 }
             } catch (InternalError e) {
@@ -89,7 +94,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return images;
+        return imagesUrl;
     }
 
     private String downloadToString(HttpURLConnection conn){
@@ -112,19 +117,23 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
     }
 
     @Override
-    protected void onPostExecute(Bitmap[] bitmaps) {
+    protected void onPostExecute(String[] imagesURL) {
         progressBar.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(context, GridViewImage.class);
-        try {
-            // Converting to array of byte[] before passing as Bitmap does not support serializable
+        // Converting to array of byte[] before passing as Bitmap does not support serializable
+            /*
             byte[][] imagesByteArray;
             imagesByteArray = Conversion.getBitmapImagesAsByteArray(images);
             intent.putExtra("images", imagesByteArray);
+            for (int i = 0; i < bitmaps.length; ++i) {
+                if (bitmaps[i] == images[i]) {
+                    System.out.println("Same");
+                }
+            }
             System.out.println("STARTING THE ACTIVITY");
-            context.startActivity(intent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+             */
+        intent.putExtra("imagesURL", imagesUrl);
+        context.startActivity(intent);
     }
 
     private String[] getImagesLargeUrl(String data) {
