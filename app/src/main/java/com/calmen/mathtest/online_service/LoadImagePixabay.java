@@ -132,6 +132,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, String[]> imple
             }
             System.out.println("STARTING THE ACTIVITY");
              */
+        intent.putExtra("loadImageContext", this);
         intent.putExtra("imagesURL", imagesUrl);
         context.startActivity(intent);
     }

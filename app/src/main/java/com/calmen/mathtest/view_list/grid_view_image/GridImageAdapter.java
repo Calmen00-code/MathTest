@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,15 +25,16 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class GridImageAdapter extends BaseAdapter {
+public class GridImageAdapter extends BaseAdapter, AsyncTask<String, Integer, String[]> {
     // private byte[][] images;
     private String[] imagesURL;
-    private Context context;
+    private Context context, loadImageContext;
     private LayoutInflater layoutInflater;
 
-    public GridImageAdapter(String[] inImagesURL, Context inContext) {
+    public GridImageAdapter(String[] inImagesURL, Context inContext, Context inLoadImageContext) {
         this.imagesURL = inImagesURL;
         this.context = inContext;
+        this.loadImageContext = inLoadImageContext;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -88,6 +90,11 @@ public class GridImageAdapter extends BaseAdapter {
             connection.disconnect();
         }
         return image;
+    }
+
+    @Override
+    protected String[] doInBackground(String... strings) {
+        return new String[0];
     }
 
     private boolean isConnectionOkay(HttpURLConnection conn){
