@@ -30,14 +30,14 @@ import org.json.JSONObject;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class LoadImagePixabay extends AsyncTask<String, Integer, String[]> implements Serializable {
+public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> implements Serializable {
     public static final String BASE_URL = "https://pixabay.com/api/";
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
 
     public static final int NUM_IMAGES = 10;
 
-    private String[] imagesUrl = new String[NUM_IMAGES];
+    private Bitmap[] images = new Bitmap[NUM_IMAGES];
     private ProgressBar progressBar;
     private Context context;
 
@@ -47,7 +47,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, String[]> imple
     }
 
     @Override
-    protected String[] doInBackground(String... searchKey) throws InternalError {
+    protected Bitmap[] doInBackground(String... searchKey) throws InternalError {
         String data;
         try {
             Uri.Builder url = Uri.parse(BASE_URL).buildUpon()
@@ -93,7 +93,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, String[]> imple
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return imagesUrl;
+        return images;
     }
 
     private String downloadToString(HttpURLConnection conn){
@@ -120,17 +120,13 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, String[]> imple
         progressBar.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(context, GridViewImage.class);
         /*
-        try {
             // Converting to array of byte[] before passing as Bitmap does not support serializable
             byte[][] imagesByteArray;
             imagesByteArray = Conversion.getBitmapImagesAsByteArray(images);
             intent.putExtra("images", imagesByteArray);
             System.out.println("STARTING THE ACTIVITY");
             context.startActivity(intent);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-             */
+        */
         intent.putExtra("loadImageContext", this);
         intent.putExtra("imagesURL", imagesUrl);
         context.startActivity(intent);

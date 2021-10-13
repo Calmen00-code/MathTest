@@ -21,12 +21,19 @@ public class GridViewImage extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_grid_view_image);
 
         gridView = findViewById(R.id.gridViewImage);
+<<<<<<< HEAD
         // images = (byte[][]) getIntent().getSerializableExtra("images");
         imagesURL = getIntent().getStringArrayExtra("imagesURL");
         Context loadImageContext = (Context) getIntent().getSerializableExtra("loadImageContext");
 
         if (imagesURL == null) {
             System.out.println("imagesURL is null in GridView");
+=======
+        images = (byte[][]) getIntent().getSerializableExtra("images");
+
+        if (images == null) {
+            System.out.println("Images is null in GridView");
+>>>>>>> parent of 9655b48... FIX: OverloadException
         } else {
             GridImageAdapter adapter = new GridImageAdapter(imagesURL, this, loadImageContext);
             gridView.setAdapter(adapter);
