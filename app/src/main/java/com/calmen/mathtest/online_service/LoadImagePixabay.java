@@ -35,7 +35,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
 
-    public static final int NUM_IMAGES = 10;
+    public static final int NUM_IMAGES = 20;
 
     private Bitmap[] images = new Bitmap[NUM_IMAGES];
     private ProgressBar progressBar;
@@ -75,13 +75,10 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
                 if (data != null) {
                     String[] imageUrls = getImagesLargeUrl(data);
                     if (imageUrls != null) {
-                        /*
                         for (int i = 0; i < imageUrls.length; ++i) {
                             Log.d("Hello imageUrl", imageUrls[i]);
                             images[i] = getImageFromUrl(imageUrls[i]);
                         }
-                         */
-                        imagesUrl = imageUrls;
                     }
                 }
             } catch (InternalError e) {
@@ -116,19 +113,18 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
     }
 
     @Override
-    protected void onPostExecute(String[] bitmaps) {
+    protected void onPostExecute(Bitmap[] bitmaps) {
         progressBar.setVisibility(View.INVISIBLE);
         Intent intent = new Intent(context, GridViewImage.class);
-        /*
+        try {
             // Converting to array of byte[] before passing as Bitmap does not support serializable
             byte[][] imagesByteArray;
             imagesByteArray = Conversion.getBitmapImagesAsByteArray(images);
             intent.putExtra("images", imagesByteArray);
-            System.out.println("STARTING THE ACTIVITY");
             context.startActivity(intent);
-        */
-        intent.putExtra("loadImageContext", this);
-        intent.putExtra("imagesURL", imagesUrl);
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
         context.startActivity(intent);
     }
 
@@ -148,6 +144,69 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
             e.printStackTrace();
         }
         return imageUrls;
+    }
+
+    private Bitmap getImageFromUrl(String imageUrl) throws InternalError {
+        Bitmap image;
+
+        Uri.Builder url = Uri.parse(imageUrl).buildUpon();
+        String urlString = url.build().toString();
+        Log.d("Hello", "ImageUrl: " + urlString);
+
+        HttpURLConnection connection = openConnection(urlString);
+        if(connection == null) {
+            throw new InternalError("Check internet");
+        }
+        else if (isConnectionOkay(connection) == false){
+            throw new InternalError("Problem with downloading");
+        } else{
+            image = downloadToBitmap(connection);
+            if(image !=null) {
+                Log.d("Hello", image.toString());
+            }
+            else{
+                Log.d("Hello", "Nothing returned");
+            }
+            connection.disconnect();
+        }
+        return image;
+    }
+
+    private boolean isConnectionOkay(HttpURLConnection conn){
+        try {
+            if(conn.getResponseCode()==HttpURLConnection.HTTP_OK){
+                return true;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    private Bitmap downloadToBitmap(HttpURLConnection conn){
+        Bitmap data = null;
+        try {
+            InputStream inputStream = conn.getInputStream();
+            byte[] byteData = getByteArrayFromInputStream(inputStream);
+            Log.d("Hello byteData length", String.valueOf(byteData.length));
+            data = BitmapFactory.decodeByteArray(byteData,0,byteData.length);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+        return data;
+    }
+
+    private byte[] getByteArrayFromInputStream(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        int nRead;
+        byte[] data = new byte[4096];
+        int progress = 0;
+        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
+            buffer.write(data, 0, nRead);
+            progress = progress+nRead;
+        }
+        return buffer.toByteArray();
     }
 
     private HttpsURLConnection openConnection(String urlString) {

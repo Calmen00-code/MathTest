@@ -25,7 +25,7 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class GridImageAdapter extends BaseAdapter, AsyncTask<String, Integer, String[]> {
+public class GridImageAdapter extends BaseAdapter {
     // private byte[][] images;
     private String[] imagesURL;
     private Context context, loadImageContext;
@@ -66,85 +66,4 @@ public class GridImageAdapter extends BaseAdapter, AsyncTask<String, Integer, St
         return view;
     }
 
-    private Bitmap getImageFromUrl(String imageUrl) throws InternalError {
-        Bitmap image;
-
-        Uri.Builder url = Uri.parse(imageUrl).buildUpon();
-        String urlString = url.build().toString();
-        Log.d("Hello", "ImageUrl: " + urlString);
-
-        HttpURLConnection connection = openConnection(urlString);
-        if(connection == null) {
-            throw new InternalError("Check internet");
-        }
-        else if (isConnectionOkay(connection) == false){
-            throw new InternalError("Problem with downloading");
-        } else{
-            image = downloadToBitmap(connection);
-            if(image !=null) {
-                Log.d("Hello", image.toString());
-            }
-            else{
-                Log.d("Hello", "Nothing returned");
-            }
-            connection.disconnect();
-        }
-        return image;
-    }
-
-    @Override
-    protected String[] doInBackground(String... strings) {
-        return new String[0];
-    }
-
-    private boolean isConnectionOkay(HttpURLConnection conn){
-        try {
-            if(conn.getResponseCode()==HttpURLConnection.HTTP_OK){
-                return true;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return false;
-    }
-
-    private Bitmap downloadToBitmap(HttpURLConnection conn){
-        Bitmap data = null;
-        try {
-            InputStream inputStream = conn.getInputStream();
-            byte[] byteData = getByteArrayFromInputStream(inputStream);
-            Log.d("Hello byteData length", String.valueOf(byteData.length));
-            data = BitmapFactory.decodeByteArray(byteData,0,byteData.length);
-        }
-        catch (IOException e){
-            e.printStackTrace();
-        }
-        return data;
-    }
-
-    private byte[] getByteArrayFromInputStream(InputStream inputStream) throws IOException {
-        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
-        int nRead;
-        byte[] data = new byte[4096];
-        int progress = 0;
-        while ((nRead = inputStream.read(data, 0, data.length)) != -1) {
-            buffer.write(data, 0, nRead);
-            progress = progress+nRead;
-        }
-        return buffer.toByteArray();
-    }
-
-    private HttpsURLConnection openConnection(String urlString) {
-        HttpsURLConnection connection = null;
-
-        try {
-            URL url = new URL(urlString);
-            connection = (HttpsURLConnection) url.openConnection();
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return connection;
-    }
 }
