@@ -2,6 +2,7 @@ package com.calmen.mathtest.view_list.grid_view_image;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.widget.GridView;
@@ -12,7 +13,7 @@ import java.io.Serializable;
 
 public class GridViewImage extends AppCompatActivity implements Serializable {
     GridView gridView;
-    byte[][] images;
+    String[] imagesURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,12 +21,14 @@ public class GridViewImage extends AppCompatActivity implements Serializable {
         setContentView(R.layout.activity_grid_view_image);
 
         gridView = findViewById(R.id.gridViewImage);
-        images = (byte[][]) getIntent().getSerializableExtra("images");
+        // images = (byte[][]) getIntent().getSerializableExtra("images");
+        imagesURL = getIntent().getStringArrayExtra("imagesURL");
+        Context loadImageContext = (Context) getIntent().getSerializableExtra("loadImageContext");
 
-        if (images == null) {
-            System.out.println("Images is null in GridView");
+        if (imagesURL == null) {
+            System.out.println("imagesURL is null in GridView");
         } else {
-            GridImageAdapter adapter = new GridImageAdapter(images, this);
+            GridImageAdapter adapter = new GridImageAdapter(imagesURL, this, loadImageContext);
             gridView.setAdapter(adapter);
         }
     }
