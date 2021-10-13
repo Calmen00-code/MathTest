@@ -12,7 +12,7 @@ import java.io.Serializable;
 
 public class GridViewImage extends AppCompatActivity implements Serializable {
     GridView gridView;
-    byte[][] images;
+    String[] imagesURL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,18 +21,13 @@ public class GridViewImage extends AppCompatActivity implements Serializable {
 
         gridView = findViewById(R.id.gridViewImage);
         // images = (byte[][]) getIntent().getSerializableExtra("images");
-        String[] imagesURL = getIntent().getStringArrayExtra("imagesURL");
-        for (int i = 0; i < imagesURL.length; ++i) {
-            System.out.println("URL for image: " + imagesURL[i]);
-        }
+        imagesURL = getIntent().getStringArrayExtra("imagesURL");
 
-        /*
-        if (images == null) {
-            System.out.println("Images is null in GridView");
+        if (imagesURL == null) {
+            System.out.println("imagesURL is null in GridView");
         } else {
-            GridImageAdapter adapter = new GridImageAdapter(images, this);
+            GridImageAdapter adapter = new GridImageAdapter(imagesURL, this);
             gridView.setAdapter(adapter);
         }
-         */
     }
 }
