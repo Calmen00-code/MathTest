@@ -143,4 +143,17 @@ public class DBModel {
         return images;
     }
 
+    public void updateStudentName(Student student, int studentID) {
+        String[] whereVal = {String.valueOf(studentID)};
+        ContentValues cv = new ContentValues();
+        cv.put(StudentTable.Cols.FIRST_NAME, student.getFirstname());
+        cv.put(StudentTable.Cols.LAST_NAME, student.getLastname());
+
+        int updated = db.update(StudentTable.NAME, cv, StudentTable.Cols.ID + " =?", whereVal);
+        if (updated > 0 ) {
+            System.out.println("Student name updated");
+        } else {
+            System.out.println("Student name NOT UPDATED");
+        }
+    }
 }

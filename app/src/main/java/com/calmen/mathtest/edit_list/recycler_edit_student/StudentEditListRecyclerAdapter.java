@@ -1,5 +1,6 @@
 package com.calmen.mathtest.edit_list.recycler_edit_student;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -51,7 +52,9 @@ public class StudentEditListRecyclerAdapter extends RecyclerView.Adapter<Student
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EditSingleStudent.class);
+                intent.putExtra("CurrentStudent", student);
                 view.getContext().startActivity(intent);
+                ((Activity) view.getContext()).finish();
             }
         });
     }

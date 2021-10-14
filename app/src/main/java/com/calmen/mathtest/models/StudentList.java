@@ -37,4 +37,16 @@ public class StudentList implements Serializable {
             load(context);
         dbModel.addStudent(student);
     }
+
+    public void updateStudentName(Context context, Student updateStudent) {
+        if (dbModel == null)
+            load(context);
+
+        for (Student student : students) {
+            if (student.getId() == updateStudent.getId()) {
+                student = updateStudent;
+                dbModel.updateStudentName(student, student.getId());
+            }
+        }
+    }
 }
