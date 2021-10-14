@@ -14,6 +14,7 @@ import com.calmen.mathtest.models.Student;
 public class EditSingleStudent extends AppCompatActivity {
 
     Button firstname, lastname, phoneno, email, photo;
+    public static final int REQUEST_EDIT_PHONE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +66,16 @@ public class EditSingleStudent extends AppCompatActivity {
                 Intent intent = new Intent(EditSingleStudent.this, EditEmail.class);
                 intent.putExtra("CurrentStudent", currentStudent);
                 view.getContext().startActivity(intent);
+                ((Activity) view.getContext()).finish();
+            }
+        });
+
+        photo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditSingleStudent.this, EditPhoto.class);
+                intent.putExtra("CurrentStudent", currentStudent);
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_EDIT_PHONE);
                 ((Activity) view.getContext()).finish();
             }
         });

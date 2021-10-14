@@ -6,6 +6,7 @@ import static com.calmen.mathtest.registration.Registration.REQUEST_REGISTRATION
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -80,7 +81,7 @@ public class ManualRegistration extends AppCompatActivity {
                                     PhoneNumberRegistration.class);
                             intent.putExtra("ID", studentID);
                             intent.putExtra("phoneNumbers", phoneNumbers);
-                            startActivityForResult(intent, REQUEST_REGISTRATION_PHONE);
+                            ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_REGISTRATION_PHONE);
                         }
                     }
                 }
@@ -109,7 +110,7 @@ public class ManualRegistration extends AppCompatActivity {
                                 EmailRegistration.class);
                         intent.putExtra("ID", Integer.parseInt(studentIDEditTxt.getText().toString()));
                         intent.putExtra("emails", emails);
-                        startActivityForResult(intent, REQUEST_REGISTRATION_EMAIL);
+                        ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_REGISTRATION_EMAIL);
                     }
                 }
             }
@@ -119,7 +120,7 @@ public class ManualRegistration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ManualRegistration.this, ProfilePictureRegistration.class);
-                startActivityForResult(intent, REQUEST_REGISTRATION_PICTURE);
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_REGISTRATION_PICTURE);
             }
         });
 

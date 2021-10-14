@@ -1,4 +1,4 @@
-package com.calmen.mathtest.registration.profile_picture;
+package com.calmen.mathtest.edit_list;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,18 +8,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.edit_list.edit_photos.browse_online.BrowsePictureOnlineForEdit;
 import com.calmen.mathtest.registration.profile_picture.browse_online.BrowsePictureOnline;
 import com.calmen.mathtest.shared.Conversion;
 
 import java.io.IOException;
 
-public class ProfilePictureRegistration extends AppCompatActivity {
+public class EditPhoto extends AppCompatActivity {
 
     public static final int REQUEST_THUMBNAIL = 1;
     public static final int REQUEST_BROWSE_PHOTO = 2;
@@ -28,11 +28,11 @@ public class ProfilePictureRegistration extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile_picture_registration);
+        setContentView(R.layout.activity_edit_photo);
 
-        takePhoto = findViewById(R.id.takeLivePhotoBtn);
-        browsePhoto = findViewById(R.id.browsePhotoBtn);
-        browsePhotoOnline = findViewById(R.id.browsePhotoOnlineBtn);
+        takePhoto = findViewById(R.id.takeLivePhotoBtnForEdit);
+        browsePhoto = findViewById(R.id.browsePhotoBtnForEdit);
+        browsePhotoOnline = findViewById(R.id.browsePhotoOnlineBtnForEdit);
 
         takePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,7 +62,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
         browsePhotoOnline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ProfilePictureRegistration.this, BrowsePictureOnline.class);
+                Intent intent = new Intent(EditPhoto.this, BrowsePictureOnlineForEdit.class);
                 startActivity(intent);
                 finish();
             }
@@ -74,16 +74,16 @@ public class ProfilePictureRegistration extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_THUMBNAIL) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
-            System.out.println("image in ProfileRegistration: " + image);
+            System.out.println("image in EditProfile: " + image);
             if (image != null) {
                 Intent intent = new Intent();
                 try {
                     intent.putExtra("profileImage", Conversion.getBitmapAsByteArray(image));
-                    System.out.println("image in ProfileRegistration (2): " + image);
+                    System.out.println("image in EditProfile (2): " + image);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                setResult(ProfilePictureRegistration.RESULT_OK, intent);
+                setResult(EditPhoto.RESULT_OK, intent);
             }
             finish();
         } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_BROWSE_PHOTO) {
@@ -92,7 +92,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             if (imageURI != null) {
                 Intent intent = new Intent();
                 intent.putExtra("imageURI", imageURI.toString());
-                setResult(ProfilePictureRegistration.RESULT_OK, intent);
+                setResult(EditPhoto.RESULT_OK, intent);
             }
             finish();
         }
