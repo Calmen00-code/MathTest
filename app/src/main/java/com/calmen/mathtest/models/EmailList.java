@@ -78,4 +78,21 @@ public class EmailList implements Serializable {
         }
         return retEmails;
     }
+
+    /***
+     * @param oldEmail will be used to compare with every single entry of the email list
+     * @param newEmail will be used to replace oldEmail
+     */
+    public void updateStudentEmail(Context context, Email oldEmail, Email newEmail) {
+        if (dbModel == null)
+            load(context);
+
+        for (Email email: emails) {
+            if (email.getId() == oldEmail.getId() &&
+                    email.getEmail().equals(oldEmail.getEmail())) {
+                email = newEmail;
+                dbModel.updateStudentEmail(email, oldEmail, email.getId());
+            }
+        }
+    }
 }

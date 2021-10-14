@@ -13,7 +13,7 @@ import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.models.StudentList;
 
-public class EditName extends AppCompatActivity {
+public class EditNameAttribute extends AppCompatActivity {
     public static final String FIRST_NAME = "FIRST_NAME";
     public static final String LAST_NAME = "LAST_NAME";
 
@@ -23,7 +23,7 @@ public class EditName extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_name);
+        setContentView(R.layout.activity_edit_name_attribute);
 
         inputName = findViewById(R.id.editNameInputTxt);
         confirmEditName = findViewById(R.id.confirmEditName);
@@ -36,7 +36,7 @@ public class EditName extends AppCompatActivity {
                 if (mode.equals(FIRST_NAME)) {
                     String firstname = inputName.getText().toString();
                     if (firstname.equals("")) {
-                        Toast.makeText(EditName.this, "Name is empty!",
+                        Toast.makeText(EditNameAttribute.this, "Name is empty!",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Student newStudent = new Student(
@@ -50,7 +50,7 @@ public class EditName extends AppCompatActivity {
                 } else {
                     String lastname = inputName.getText().toString();
                     if (inputName.getText().toString().equals("")) {
-                        Toast.makeText(EditName.this, "Name is empty!",
+                        Toast.makeText(EditNameAttribute.this, "Name is empty!",
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Student newStudent = new Student(

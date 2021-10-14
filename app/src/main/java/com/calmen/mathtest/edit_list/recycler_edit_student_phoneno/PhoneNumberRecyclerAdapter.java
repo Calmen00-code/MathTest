@@ -3,7 +3,6 @@ package com.calmen.mathtest.edit_list.recycler_edit_student_phoneno;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.calmen.mathtest.R;
-import com.calmen.mathtest.edit_list.EditNumber;
-import com.calmen.mathtest.edit_list.recycler_edit_student.StudentEditListViewHolder;
+import com.calmen.mathtest.edit_list.EditNumberAttribute;
 import com.calmen.mathtest.models.PhoneNumber;
 
 import java.util.ArrayList;
@@ -44,7 +42,7 @@ public class PhoneNumberRecyclerAdapter extends RecyclerView.Adapter<PhoneNumber
         holder.editPhoneNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), EditNumber.class);
+                Intent intent = new Intent(view.getContext(), EditNumberAttribute.class);
                 intent.putExtra("CurrentPhoneNo", phoneNumber);
                 view.getContext().startActivity(intent);
                 ((Activity) view.getContext()).finish();

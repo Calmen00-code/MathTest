@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,7 +13,7 @@ import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.PhoneNumber;
 import com.calmen.mathtest.models.PhoneNumberList;
 
-public class EditNumber extends AppCompatActivity {
+public class EditNumberAttribute extends AppCompatActivity {
 
     Button confirmEditPhoneNo;
     EditText phoneNoInput;
@@ -22,7 +21,7 @@ public class EditNumber extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_number);
+        setContentView(R.layout.activity_edit_number_attribute);
 
         phoneNoInput = findViewById(R.id.phoneNoInput);
         confirmEditPhoneNo = findViewById(R.id.confirmEditPhoneNo);
@@ -32,7 +31,7 @@ public class EditNumber extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (phoneNoInput.getText().toString().equals("")) {
-                    Toast.makeText(EditNumber.this, "Phone Number is empty!",
+                    Toast.makeText(EditNumberAttribute.this, "Phone Number is empty!",
                             Toast.LENGTH_SHORT).show();
                 } else {
                     PhoneNumber phoneNumber = new PhoneNumber(phoneNoInput.getText().toString(),

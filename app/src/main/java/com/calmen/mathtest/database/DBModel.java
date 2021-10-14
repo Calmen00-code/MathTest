@@ -170,4 +170,18 @@ public class DBModel {
             System.out.println("Phone number NOT UPDATED");
         }
     }
+
+    public void updateStudentEmail(Email email, Email oldEmail, int studentID) {
+        String[] whereVal = {String.valueOf(studentID), String.valueOf(oldEmail.getEmail())};
+        ContentValues cv = new ContentValues();
+        cv.put(EmailTable.Cols.EMAIL, email.getEmail());
+
+        int updated = db.update(EmailTable.NAME, cv, EmailTable.Cols.ID +
+                " =? AND " + EmailTable.Cols.EMAIL + " =?" , whereVal);
+        if (updated > 0 ) {
+            System.out.println("Email updated");
+        } else {
+            System.out.println("Email NOT UPDATED");
+        }
+    }
 }

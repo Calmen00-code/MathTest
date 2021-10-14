@@ -15,13 +15,19 @@
         android:theme="@style/Theme.MathTest"
         android:usesCleartextTraffic="true">
         <activity
-            android:name=".edit_list.EditNumber"
+            android:name=".edit_list.EditNumberAttribute"
+            android:exported="true" />
+        <activity
+            android:name=".edit_list.EditEmail"
+            android:exported="true" />
+        <activity
+            android:name=".edit_list.EditEmailAttribute"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditPhoneNo"
             android:exported="true" />
         <activity
-            android:name=".edit_list.EditName"
+            android:name=".edit_list.EditNameAttribute"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditSingleStudent"

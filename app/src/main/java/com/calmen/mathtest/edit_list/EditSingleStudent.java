@@ -30,8 +30,8 @@ public class EditSingleStudent extends AppCompatActivity {
         firstname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditSingleStudent.this, EditName.class);
-                intent.putExtra("MODE", EditName.FIRST_NAME);
+                Intent intent = new Intent(EditSingleStudent.this, EditNameAttribute.class);
+                intent.putExtra("MODE", EditNameAttribute.FIRST_NAME);
                 intent.putExtra("CurrentStudent", currentStudent);
                 view.getContext().startActivity(intent);
                 ((Activity) view.getContext()).finish();
@@ -41,8 +41,8 @@ public class EditSingleStudent extends AppCompatActivity {
         lastname.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(EditSingleStudent.this, EditName.class);
-                intent.putExtra("MODE", EditName.LAST_NAME);
+                Intent intent = new Intent(EditSingleStudent.this, EditNameAttribute.class);
+                intent.putExtra("MODE", EditNameAttribute.LAST_NAME);
                 intent.putExtra("CurrentStudent", currentStudent);
                 view.getContext().startActivity(intent);
                 ((Activity) view.getContext()).finish();
@@ -53,6 +53,16 @@ public class EditSingleStudent extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditSingleStudent.this, EditPhoneNo.class);
+                intent.putExtra("CurrentStudent", currentStudent);
+                view.getContext().startActivity(intent);
+                ((Activity) view.getContext()).finish();
+            }
+        });
+
+        email.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditSingleStudent.this, EditEmail.class);
                 intent.putExtra("CurrentStudent", currentStudent);
                 view.getContext().startActivity(intent);
                 ((Activity) view.getContext()).finish();
