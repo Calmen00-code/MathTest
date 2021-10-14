@@ -11,28 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.shared.Conversion;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.net.ssl.HttpsURLConnection;
-
 public class GridImageAdapter extends BaseAdapter {
-    // private byte[][] images;
-    private String[] imagesURL;
+    private byte[][] images;
     private Context context, loadImageContext;
     private LayoutInflater layoutInflater;
 
-    public GridImageAdapter(String[] inImagesURL, Context inContext, Context inLoadImageContext) {
-        this.imagesURL = inImagesURL;
+    public GridImageAdapter(byte[][] inImages, Context inContext, Context inLoadImageContext) {
+        this.images = inImages;
         this.context = inContext;
         this.loadImageContext = inLoadImageContext;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -40,7 +29,7 @@ public class GridImageAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return imagesURL.length;
+        return images.length;
     }
 
     @Override
@@ -60,9 +49,7 @@ public class GridImageAdapter extends BaseAdapter {
         }
 
         ImageView imageView = view.findViewById(R.id.imageViewGrid);
-        Bitmap bitmap = getImageFromUrl(imagesURL[i]);
-        // imageView.setImageBitmap(Conversion.convertImageFromByteToBitmap(images[i]));
-        imageView.setImageBitmap(bitmap);
+        imageView.setImageBitmap(Conversion.convertImageFromByteToBitmap(images[i]));
         return view;
     }
 
