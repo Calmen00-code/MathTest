@@ -31,6 +31,9 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE " + EmailTable.NAME + "(" +
                 EmailTable.Cols.EMAIL + " TEXT," +
                 EmailTable.Cols.ID + " INTEGER);");
+
+        db.execSQL("CREATE TABLE " + OnlineImageTable.NAME + "(" +
+                OnlineImageTable.Cols.PICTURE + " BLOB);");
     }
 
     @Override

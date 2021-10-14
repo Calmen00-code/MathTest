@@ -55,6 +55,12 @@ public class DBModel {
         db.insert(EmailTable.NAME, null, cv);
     }
 
+    public void addOnlineImage(byte[] image) {
+        ContentValues cv = new ContentValues();
+        cv.put(OnlineImageTable.Cols.PICTURE, image);
+        db.insert(OnlineImageTable.NAME, null, cv);
+    }
+
     public ArrayList<PhoneNumber> getAllPhoneNumbers() {
         ArrayList<PhoneNumber> phoneNumbers = new ArrayList<>();
         Cursor cursor = db.query(PhoneNumberTable.NAME, null, null,
@@ -111,4 +117,26 @@ public class DBModel {
         }
         return students;
     }
+
+    /***
+     * Get all online images retrieved that was stored in the DB
+     */
+    public ArrayList<byte[]> getAllOnlineImages() {
+        ArrayList<byte[]> images = new ArrayList<>();
+        Cursor cursor = db.query(OnlineImageTable.NAME, null, null,
+                null, null, null, null);
+        DBCursor dbCursor = new DBCursor(cursor);
+
+        try {
+            dbCursor.moveToFirst();
+            while (!dbCursor.isAfterLast()) {
+                images.add(dbCursor.getOnlinePicture());
+                dbCursor.moveToNext();
+            }
+        } finally {
+            dbCursor.close();
+        }
+        return images;
+    }
+
 }

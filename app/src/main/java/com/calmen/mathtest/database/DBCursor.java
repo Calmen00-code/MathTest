@@ -64,4 +64,10 @@ public class DBCursor extends CursorWrapper {
 
         return new Email(email, id);
     }
+
+    public byte[] getOnlinePicture() {
+        byte[] image = getBlob(getColumnIndex(OnlineImageTable.Cols.PICTURE));
+
+        return image;
+    }
 }

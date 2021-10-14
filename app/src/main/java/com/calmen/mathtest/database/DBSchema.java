@@ -34,4 +34,17 @@ public class DBSchema {
             public static final String ID = "id";
         }
     }
+
+    /***
+     * Temporary store the online retrieve Images
+     *
+     * Storing in DB as passing the byte[][] images from one activity to another
+     * will cause TransactionTooLargeException
+     */
+    public static class OnlineImageTable {
+        public static final String NAME = "ONLINE_IMAGE";
+        public static class Cols {
+            public static final String PICTURE = "picture";
+        }
+    }
 }
