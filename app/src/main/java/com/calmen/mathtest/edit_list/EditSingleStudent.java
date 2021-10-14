@@ -48,5 +48,15 @@ public class EditSingleStudent extends AppCompatActivity {
                 ((Activity) view.getContext()).finish();
             }
         });
+
+        phoneno.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(EditSingleStudent.this, EditPhoneNo.class);
+                intent.putExtra("CurrentStudent", currentStudent);
+                view.getContext().startActivity(intent);
+                ((Activity) view.getContext()).finish();
+            }
+        });
     }
 }
