@@ -37,6 +37,7 @@ public class PhoneNumberRecyclerAdapter extends RecyclerView.Adapter<PhoneNumber
     public void onBindViewHolder(@NonNull PhoneNumberViewHolder holder, int position) {
         PhoneNumber phoneNumber = phoneNumbers.get(position);
 
+        holder.phoneNoView.setText(phoneNumber.getPhoneNo());
         holder.editPhoneNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
