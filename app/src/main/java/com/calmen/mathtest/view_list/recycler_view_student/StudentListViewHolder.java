@@ -19,6 +19,6 @@ public class StudentListViewHolder extends RecyclerView.ViewHolder {
         super(itemView);
         fullNameView = itemView.findViewById(R.id.fullnameView);
         viewBtn = itemView.findViewById(R.id.viewStudentBtn);
-        studentImageView = itemView.findViewById(R.id.viewStudentImage);
+        studentImageView = itemView.findViewById(R.id.viewImageStudent);
     }
 }
