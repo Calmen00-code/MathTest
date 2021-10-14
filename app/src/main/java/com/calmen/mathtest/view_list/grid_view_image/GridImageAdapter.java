@@ -15,15 +15,16 @@ import android.widget.ImageView;
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.shared.Conversion;
 
+import java.util.ArrayList;
+
 public class GridImageAdapter extends BaseAdapter {
-    private byte[][] images;
-    private Context context, loadImageContext;
+    private Bitmap[] images;
+    private Context context;
     private LayoutInflater layoutInflater;
 
-    public GridImageAdapter(byte[][] inImages, Context inContext, Context inLoadImageContext) {
+    public GridImageAdapter(Bitmap[] inImages, Context inContext) {
         this.images = inImages;
         this.context = inContext;
-        this.loadImageContext = inLoadImageContext;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -49,7 +50,7 @@ public class GridImageAdapter extends BaseAdapter {
         }
 
         ImageView imageView = view.findViewById(R.id.imageViewGrid);
-        imageView.setImageBitmap(Conversion.convertImageFromByteToBitmap(images[i]));
+        imageView.setImageBitmap(images[i]);
         return view;
     }
 

@@ -5,6 +5,7 @@
 package com.calmen.mathtest.models;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 
 import com.calmen.mathtest.database.DBModel;
 
@@ -13,15 +14,16 @@ import java.util.ArrayList;
 public class OnlinePicture {
     DBModel dbModel;
 
-    public OnlinePicture() {
+    public OnlinePicture(Context context) {
         dbModel = new DBModel();
+        dbModel.load(context);
     }
 
     public void addOnlinePicture(byte[] image) {
         dbModel.addOnlineImage(image);
     }
 
-    public ArrayList<byte[]> getOnlineImages() {
+    public Bitmap[] getOnlineImages() {
         return dbModel.getAllOnlineImages();
     }
 }

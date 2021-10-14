@@ -1,5 +1,7 @@
 package com.calmen.mathtest.database;
 
+import static com.calmen.mathtest.online_service.LoadImagePixabay.NUM_IMAGES;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -121,17 +123,19 @@ public class DBModel {
     /***
      * Get all online images retrieved that was stored in the DB
      */
-    public ArrayList<byte[]> getAllOnlineImages() {
-        ArrayList<byte[]> images = new ArrayList<>();
+    public Bitmap[] getAllOnlineImages() {
+        Bitmap[] images = new Bitmap[NUM_IMAGES];
         Cursor cursor = db.query(OnlineImageTable.NAME, null, null,
                 null, null, null, null);
         DBCursor dbCursor = new DBCursor(cursor);
 
         try {
+            int i = 0;
             dbCursor.moveToFirst();
             while (!dbCursor.isAfterLast()) {
-                images.add(dbCursor.getOnlinePicture());
+                images[i] = Conversion.convertImageFromByteToBitmap(dbCursor.getOnlinePicture());
                 dbCursor.moveToNext();
+                ++i;
             }
         } finally {
             dbCursor.close();

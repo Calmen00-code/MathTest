@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.calmen.mathtest.models.OnlinePicture;
 import com.calmen.mathtest.shared.Conversion;
 import com.calmen.mathtest.view_list.grid_view_image.GridViewImage;
 
@@ -35,7 +36,7 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
     public static final String API_KEY = "23740806-7f34edb495a9109a0d41af9df";
     public static final String TAG = "LoadImagePixabay";
 
-    public static final int NUM_IMAGES = 20;
+    public static final int NUM_IMAGES = 6;
 
     private Bitmap[] images = new Bitmap[NUM_IMAGES];
     private ProgressBar progressBar;
@@ -120,12 +121,11 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
             // Converting to array of byte[] before passing as Bitmap does not support serializable
             byte[][] imagesByteArray;
             imagesByteArray = Conversion.getBitmapImagesAsByteArray(images);
-            intent.putExtra("images", imagesByteArray);
+            storeImageInDatabase(imagesByteArray);
             context.startActivity(intent);
         } catch(IOException e) {
             e.printStackTrace();
         }
-        context.startActivity(intent);
     }
 
     private String[] getImagesLargeUrl(String data) {
@@ -221,5 +221,12 @@ public class LoadImagePixabay extends AsyncTask<String, Integer, Bitmap[]> imple
             e.printStackTrace();
         }
         return connection;
+    }
+
+    private void storeImageInDatabase(byte[][] images) {
+        OnlinePicture onlinePicture = new OnlinePicture(context);
+        for (int i = 0; i < images.length; ++i) {
+            onlinePicture.addOnlinePicture(images[i]);
+        }
     }
 }

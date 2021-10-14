@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button registerStudent, takeTest, viewStudent;
+    Button registerStudent, takeTest, viewStudent, editStudent, deleteStudent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
         registerStudent = findViewById(R.id.studentRegistration);
         takeTest = findViewById(R.id.takeTest);
         viewStudent = findViewById(R.id.viewStudentBtn);
+        editStudent = findViewById(R.id.editStudentBtn);
+        deleteStudent = findViewById(R.id.deleteStudentBtn);
 
         registerStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -73,11 +75,33 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        editStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        deleteStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        viewStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
+
         takeTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // TODO: student taking test
             }
         });
+
     }
 }
