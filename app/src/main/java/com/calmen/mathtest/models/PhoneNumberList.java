@@ -74,4 +74,21 @@ public class PhoneNumberList implements Serializable {
         }
         return retPhoneNumbers;
     }
+
+    /***
+     * @param oldPhoneNumber will be used to compare with every single entry of the phone number list
+     * @param newPhoneNumber will be used to replace oldPhoneNumber
+     */
+    public void updateStudentPhoneNo(Context context, PhoneNumber oldPhoneNumber, PhoneNumber newPhoneNumber) {
+        if (dbModel == null)
+            load(context);
+
+        for (PhoneNumber phoneNumber: phoneNumbers) {
+            if (phoneNumber.getId() == oldPhoneNumber.getId() &&
+                phoneNumber.getPhoneNo().equals(oldPhoneNumber.getPhoneNo())) {
+                phoneNumber = newPhoneNumber;
+                dbModel.updateStudentPhoneNo(phoneNumber, oldPhoneNumber, phoneNumber.getId());
+            }
+        }
+    }
 }

@@ -156,4 +156,18 @@ public class DBModel {
             System.out.println("Student name NOT UPDATED");
         }
     }
+
+    public void updateStudentPhoneNo(PhoneNumber phoneNumber, PhoneNumber oldPhoneNumber, int studentID) {
+        String[] whereVal = {String.valueOf(studentID), String.valueOf(oldPhoneNumber.getPhoneNo())};
+        ContentValues cv = new ContentValues();
+        cv.put(PhoneNumberTable.Cols.PHONE_NO, phoneNumber.getPhoneNo());
+
+        int updated = db.update(PhoneNumberTable.NAME, cv, PhoneNumberTable.Cols.ID +
+                " =? AND " + PhoneNumberTable.Cols.PHONE_NO + " =?" , whereVal);
+        if (updated > 0 ) {
+            System.out.println("Phone number updated");
+        } else {
+            System.out.println("Phone number NOT UPDATED");
+        }
+    }
 }

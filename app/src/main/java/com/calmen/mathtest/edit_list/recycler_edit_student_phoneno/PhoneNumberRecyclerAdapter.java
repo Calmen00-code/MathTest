@@ -46,6 +46,7 @@ public class PhoneNumberRecyclerAdapter extends RecyclerView.Adapter<PhoneNumber
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), EditNumber.class);
                 intent.putExtra("CurrentPhoneNo", phoneNumber);
+                view.getContext().startActivity(intent);
                 ((Activity) view.getContext()).finish();
             }
         });
