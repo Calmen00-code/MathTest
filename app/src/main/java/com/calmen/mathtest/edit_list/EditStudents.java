@@ -26,7 +26,8 @@ public class EditStudents extends AppCompatActivity {
         loadStudents();
         RecyclerView rv = findViewById(R.id.listEditRecycler);
         rv.setLayoutManager(new LinearLayoutManager(this));
-        StudentEditListRecyclerAdapter listRecyclerAdapter = new StudentEditListRecyclerAdapter(students);
+        StudentEditListRecyclerAdapter listRecyclerAdapter =
+                new StudentEditListRecyclerAdapter(students, this);
         rv.setAdapter(listRecyclerAdapter);
     }
 

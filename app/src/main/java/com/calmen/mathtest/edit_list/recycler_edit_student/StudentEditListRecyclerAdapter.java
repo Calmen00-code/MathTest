@@ -1,5 +1,7 @@
 package com.calmen.mathtest.edit_list.recycler_edit_student;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.edit_list.EditSingleStudent;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.shared.Conversion;
 
@@ -16,9 +19,11 @@ import java.util.ArrayList;
 
 public class StudentEditListRecyclerAdapter extends RecyclerView.Adapter<StudentEditListViewHolder> {
     ArrayList<Student> students;
+    Context context;
 
-    public StudentEditListRecyclerAdapter(ArrayList<Student> inStudents) {
+    public StudentEditListRecyclerAdapter(ArrayList<Student> inStudents, Context inContext) {
         this.students = inStudents;
+        this.context = inContext;
     }
 
     @NonNull
@@ -45,7 +50,8 @@ public class StudentEditListRecyclerAdapter extends RecyclerView.Adapter<Student
         holder.editStudentBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: action for viewing student details here
+                Intent intent = new Intent(view.getContext(), EditSingleStudent.class);
+                view.getContext().startActivity(intent);
             }
         });
     }
