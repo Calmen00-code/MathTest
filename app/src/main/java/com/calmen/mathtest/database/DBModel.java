@@ -215,4 +215,15 @@ public class DBModel {
             System.out.println("Profile pic NOT UPDATED");
         }
     }
+
+    public void removeStudent(Student student) {
+        // ID is unique
+        String[] whereVal = {String.valueOf(student.getId())};
+        int deleted = db.delete(StudentTable.NAME, StudentTable.Cols.ID + " =?", whereVal);
+        if (deleted > 0 ) {
+            System.out.println("Student deleted");
+        } else {
+            System.out.println("Student NOT DELETED");
+        }
+    }
 }

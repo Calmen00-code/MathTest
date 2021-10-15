@@ -73,4 +73,11 @@ public class StudentList implements Serializable {
             }
         }
     }
+
+    public void removeStudent(Student student, Context context) {
+        if (dbModel == null)
+            load(context);
+
+        dbModel.removeStudent(student);
+    }
 }

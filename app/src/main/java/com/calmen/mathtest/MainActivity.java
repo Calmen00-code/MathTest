@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.calmen.mathtest.delete_student.DeleteStudent;
 import com.calmen.mathtest.edit_list.EditStudents;
 import com.calmen.mathtest.view_list.ViewStudents;
 import com.calmen.mathtest.models.Email;
@@ -87,7 +88,8 @@ public class MainActivity extends AppCompatActivity {
         deleteStudent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(MainActivity.this, DeleteStudent.class);
+                startActivity(intent);
             }
         });
 
