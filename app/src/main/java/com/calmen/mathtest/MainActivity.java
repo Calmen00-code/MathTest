@@ -9,6 +9,7 @@ import android.widget.Button;
 
 import com.calmen.mathtest.delete_student.DeleteStudent;
 import com.calmen.mathtest.edit_list.EditStudents;
+import com.calmen.mathtest.take_test.StudentSelection;
 import com.calmen.mathtest.view_list.ViewStudents;
 import com.calmen.mathtest.models.Email;
 import com.calmen.mathtest.models.EmailList;
@@ -96,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
         takeTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: student taking test
+                Intent intent = new Intent(MainActivity.this, StudentSelection.class);
+                startActivity(intent);
             }
         });
 
