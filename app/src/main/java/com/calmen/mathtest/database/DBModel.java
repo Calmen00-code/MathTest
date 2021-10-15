@@ -204,7 +204,7 @@ public class DBModel {
         String[] whereVal = {String.valueOf(studentID)};
         ContentValues cv = new ContentValues();
         Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(),
-                Uri.parse(student.getPhotoURI());
+                Uri.parse(student.getPhotoURI()));
         byte[] image = Conversion.getBitmapAsByteArray(bitmap);
         cv.put(StudentTable.Cols.PROFILE_PICTURE, image);
 
