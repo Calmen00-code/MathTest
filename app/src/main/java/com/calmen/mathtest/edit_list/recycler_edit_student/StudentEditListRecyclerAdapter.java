@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,10 @@ public class StudentEditListRecyclerAdapter extends RecyclerView.Adapter<Student
         if (student.getImage() != null) {
             Bitmap image = Conversion.convertImageFromByteToBitmap(student.getImage());
             holder.studentImageEdit.setImageBitmap(image);
+        } else {
+            System.out.println("photoURI: " + student.getPhotoURI());
+            System.out.println("Name: " + student.getFirstname());
+            holder.studentImageEdit.setImageURI(Uri.parse(student.getPhotoURI()));
         }
 
         holder.fullNameEdit.setText(student.getFirstname() + " " + student.getLastname());

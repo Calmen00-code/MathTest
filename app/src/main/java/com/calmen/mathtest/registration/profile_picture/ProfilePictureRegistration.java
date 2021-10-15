@@ -39,7 +39,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_THUMBNAIL);
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_THUMBNAIL);
             }
         });
 
@@ -55,7 +55,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
                 // intent.setType("image/*");
                 // intent.setAction(Intent.ACTION_GET_CONTENT);
                 // startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_BROWSE_PHOTO);
-                startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
             }
         });
 

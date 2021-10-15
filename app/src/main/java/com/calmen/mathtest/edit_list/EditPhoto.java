@@ -14,7 +14,6 @@ import android.widget.Button;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.edit_list.edit_photos.browse_online.BrowsePictureOnlineForEdit;
-import com.calmen.mathtest.registration.profile_picture.browse_online.BrowsePictureOnline;
 import com.calmen.mathtest.shared.Conversion;
 
 import java.io.IOException;
@@ -39,7 +38,7 @@ public class EditPhoto extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setAction(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, REQUEST_THUMBNAIL);
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_THUMBNAIL);
             }
         });
 
@@ -55,7 +54,7 @@ public class EditPhoto extends AppCompatActivity {
                 // intent.setType("image/*");
                 // intent.setAction(Intent.ACTION_GET_CONTENT);
                 // startActivityForResult(Intent.createChooser(intent, "Select Picture"), REQUEST_BROWSE_PHOTO);
-                startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_BROWSE_PHOTO);
             }
         });
 

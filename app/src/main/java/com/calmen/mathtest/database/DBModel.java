@@ -7,6 +7,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 
 import com.calmen.mathtest.database.DBSchema.*;
 
@@ -182,6 +184,35 @@ public class DBModel {
             System.out.println("Email updated");
         } else {
             System.out.println("Email NOT UPDATED");
+        }
+    }
+
+    public void updateStudentPictureByByte(Student student, int studentID) {
+        String[] whereVal = {String.valueOf(studentID)};
+        ContentValues cv = new ContentValues();
+        cv.put(StudentTable.Cols.PROFILE_PICTURE, student.getImage());
+
+        int updated = db.update(StudentTable.NAME, cv, StudentTable.Cols.ID + " =?" , whereVal);
+        if (updated > 0 ) {
+            System.out.println("Profile pic updated");
+        } else {
+            System.out.println("Profile pic NOT UPDATED");
+        }
+    }
+
+    public void updateStudentPictureByUri(Student student, int studentID, Context context) throws IOException {
+        String[] whereVal = {String.valueOf(studentID)};
+        ContentValues cv = new ContentValues();
+        Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(),
+                Uri.parse(student.getPhotoURI());
+        byte[] image = Conversion.getBitmapAsByteArray(bitmap);
+        cv.put(StudentTable.Cols.PROFILE_PICTURE, image);
+
+        int updated = db.update(StudentTable.NAME, cv, StudentTable.Cols.ID + " =?" , whereVal);
+        if (updated > 0 ) {
+            System.out.println("Profile pic updated");
+        } else {
+            System.out.println("Profile pic NOT UPDATED");
         }
     }
 }

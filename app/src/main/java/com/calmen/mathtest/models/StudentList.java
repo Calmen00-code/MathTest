@@ -49,4 +49,28 @@ public class StudentList implements Serializable {
             }
         }
     }
+
+    public void updateStudentProfilePictureByByte(Context context, Student updateStudent) {
+        if (dbModel == null)
+            load(context);
+
+        for (Student student : students) {
+            if (student.getId() == updateStudent.getId()) {
+                student = updateStudent;
+                dbModel.updateStudentPictureByByte(student, student.getId());
+            }
+        }
+    }
+
+    public void updateStudentProfilePictureByURI(Context context, Student updateStudent) throws IOException {
+        if (dbModel == null)
+            load(context);
+
+        for (Student student : students) {
+            if (student.getId() == updateStudent.getId()) {
+                student = updateStudent;
+                dbModel.updateStudentPictureByUri(student, student.getId(), context);
+            }
+        }
+    }
 }

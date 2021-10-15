@@ -1,6 +1,7 @@
 package com.calmen.mathtest.view_list.recycler_view_student;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,8 @@ public class StudentListRecyclerAdapter extends RecyclerView.Adapter<StudentList
         if (student.getImage() != null) {
             Bitmap image = Conversion.convertImageFromByteToBitmap(student.getImage());
             holder.studentImageView.setImageBitmap(image);
+        } else {
+            holder.studentImageView.setImageURI(Uri.parse(student.getPhotoURI()));
         }
 
         holder.fullNameView.setText(student.getFirstname() + " " + student.getLastname());
