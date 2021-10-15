@@ -1,6 +1,7 @@
 package com.calmen.mathtest.take_test.recyler_view_student_test;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Student;
+import com.calmen.mathtest.online_service.LoadTestQuestion;
 import com.calmen.mathtest.shared.Conversion;
 import com.calmen.mathtest.view_list.recycler_view_student.StudentListViewHolder;
 
@@ -52,7 +54,9 @@ public class StudentTestRecyclerAdapter extends RecyclerView.Adapter<StudentTest
         holder.takeTestBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: action for viewing student details here
+                // Retrieve the test question details from online_service.LoadTestQuestion
+                Intent intent = new Intent(view.getContext(), LoadTestQuestion.class);
+                view.getContext().startActivity(intent);
             }
         });
     }
