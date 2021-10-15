@@ -13,6 +13,10 @@ import android.widget.TextView;
 
 import com.calmen.mathtest.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -26,6 +30,11 @@ public class LoadTestQuestion extends AppCompatActivity {
 
     public static final String BASE_URL = "https://10.0.2.2:8000/testwebservice/rest";
     private static final String TAG = "LoadTestQuestion";
+    public static final int NUM_ITEMS = 4; // The server returns only 4 items for the question
+    public static final int INDEX_FOR_QUESTIONS = 0;
+    public static final int INDEX_FOR_RESULT = 1;
+    public static final int INDEX_FOR_OPTIONS = 2;
+    public static final int INDEX_FOR_TIME_TO_SOLVE = 3;
 
     private ProgressBar progressBar;
     private TextView textArea;
@@ -119,8 +128,56 @@ public class LoadTestQuestion extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(String result) {
-            textArea.setText(result);
+            String[] items = parseResult(result);
+            String itemStr = "";
+
+            for (int i = 0; i < items.length; ++i) {
+                itemStr += items[i] + "\n";
+            }
+            textArea.setText(itemStr);
             progressBar.setVisibility(View.INVISIBLE);
+        }
+
+        /***
+         * @param result is in the form of JSON
+         * @return items that consists of all the attributes returned in JSON
+         */
+        private String[] parseResult(String result) {
+            System.out.println("result: " + result);
+            String[] items = new String[NUM_ITEMS];
+
+            try {
+                JSONObject jBase = new JSONObject(result);
+                for (int i = 0; i < NUM_ITEMS; ++i) {
+                    switch (i) {
+                        case INDEX_FOR_QUESTIONS:
+                            items[i] = jBase.getString("question");
+                            break;
+                        case INDEX_FOR_RESULT:
+                            items[i] = jBase.getString("result");
+                            break;
+                        case INDEX_FOR_OPTIONS:
+                            JSONArray optionsArr = jBase.getJSONArray("options");
+                            // if it is not manual input, then the options length is not 0
+                            if (optionsArr.length() == 0) {
+                                items[i] = "";
+                            } else {
+                                // Initialise the entry first so that we will not have null at the beginning
+                                items[i] = "";
+                                for (int ii = 0; ii < optionsArr.length(); ++ii) {
+                                    items[i] += optionsArr.getString(ii) + ",";
+                                }
+                            }
+                            break;
+                        case INDEX_FOR_TIME_TO_SOLVE:
+                            items[i] = jBase.getString("timetosolve");
+                            break;
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return items;
         }
     }
 
