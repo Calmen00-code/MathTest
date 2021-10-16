@@ -56,15 +56,8 @@ public class LoadTestQuestion extends AppCompatActivity {
         countdown = findViewById(R.id.timeCountdownView);
         question = findViewById(R.id.questionView);
 
-        /*
-        if (showQuestion) {
-            new DownloaderTask().execute();
-            showQuestion = !showQuestion;
-        }
-         */
-
         new DownloaderTask().execute();
-        next.setOnClickListener(new View.OnClickListener() {
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 new DownloaderTask().execute();
@@ -144,12 +137,9 @@ public class LoadTestQuestion extends AppCompatActivity {
             question.setText(items[0]);
 
             if (items[2].equals("")) {
-                submit.setVisibility(View.VISIBLE);
-
                 // User input answer using manual input if there is no option(s)
                 activateManualInput();
             } else {
-                submit.setVisibility(View.INVISIBLE);
                 String[] optionsArr = items[2].split(",");
 
             }
