@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.answer_mode.FragmentAnswerInputManual;
+import com.calmen.mathtest.answer_mode.FragmentSelectionDefault;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,6 +44,10 @@ public class LoadTestQuestion extends AppCompatActivity {
 
     Button endTest, prev, next, submit;
     TextView question, countdown;
+    String[] optionsArr;
+
+    FragmentManager fm = getSupportFragmentManager();
+    FragmentTransaction transaction = fm.beginTransaction();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +61,7 @@ public class LoadTestQuestion extends AppCompatActivity {
         countdown = findViewById(R.id.timeCountdownView);
         question = findViewById(R.id.questionView);
 
+        transaction.setReorderingAllowed(true); // allow replacing of a fragment to another fragment
         new DownloaderTask().execute();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,8 +146,26 @@ public class LoadTestQuestion extends AppCompatActivity {
                 // User input answer using manual input if there is no option(s)
                 activateManualInput();
             } else {
-                String[] optionsArr = items[2].split(",");
 
+                optionsArr = items[2].split(",");
+
+                // One fragment will fit for options less than 4
+                if (optionsArr.length < 4) {
+
+                    try {
+                        FragmentSelectionDefault fragment = (FragmentSelectionDefault)
+                                fm.findFragmentById(R.id.fragmentContainerView);
+                        if (fragment == null) {
+                            fragment = new FragmentSelectionDefault();
+                            transaction.add(R.id.fragmentContainerView, fragment).commit();
+                        }
+                    } catch (Exception e) {
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionDefault.class, null);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    }
+                }
             }
         }
 
@@ -194,9 +218,30 @@ public class LoadTestQuestion extends AppCompatActivity {
 
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            FragmentAnswerInputManual fragmentAnswerInputManual = new FragmentAnswerInputManual();
-            transaction.add(R.id.fragmentContainerView, fragmentAnswerInputManual).commit();
+
+            transaction.replace(R.id.fragmentContainerView, FragmentAnswerInputManual.class, null);
+            transaction.addToBackStack(null);
+            transaction.commit();
+
+            try {
+                FragmentAnswerInputManual fragmentAnswerInputManual = (FragmentAnswerInputManual)
+                        fm.findFragmentById(R.id.fragmentContainerView);
+
+                if (fragmentAnswerInputManual == null) {
+                    fragmentAnswerInputManual = new FragmentAnswerInputManual();
+                    transaction.add(R.id.fragmentContainerView, fragmentAnswerInputManual).commit();
+
+                }
+            } catch (Exception e) {
+                transaction = getSupportFragmentManager().beginTransaction();
+                transaction.replace(R.id.fragmentContainerView, FragmentAnswerInputManual.class, null);
+                transaction.addToBackStack(null);
+                transaction.commit();
+            }
         }
     }
 
+    public String[] getOptionsArr() {
+        return optionsArr;
+    }
 }
