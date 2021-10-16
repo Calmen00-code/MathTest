@@ -1,6 +1,9 @@
 package com.calmen.mathtest.online_service;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -12,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.calmen.mathtest.R;
+import com.calmen.mathtest.answer_mode.FragmentAnswerInputManual;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -128,10 +132,17 @@ public class LoadTestQuestion extends AppCompatActivity {
             String[] items = parseResult(result);
 
             question.setText(items[0]);
+
             if (items[2].equals("")) {
                 submit.setVisibility(View.INVISIBLE);
+            } else {
+                String[] optionsArr = items[2].split(",");
+
+                if (optionsArr.length == 0) {
+                    // User input answer using manual input if there is no option(s)
+                    activateManualInput();
+                }
             }
-            System.out.println(items[0]);
         }
 
         /***
@@ -174,6 +185,18 @@ public class LoadTestQuestion extends AppCompatActivity {
                 e.printStackTrace();
             }
             return items;
+        }
+
+        /***
+         * Change the answer mode as user manual input mode
+         */
+        public void activateManualInput() {
+            submit.setVisibility(View.VISIBLE);
+
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            FragmentAnswerInputManual fragmentAnswerInputManual = new FragmentAnswerInputManual();
+            transaction.add(R.id.fragmentContainerView, fragmentAnswerInputManual).commit();
         }
     }
 
