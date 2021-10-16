@@ -128,6 +128,9 @@ public class LoadTestQuestion extends AppCompatActivity {
             String[] items = parseResult(result);
 
             question.setText(items[0]);
+            if (items[2].equals("")) {
+                submit.setVisibility(View.INVISIBLE);
+            }
             System.out.println(items[0]);
         }
 
