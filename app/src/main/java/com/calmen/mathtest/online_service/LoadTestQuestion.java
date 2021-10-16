@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.GeneralSecurityException;
@@ -39,13 +40,16 @@ public class LoadTestQuestion extends AppCompatActivity {
     public static final int INDEX_FOR_RESULT = 1;
     public static final int INDEX_FOR_OPTIONS = 2;
     public static final int INDEX_FOR_TIME_TO_SOLVE = 3;
-    public static final int ENTRY_PER_COLUMN;
+    public static final int OPTIONS_PER_FRAGMENT = 4;
 
     Button endTest, prev, next, submit;
     TextView question, countdown;
     String[] optionsArr;
-    String[] optionsArrTwo;
-    String[] optionsArrThree;
+
+    // These are the options for each fragment, only 4 options will be displayed per fragment
+    ArrayList<String> optionsA;
+    ArrayList<String> optionsB;
+    ArrayList<String> optionsC;
 
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
@@ -170,7 +174,12 @@ public class LoadTestQuestion extends AppCompatActivity {
                 } else {
                     next.setVisibility(View.VISIBLE);
                     if (optionsArr.length >= 1 && optionsArr.length <= 8) {
-                        optionsArr =
+                        optionsA = splitList(optionsArr, 0);
+                        optionsB = splitList(optionsArr, 4);
+                    } else {
+                        optionsA = splitList(optionsArr, 0);
+                        optionsB = splitList(optionsArr, 4);
+                        optionsC = splitList(optionsArr, 8);
                     }
                 }
             }
@@ -241,8 +250,15 @@ public class LoadTestQuestion extends AppCompatActivity {
             }
         }
 
-        private String[] splitList(String[] options, int start) {
-            String[] newArr = new String[];
+        private ArrayList<String> splitList(String[] options, int start) {
+            ArrayList<String> newOptions;
+            int i = 0;
+            while (start < options.length && i < OPTIONS_PER_FRAGMENT) {
+                newOptions.add(options[start]);
+                ++start;
+                ++i;
+            }
+            return newOptions;
         }
 
     }
