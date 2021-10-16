@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.answer_mode.FragmentAnswerInputManual;
-import com.calmen.mathtest.answer_mode.FragmentSelectionA;
+import com.calmen.mathtest.answer_mode.FragmentSelectionDefault;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,11 +23,11 @@ import org.json.JSONObject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -44,7 +44,7 @@ public class LoadTestQuestion extends AppCompatActivity {
 
     Button endTest, prev, next, submit;
     TextView question, countdown;
-    String[] optionsArr;
+    ArrayList<String> options;
 
     // These are the options for each fragment, only 4 options will be displayed per fragment
     ArrayList<String> optionsA;
@@ -152,34 +152,35 @@ public class LoadTestQuestion extends AppCompatActivity {
                 activateManualInput();
             } else {
 
-                optionsArr = items[2].split(",");
+                String[] optionsArr = items[2].split(",");
+                options = new ArrayList<>(Arrays.asList(optionsArr));
 
                 // One fragment will fit for options less than 4
-                if (optionsArr.length < 4) {
+                if (options.size() < 4) {
                     next.setVisibility(View.INVISIBLE);
                     prev.setVisibility(View.INVISIBLE);
                     try {
-                        FragmentSelectionA fragment = (FragmentSelectionA)
+                        FragmentSelectionDefault fragment = (FragmentSelectionDefault)
                                 fm.findFragmentById(R.id.fragmentContainerView);
                         if (fragment == null) {
-                            fragment = new FragmentSelectionA();
+                            fragment = new FragmentSelectionDefault();
                             transaction.add(R.id.fragmentContainerView, fragment).commit();
                         }
                     } catch (Exception e) {
                         transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionA.class, null);
+                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionDefault.class, null);
                         transaction.addToBackStack(null);
                         transaction.commit();
                     }
                 } else {
                     next.setVisibility(View.VISIBLE);
-                    if (optionsArr.length >= 1 && optionsArr.length <= 8) {
-                        optionsA = splitList(optionsArr, 0);
-                        optionsB = splitList(optionsArr, 4);
+                    if (options.size() >= 1 && options.size() <= 8) {
+                        optionsA = splitList(options, 0);
+                        optionsB = splitList(options, 4);
                     } else {
-                        optionsA = splitList(optionsArr, 0);
-                        optionsB = splitList(optionsArr, 4);
-                        optionsC = splitList(optionsArr, 8);
+                        optionsA = splitList(options, 0);
+                        optionsB = splitList(options, 4);
+                        optionsC = splitList(options, 8);
                     }
                 }
             }
@@ -250,11 +251,11 @@ public class LoadTestQuestion extends AppCompatActivity {
             }
         }
 
-        private ArrayList<String> splitList(String[] options, int start) {
-            ArrayList<String> newOptions;
+        private ArrayList<String> splitList(ArrayList<String> options, int start) {
+            ArrayList<String> newOptions = new ArrayList<>();
             int i = 0;
-            while (start < options.length && i < OPTIONS_PER_FRAGMENT) {
-                newOptions.add(options[start]);
+            while (start < options.size() && i < OPTIONS_PER_FRAGMENT) {
+                newOptions.add(options.get(start));
                 ++start;
                 ++i;
             }
@@ -263,7 +264,19 @@ public class LoadTestQuestion extends AppCompatActivity {
 
     }
 
-    public String[] getOptionsArr() {
-        return optionsArr;
+    public ArrayList<String> getOptionsArr() {
+        return options;
+    }
+
+    public ArrayList<String> getOptionsA() {
+        return optionsA;
+    }
+
+    public ArrayList<String> getOptionsB() {
+        return optionsB;
+    }
+
+    public ArrayList<String> getOptionsC() {
+        return optionsC;
     }
 }

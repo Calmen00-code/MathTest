@@ -3,10 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".answer_mode.FragmentSelectionA">
+    tools:context=".answer_mode.FragmentSelectionB">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerFragA"
+        android:id="@+id/recyclerFragB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

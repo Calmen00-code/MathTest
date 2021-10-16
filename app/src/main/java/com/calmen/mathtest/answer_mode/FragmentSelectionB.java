@@ -16,10 +16,10 @@ import com.calmen.mathtest.online_service.LoadTestQuestion;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link FragmentSelectionA#newInstance} factory method to
+ * Use the {@link FragmentSelectionB#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class FragmentSelectionA extends Fragment {
+public class FragmentSelectionB extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,7 +30,7 @@ public class FragmentSelectionA extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public FragmentSelectionA() {
+    public FragmentSelectionB() {
         // Required empty public constructor
     }
 
@@ -40,11 +40,11 @@ public class FragmentSelectionA extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment FragmentSelectionA.
+     * @return A new instance of fragment FragmentSelectionB.
      */
     // TODO: Rename and change types and number of parameters
-    public static FragmentSelectionA newInstance(String param1, String param2) {
-        FragmentSelectionA fragment = new FragmentSelectionA();
+    public static FragmentSelectionB newInstance(String param1, String param2) {
+        FragmentSelectionB fragment = new FragmentSelectionB();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,8 +64,8 @@ public class FragmentSelectionA extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_selection_a, container, false);
-        RecyclerView rv = view.findViewById(R.id.recyclerFragA);
+        View view = inflater.inflate(R.layout.fragment_selection_b, container, false);
+        RecyclerView rv = view.findViewById(R.id.recyclerFragB);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerOptionAdapter recyclerAdapter =
                 new RecyclerOptionAdapter(((LoadTestQuestion) getActivity()).getOptionsArr());

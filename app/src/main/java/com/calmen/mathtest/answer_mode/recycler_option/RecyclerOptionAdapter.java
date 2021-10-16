@@ -13,9 +13,9 @@ import java.util.ArrayList;
 
 public class RecyclerOptionAdapter extends RecyclerView.Adapter<RecyclerOptionViewHolder> {
 
-    String[] options;
+    ArrayList<String> options;
 
-    public RecyclerOptionAdapter(String[] inOptions) {
+    public RecyclerOptionAdapter(ArrayList<String> inOptions) {
         this.options = inOptions;
     }
 
@@ -30,7 +30,7 @@ public class RecyclerOptionAdapter extends RecyclerView.Adapter<RecyclerOptionVi
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerOptionViewHolder holder, int position) {
-        String singleOption = options[position];
+        String singleOption = options.get(position);
 
         holder.answer.setText(singleOption);
 
@@ -44,6 +44,6 @@ public class RecyclerOptionAdapter extends RecyclerView.Adapter<RecyclerOptionVi
 
     @Override
     public int getItemCount() {
-        return options.length;
+        return options.size();
     }
 }
