@@ -1,7 +1,6 @@
 package com.calmen.mathtest.online_service;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -11,12 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.answer_mode.FragmentAnswerInputManual;
-import com.calmen.mathtest.answer_mode.FragmentSelectionDefault;
+import com.calmen.mathtest.answer_mode.FragmentSelectionA;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,6 +26,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -40,11 +39,13 @@ public class LoadTestQuestion extends AppCompatActivity {
     public static final int INDEX_FOR_RESULT = 1;
     public static final int INDEX_FOR_OPTIONS = 2;
     public static final int INDEX_FOR_TIME_TO_SOLVE = 3;
-    public static boolean showQuestion = true;
+    public static final int ENTRY_PER_COLUMN;
 
     Button endTest, prev, next, submit;
     TextView question, countdown;
     String[] optionsArr;
+    String[] optionsArrTwo;
+    String[] optionsArrThree;
 
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
@@ -151,19 +152,25 @@ public class LoadTestQuestion extends AppCompatActivity {
 
                 // One fragment will fit for options less than 4
                 if (optionsArr.length < 4) {
-
+                    next.setVisibility(View.INVISIBLE);
+                    prev.setVisibility(View.INVISIBLE);
                     try {
-                        FragmentSelectionDefault fragment = (FragmentSelectionDefault)
+                        FragmentSelectionA fragment = (FragmentSelectionA)
                                 fm.findFragmentById(R.id.fragmentContainerView);
                         if (fragment == null) {
-                            fragment = new FragmentSelectionDefault();
+                            fragment = new FragmentSelectionA();
                             transaction.add(R.id.fragmentContainerView, fragment).commit();
                         }
                     } catch (Exception e) {
                         transaction = getSupportFragmentManager().beginTransaction();
-                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionDefault.class, null);
+                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionA.class, null);
                         transaction.addToBackStack(null);
                         transaction.commit();
+                    }
+                } else {
+                    next.setVisibility(View.VISIBLE);
+                    if (optionsArr.length >= 1 && optionsArr.length <= 8) {
+                        optionsArr =
                     }
                 }
             }
@@ -215,14 +222,8 @@ public class LoadTestQuestion extends AppCompatActivity {
          * Change the answer mode as user manual input mode
          */
         public void activateManualInput() {
-
-            FragmentManager fm = getSupportFragmentManager();
-            FragmentTransaction transaction = fm.beginTransaction();
-
-            transaction.replace(R.id.fragmentContainerView, FragmentAnswerInputManual.class, null);
-            transaction.addToBackStack(null);
-            transaction.commit();
-
+            next.setVisibility(View.INVISIBLE);
+            prev.setVisibility(View.INVISIBLE);
             try {
                 FragmentAnswerInputManual fragmentAnswerInputManual = (FragmentAnswerInputManual)
                         fm.findFragmentById(R.id.fragmentContainerView);
@@ -239,6 +240,11 @@ public class LoadTestQuestion extends AppCompatActivity {
                 transaction.commit();
             }
         }
+
+        private String[] splitList(String[] options, int start) {
+            String[] newArr = new String[];
+        }
+
     }
 
     public String[] getOptionsArr() {
