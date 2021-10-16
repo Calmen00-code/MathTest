@@ -35,31 +35,27 @@ public class LoadTestQuestion extends AppCompatActivity {
     public static final int INDEX_FOR_RESULT = 1;
     public static final int INDEX_FOR_OPTIONS = 2;
     public static final int INDEX_FOR_TIME_TO_SOLVE = 3;
+    public static boolean showQuestion = true;
 
-    private ProgressBar progressBar;
-    private TextView textArea;
+    Button endTest, prev, next, submit;
+    TextView question, countdown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_load_test_question);
 
-        textArea = findViewById(R.id.textArea);
+        endTest = findViewById(R.id.endTestBtn);
+        prev = findViewById(R.id.prevOptBtn);
+        next = findViewById(R.id.nextOptBtn);
+        submit = findViewById(R.id.submitManualBtn);
+        countdown = findViewById(R.id.timeCountdownView);
+        question = findViewById(R.id.questionView);
 
-        progressBar = findViewById(R.id.progressBar);
-        progressBar.setVisibility(View.INVISIBLE);
-
-        Button downloadBtn = findViewById(R.id.downloadBtn);
-        downloadBtn.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                progressBar.setVisibility(View.VISIBLE);
-                progressBar.setIndeterminate(true);
-                new DownloaderTask().execute();
-            }
-        });
+        if (showQuestion) {
+            new DownloaderTask().execute();
+            showQuestion = !showQuestion;
+        }
     }
 
     private class DownloaderTask extends AsyncTask<Void, Integer, String> {
@@ -98,7 +94,6 @@ public class LoadTestQuestion extends AppCompatActivity {
                     InputStream is = connection.getInputStream();
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-                    int totalBytesRead = 0;
                     int bytesRead = 0;
                     byte[] buffer = new byte[1024];
                     bytesRead = is.read(buffer);
@@ -121,21 +116,19 @@ public class LoadTestQuestion extends AppCompatActivity {
 
         @Override
         protected void onProgressUpdate(Integer... values) {
+            /*
             progressBar.setIndeterminate(false);
             progressBar.setMax(totalBytes);
             progressBar.setProgress(values[0]);
+             */
         }
 
         @Override
         protected void onPostExecute(String result) {
             String[] items = parseResult(result);
-            String itemStr = "";
 
-            for (int i = 0; i < items.length; ++i) {
-                itemStr += items[i] + "\n";
-            }
-            textArea.setText(itemStr);
-            progressBar.setVisibility(View.INVISIBLE);
+            question.setText(items[0]);
+            System.out.println(items[0]);
         }
 
         /***
