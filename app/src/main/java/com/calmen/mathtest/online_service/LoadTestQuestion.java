@@ -54,10 +54,6 @@ public class LoadTestQuestion extends AppCompatActivity {
     private static int fragmentSize = -1;
     public static int index = 0;    // index used to switch between fragment
 
-    Button endTest, prev, next, submit;
-    TextView question, countdown, answer;
-    ArrayList<String> options;
-
     // These are the options for each fragment, only 4 options will be displayed per fragment
     ArrayList<String> optionsA = new ArrayList<>();
     ArrayList<String> optionsB = new ArrayList<>();
@@ -65,6 +61,11 @@ public class LoadTestQuestion extends AppCompatActivity {
 
     FragmentManager fm = getSupportFragmentManager();
     FragmentTransaction transaction = fm.beginTransaction();
+
+    Button endTest, prev, next, submit;
+    TextView question, countdown, answer;
+    ArrayList<String> options;
+    String correctAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,11 +93,19 @@ public class LoadTestQuestion extends AppCompatActivity {
                     Toast.makeText(LoadTestQuestion.this, "Answer is not chosen yet!",
                             Toast.LENGTH_SHORT).show();
                 } else {
-                    // reset the condition for fragmentSize as the option for next question may be
+                    // reset the condition for fragmentSize if the current options uses multiple fragment
+                    // as the option for next question may be
                     // INPUT MANUALLY or OPTIONS THAT ONLY FIT FOR ONE FRAGMENT
                     if (fragmentSize != -1) {
                         fragmentSize = -1;
                     }
+
+                    if (correctAnswer.equals(answer.getText())) {
+                        System.out.println("+10");
+                    } else {
+                        System.out.println("-10");
+                    }
+
                     answer.setText(""); // reset it
                     new DownloaderTask().execute();
                 }
@@ -236,6 +245,7 @@ public class LoadTestQuestion extends AppCompatActivity {
             String[] items = parseResult(result);
 
             question.setText(items[0]);
+            correctAnswer = items[1];
 
             if (items[2].equals("")) {
                 // User input answer using manual input if there is no option(s)

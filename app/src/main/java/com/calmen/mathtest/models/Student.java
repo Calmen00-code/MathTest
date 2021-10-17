@@ -17,6 +17,7 @@ public class Student implements Serializable {
     private EmailList emailList;
     private PhoneNumberList phoneNumberList;
     private byte[] image; // used only for retrieving the image in DB
+    String mark;
 
     // Call when creating/registering a new student in ContactRegistration OR
     // Call when creating/registering a new student in ManualRegistration when Browse Photo selected
