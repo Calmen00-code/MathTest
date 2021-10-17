@@ -30,9 +30,9 @@ public class ViewStudentDetails extends AppCompatActivity {
         String timeSpent = getIntent().getStringExtra("TimeSpent");
 
         dateView.setText(date);
-        scoreView.setText(score);
-        timeView.setText(time);
-        timeSpentView.setText(timeSpent);
+        scoreView.setText("Score: " + score);
+        timeView.setText("Time: " + time);
+        timeSpentView.setText("Time Spent: " + timeSpent);
 
         done.setOnClickListener(new View.OnClickListener() {
             @Override
