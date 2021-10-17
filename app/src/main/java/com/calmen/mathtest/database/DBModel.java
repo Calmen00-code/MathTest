@@ -216,6 +216,22 @@ public class DBModel {
         }
     }
 
+    public void updateStudentTestResult(Student student, int studentID, Context context) throws IOException {
+        String[] whereVal = {String.valueOf(studentID)};
+        ContentValues cv = new ContentValues();
+        cv.put(StudentTable.Cols.DATE, student.getDate());
+        cv.put(StudentTable.Cols.MARK, student.getScore());
+        cv.put(StudentTable.Cols.TIME, student.getTime());
+        cv.put(StudentTable.Cols.TIME_SPENT, student.getTimeSpent());
+
+        int updated = db.update(StudentTable.NAME, cv, StudentTable.Cols.ID + " =?" , whereVal);
+        if (updated > 0 ) {
+            System.out.println("Student Test Result updated");
+        } else {
+            System.out.println("Student Test Result NOT UPDATED");
+        }
+    }
+
     public void removeStudent(Student student) {
         // ID is unique
         String[] whereVal = {String.valueOf(student.getId())};

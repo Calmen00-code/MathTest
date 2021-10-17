@@ -56,6 +56,7 @@ public class StudentTestRecyclerAdapter extends RecyclerView.Adapter<StudentTest
             public void onClick(View view) {
                 // Retrieve the test question details from online_service.LoadTestQuestion
                 Intent intent = new Intent(view.getContext(), LoadTestQuestion.class);
+                intent.putExtra("Student", student);
                 view.getContext().startActivity(intent);
             }
         });

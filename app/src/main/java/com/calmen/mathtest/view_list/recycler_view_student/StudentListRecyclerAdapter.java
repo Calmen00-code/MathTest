@@ -1,5 +1,7 @@
 package com.calmen.mathtest.view_list.recycler_view_student;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -12,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.shared.Conversion;
+import com.calmen.mathtest.view_list.ViewStudentDetails;
 
 import java.nio.file.attribute.UserDefinedFileAttributeView;
 import java.util.ArrayList;
@@ -49,7 +52,13 @@ public class StudentListRecyclerAdapter extends RecyclerView.Adapter<StudentList
         holder.viewBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: action for viewing student details here
+                Intent intent = new Intent(view.getContext(), ViewStudentDetails.class);
+                intent.putExtra("Date", student.getDate());
+                intent.putExtra("Score", student.getScore());
+                intent.putExtra("Time", student.getTime());
+                intent.putExtra("TimeSpent", student.getTimeSpent());
+                view.getContext().startActivity(intent);
+                ((Activity) view.getContext()).finish();
             }
         });
     }

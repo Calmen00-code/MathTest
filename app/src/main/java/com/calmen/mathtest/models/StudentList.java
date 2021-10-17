@@ -74,10 +74,41 @@ public class StudentList implements Serializable {
         }
     }
 
+    public void updateStudentTestResult(Context context, Student updateStudent) throws IOException {
+        if (dbModel == null)
+            load(context);
+
+        for (Student student : students) {
+            if (student.getId() == updateStudent.getId()) {
+                student = updateStudent;
+                dbModel.updateStudentTestResult(student, student.getId(), context);
+            }
+        }
+    }
+
     public void removeStudent(Student student, Context context) {
         if (dbModel == null)
             load(context);
 
         dbModel.removeStudent(student);
+    }
+
+
+    /***
+     * @param id the reference which determines the number to be retrieved
+     * @param context needed for load(context) to communicate with DB
+     * @return student allocated to the particular student determine by ID
+     */
+    public Student getStudentByID(int id, Context context) {
+        if (dbModel == null) {
+            load(context);
+        }
+
+        for (Student student: students) {
+            if (student.getId() == id) {
+                return student;
+            }
+        }
+        return null;
     }
 }

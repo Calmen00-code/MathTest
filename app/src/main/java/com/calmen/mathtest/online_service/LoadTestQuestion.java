@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import com.calmen.mathtest.answer_mode.FragmentSelectionA;
 import com.calmen.mathtest.answer_mode.FragmentSelectionB;
 import com.calmen.mathtest.answer_mode.FragmentSelectionC;
 import com.calmen.mathtest.answer_mode.FragmentSelectionDefault;
+import com.calmen.mathtest.models.Student;
+import com.calmen.mathtest.models.StudentList;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,8 +33,12 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -66,6 +73,7 @@ public class LoadTestQuestion extends AppCompatActivity {
     TextView question, countdown, answer;
     ArrayList<String> options;
     String correctAnswer;
+    int score = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +87,8 @@ public class LoadTestQuestion extends AppCompatActivity {
         countdown = findViewById(R.id.timeCountdownView);
         question = findViewById(R.id.questionView);
         answer = findViewById(R.id.chosenAnswerView);
+
+        Student student = (Student) getIntent().getSerializableExtra("Student");
 
         // Initial state is invisible unless there are options for next and prev
         prev.setVisibility(View.INVISIBLE);
@@ -101,14 +111,46 @@ public class LoadTestQuestion extends AppCompatActivity {
                     }
 
                     if (correctAnswer.equals(answer.getText())) {
-                        System.out.println("+10");
+                        score += 10;
+                        System.out.println("Current Mark: " + score);
                     } else {
-                        System.out.println("-10");
+                        score -= 5;
+                        System.out.println("Current Mark: " + score);
                     }
 
                     answer.setText(""); // reset it
                     new DownloaderTask().execute();
                 }
+            }
+        });
+
+        endTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /***
+                 * Date formatter code reference to the code written by
+                 * @Miciurash
+                 * at https://stackoverflow.com/questions/8654990/how-can-i-get-current-date-in-android/15698784
+                 */
+                // format for date
+                Date date = Calendar.getInstance().getTime();
+                SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+                String formattedDate = df.format(date);
+
+                // format for time
+                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+
+                Student updateStudent = new Student(student.getFirstname(), student.getLastname(), student.getId(),
+                        formattedDate, score, currentTime, "", student.getImage(),
+                        student.getEmailList(), student.getPhoneNumberList());
+
+                StudentList studentList = new StudentList();
+                try {
+                    studentList.updateStudentTestResult(view.getContext(), updateStudent);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                ((Activity) view.getContext()).finish();
             }
         });
 
