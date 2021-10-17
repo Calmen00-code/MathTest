@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.answer_mode.FragmentAnswerInputManual;
@@ -54,7 +55,7 @@ public class LoadTestQuestion extends AppCompatActivity {
     public static int index = 0;    // index used to switch between fragment
 
     Button endTest, prev, next, submit;
-    TextView question, countdown;
+    TextView question, countdown, answer;
     ArrayList<String> options;
 
     // These are the options for each fragment, only 4 options will be displayed per fragment
@@ -76,6 +77,7 @@ public class LoadTestQuestion extends AppCompatActivity {
         submit = findViewById(R.id.submitManualBtn);
         countdown = findViewById(R.id.timeCountdownView);
         question = findViewById(R.id.questionView);
+        answer = findViewById(R.id.chosenAnswerView);
 
         // Initial state is invisible unless there are options for next and prev
         prev.setVisibility(View.INVISIBLE);
@@ -86,12 +88,17 @@ public class LoadTestQuestion extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // reset the condition for fragmentSize as the option for next question may be
-                // INPUT MANUALLY or OPTIONS THAT ONLY FIT FOR ONE FRAGMENT
-                if (fragmentSize != -1) {
-                    fragmentSize = -1;
+                if (answer.getText().toString().equals("")) {
+                    Toast.makeText(LoadTestQuestion.this, "Answer is not chosen yet!",
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    // reset the condition for fragmentSize as the option for next question may be
+                    // INPUT MANUALLY or OPTIONS THAT ONLY FIT FOR ONE FRAGMENT
+                    if (fragmentSize != -1) {
+                        fragmentSize = -1;
+                    }
+                    new DownloaderTask().execute();
                 }
-                new DownloaderTask().execute();
             }
         });
 
@@ -386,5 +393,9 @@ public class LoadTestQuestion extends AppCompatActivity {
 
     public ArrayList<String> getOptionsC() {
         return optionsC;
+    }
+
+    public TextView getAnswer() {
+        return answer;
     }
 }
