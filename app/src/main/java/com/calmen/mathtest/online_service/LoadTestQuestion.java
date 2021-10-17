@@ -97,6 +97,7 @@ public class LoadTestQuestion extends AppCompatActivity {
                     if (fragmentSize != -1) {
                         fragmentSize = -1;
                     }
+                    answer.setText(""); // reset it
                     new DownloaderTask().execute();
                 }
             }
