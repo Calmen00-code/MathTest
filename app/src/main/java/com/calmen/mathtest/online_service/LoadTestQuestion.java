@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -23,6 +24,7 @@ import com.calmen.mathtest.answer_mode.FragmentSelectionC;
 import com.calmen.mathtest.answer_mode.FragmentSelectionDefault;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.models.StudentList;
+import com.calmen.mathtest.timer.CountdownTimer;
 import com.calmen.mathtest.view_list.ViewStudentDetails;
 
 import org.json.JSONArray;
@@ -72,10 +74,13 @@ public class LoadTestQuestion extends AppCompatActivity {
     FragmentTransaction transaction = fm.beginTransaction();
 
     Button endTest, prev, next, submit;
-    TextView question, countdown, answer;
+    TextView question, countdownView, answer;
     ArrayList<String> options;
+    CountDownTimer countDownTimer;
     private String correctAnswer;
     private int score = 0;
+    private long timeLeftInMilliSeconds;
+    private int timeVal;
     private int timeSpent = 0;
     private int timeSpentPerQuestion = 0;
 
@@ -88,7 +93,7 @@ public class LoadTestQuestion extends AppCompatActivity {
         prev = findViewById(R.id.prevOptBtn);
         next = findViewById(R.id.nextOptBtn);
         submit = findViewById(R.id.submitManualBtn);
-        countdown = findViewById(R.id.timeCountdownView);
+        countdownView = findViewById(R.id.timeCountdownView);
         question = findViewById(R.id.questionView);
         answer = findViewById(R.id.chosenAnswerView);
 
@@ -312,6 +317,35 @@ public class LoadTestQuestion extends AppCompatActivity {
                 // Use option selected answer if there is more than one option
                 activateOptionInput(items);
             }
+
+            timeVal = Integer.parseInt(items[3]);
+            timeLeftInMilliSeconds = timeVal * 1000;
+            startTimer();
+        }
+
+        public void startTimer() {
+            countDownTimer = new CountDownTimer(timeLeftInMilliSeconds, 1000) {
+                @Override
+                public void onTick(long l) {
+                    timeLeftInMilliSeconds = l;
+                    updateTimer();
+                }
+
+                @Override
+                public void onFinish() {
+                    // TODO: finish time operation here
+                    System.out.println("DONE");
+                }
+            }.start();
+        }
+
+        public void updateTimer() {
+            int seconds = (int) timeLeftInMilliSeconds % 600000 / 1000;
+
+            String timeLeftText = "";
+
+            timeLeftText += seconds;
+            countdownView.setText(timeLeftText);
         }
 
         /***
