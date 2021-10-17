@@ -17,15 +17,16 @@ public class Student implements Serializable {
     private EmailList emailList;
     private PhoneNumberList phoneNumberList;
     private byte[] image; // used only for retrieving the image in DB
-    String mark;
+    String totalMark;
 
     // Call when creating/registering a new student in ContactRegistration OR
     // Call when creating/registering a new student in ManualRegistration when Browse Photo selected
-    public Student(String inFirstname, String inLastname, int inId, String inPhotoURI,
+    public Student(String inFirstname, String inLastname, int inId, String inTotalMark, String inPhotoURI,
                    EmailList inEmailList, PhoneNumberList inPhoneNumberList) {
         this.firstname = inFirstname;
         this.lastname = inLastname;
         this.id = inId;
+        this.totalMark = inTotalMark;
         this.photoURI = inPhotoURI;
         this.emailList = inEmailList;
         this.phoneNumberList = inPhoneNumberList;
@@ -33,11 +34,12 @@ public class Student implements Serializable {
 
     // Call in DBCursor when retrieving the list of student OR
     // Call in ManualRegistration when Browse photo online / Take live photo as profile picture
-    public Student(String inFirstname, String inLastname, int inId, byte[] inImage,
+    public Student(String inFirstname, String inLastname, int inId, String inTotalMark, byte[] inImage,
                    EmailList inEmailList, PhoneNumberList inPhoneNumberList) {
         this.firstname = inFirstname;
         this.lastname = inLastname;
         this.id = inId;
+        this.totalMark = inTotalMark;
         this.image = inImage;
         this.emailList = inEmailList;
         this.phoneNumberList = inPhoneNumberList;
@@ -69,5 +71,9 @@ public class Student implements Serializable {
 
     public byte[] getImage() {
         return image;
+    }
+
+    public String getTotalMark() {
+        return totalMark;
     }
 }

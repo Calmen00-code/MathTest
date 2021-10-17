@@ -20,6 +20,7 @@ public class DBCursor extends CursorWrapper {
         String firstname = getString(getColumnIndex(StudentTable.Cols.FIRST_NAME));
         String lastname = getString(getColumnIndex(StudentTable.Cols.LAST_NAME));
         int id = getInt(getColumnIndex(StudentTable.Cols.ID));
+        String mark = getString(getColumnIndex(StudentTable.Cols.MARK));
         byte[] image = getBlob(getColumnIndex(StudentTable.Cols.PROFILE_PICTURE));
 
         // load the existing phone number list from DB
@@ -48,7 +49,7 @@ public class DBCursor extends CursorWrapper {
             }
         }
 
-        return new Student(firstname, lastname, id, image, emailList, phoneNumberList);
+        return new Student(firstname, lastname, id, mark, image, emailList, phoneNumberList);
     }
 
     public PhoneNumber getPhoneNumber() {
