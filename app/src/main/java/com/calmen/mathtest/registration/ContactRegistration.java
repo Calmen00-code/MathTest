@@ -191,7 +191,7 @@ public class ContactRegistration extends AppCompatActivity {
         if (requestCode == REQUEST_CONTACT && resultCode == RESULT_OK) {
             Uri contactUri = data.getData();
             // Query the special ID of the contact created by the system
-            String[] queryFields = new String[]{
+            String[] queryFields = new String[] {
                     ContactsContract.Contacts._ID
             };
             Cursor cursor = getContentResolver().query(

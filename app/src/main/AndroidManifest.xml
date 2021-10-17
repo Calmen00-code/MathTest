@@ -15,6 +15,12 @@
         android:theme="@style/Theme.MathTest"
         android:usesCleartextTraffic="true">
         <activity
+            android:name=".test_history.ViewTestHistory"
+            android:exported="true" />
+        <activity
+            android:name=".test_history.TestHistory"
+            android:exported="true" />
+        <activity
             android:name=".timer.CountdownTimer"
             android:exported="true" />
         <activity

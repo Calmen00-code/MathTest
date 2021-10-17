@@ -2,6 +2,8 @@ package com.calmen.mathtest;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.accessibilityservice.AccessibilityService;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.Button;
 import com.calmen.mathtest.delete_student.DeleteStudent;
 import com.calmen.mathtest.edit_list.EditStudents;
 import com.calmen.mathtest.take_test.StudentSelection;
+import com.calmen.mathtest.test_history.TestHistory;
 import com.calmen.mathtest.view_list.ViewStudents;
 import com.calmen.mathtest.models.Email;
 import com.calmen.mathtest.models.EmailList;
@@ -23,7 +26,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button registerStudent, takeTest, viewStudent, editStudent, deleteStudent;
+    Button registerStudent, takeTest, viewStudent, editStudent, deleteStudent, history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         viewStudent = findViewById(R.id.viewStudentBtn);
         editStudent = findViewById(R.id.editStudentBtn);
         deleteStudent = findViewById(R.id.deleteStudentBtn);
+        history = findViewById(R.id.testHistoryBtn);
 
         registerStudent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,5 +106,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, TestHistory.class);
+                startActivity(intent);
+            }
+        });
     }
 }
