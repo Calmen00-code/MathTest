@@ -22,7 +22,10 @@ public class DBHelper extends SQLiteOpenHelper {
                 StudentTable.Cols.FIRST_NAME + " TEXT," +
                 StudentTable.Cols.LAST_NAME + " TEXT," +
                 StudentTable.Cols.ID + " INTEGER," +
-                StudentTable.Cols.MARK + " TEXT," +
+                StudentTable.Cols.MARK + " INTEGER," +
+                StudentTable.Cols.TIME + " TEXT," +
+                StudentTable.Cols.TIME_SPENT + " TEXT," +
+                StudentTable.Cols.DATE + " TEXT," +
                 StudentTable.Cols.PROFILE_PICTURE + " BLOB);");
 
         db.execSQL("CREATE TABLE " + PhoneNumberTable.NAME + "(" +

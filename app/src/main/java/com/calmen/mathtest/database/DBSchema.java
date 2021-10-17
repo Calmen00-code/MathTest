@@ -9,6 +9,9 @@ public class DBSchema {
             public static final String ID = "id";
             public static final String PROFILE_PICTURE = "profilepic";
             public static final String MARK = "mark";
+            public static final String DATE = "date";
+            public static final String TIME = "time";
+            public static final String TIME_SPENT = "timespent";
         }
     }
 
