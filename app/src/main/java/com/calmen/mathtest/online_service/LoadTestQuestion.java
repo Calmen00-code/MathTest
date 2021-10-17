@@ -77,11 +77,12 @@ public class LoadTestQuestion extends AppCompatActivity {
     TextView question, countdownView, answer;
     ArrayList<String> options;
     CountDownTimer countDownTimer;
+    private String timeLeftText;
     private String correctAnswer;
     private int score = 0;
     private long timeLeftInMilliSeconds;
     private int timeVal = 0;
-    private int timeSpent = 0;
+    private int totalTimeSpent = 0;
     private int timeSpentPerQuestion = 0;
 
     @Override
@@ -128,6 +129,7 @@ public class LoadTestQuestion extends AppCompatActivity {
                     System.out.println("Current Mark: " + score);
 
                     answer.setText(""); // reset it
+                    totalTimeSpent += timeVal - Integer.parseInt(timeLeftText);
                     new DownloaderTask().execute();
                 }
             }
@@ -155,10 +157,9 @@ public class LoadTestQuestion extends AppCompatActivity {
                 System.out.println("getTimeSpent: " + student.getTimeSpent());
 
                 if (student.getTimeSpent().equals("")) {
-                    latestTimeSpent += timeSpent;
+                    latestTimeSpent += totalTimeSpent;
                 } else {
-                    latestTimeSpent = timeSpent +
-                            String.valueOf(Integer.parseInt(student.getTimeSpent()));
+                    latestTimeSpent = String.valueOf(totalTimeSpent + Integer.parseInt(student.getTimeSpent()));
                 }
                 Student updateStudent = new Student(student.getFirstname(), student.getLastname(), student.getId(),
                         formattedDate, latestScore, currentTime, latestTimeSpent, student.getImage(),
@@ -344,6 +345,7 @@ public class LoadTestQuestion extends AppCompatActivity {
                 @Override
                 public void onFinish() {
                     System.out.println("Current Mark: " + score);
+                    totalTimeSpent += timeVal - Integer.parseInt(timeLeftText);
                     new DownloaderTask().execute();
                     countDownTimer.cancel();
                 }
@@ -353,7 +355,7 @@ public class LoadTestQuestion extends AppCompatActivity {
         public void updateTimer() {
             int seconds = (int) timeLeftInMilliSeconds % 600000 / 1000;
 
-            String timeLeftText = "";
+            timeLeftText = "";
 
             timeLeftText += seconds;
             countdownView.setText(timeLeftText);
@@ -454,10 +456,14 @@ public class LoadTestQuestion extends AppCompatActivity {
                         transaction.add(R.id.fragmentContainerView, fragment).commit();
                     }
                 } catch (Exception e) {
-                    transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainerView, FragmentSelectionDefault.class, null);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    try {
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionDefault.class, null);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
                 }
             } else {    // Fragment with NEXT and PREV for options
                 next.setVisibility(View.VISIBLE);
@@ -483,10 +489,14 @@ public class LoadTestQuestion extends AppCompatActivity {
                     }
                 } catch (Exception e) {
                     // Check if the transaction was occupied by others
-                    transaction = getSupportFragmentManager().beginTransaction();
-                    transaction.replace(R.id.fragmentContainerView, FragmentSelectionA.class, null);
-                    transaction.addToBackStack(null);
-                    transaction.commit();
+                    try {
+                        transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.fragmentContainerView, FragmentSelectionA.class, null);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    } catch (Exception e2) {
+                        e2.printStackTrace();
+                    }
                 }
             }
         }
