@@ -57,6 +57,7 @@ public class StudentTestRecyclerAdapter extends RecyclerView.Adapter<StudentTest
                 // Retrieve the test question details from online_service.LoadTestQuestion
                 Intent intent = new Intent(view.getContext(), LoadTestQuestion.class);
                 intent.putExtra("Student", student);
+                System.out.println("Student time spent in adapter: " + student.getTimeSpent());
                 view.getContext().startActivity(intent);
             }
         });

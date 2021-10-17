@@ -32,6 +32,10 @@ public class DBModel {
         cv.put(StudentTable.Cols.FIRST_NAME, student.getFirstname());
         cv.put(StudentTable.Cols.LAST_NAME, student.getLastname());
         cv.put(StudentTable.Cols.ID, student.getId());
+        cv.put(StudentTable.Cols.MARK, student.getScore());
+        cv.put(StudentTable.Cols.TIME, student.getTime());
+        cv.put(StudentTable.Cols.TIME_SPENT, student.getTimeSpent());
+        cv.put(StudentTable.Cols.DATE, student.getDate());
 
         // student.getPhotoURI is NULL if photo selected is not within internal system
         // could either be: online selected image, OR live taking photo

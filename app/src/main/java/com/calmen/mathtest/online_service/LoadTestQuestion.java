@@ -80,7 +80,7 @@ public class LoadTestQuestion extends AppCompatActivity {
     private String correctAnswer;
     private int score = 0;
     private long timeLeftInMilliSeconds;
-    private int timeVal;
+    private int timeVal = 0;
     private int timeSpent = 0;
     private int timeSpentPerQuestion = 0;
 
@@ -108,6 +108,7 @@ public class LoadTestQuestion extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                countDownTimer.cancel();
                 if (answer.getText().toString().equals("")) {
                     Toast.makeText(LoadTestQuestion.this, "Answer is not chosen yet!",
                             Toast.LENGTH_SHORT).show();
@@ -121,11 +122,10 @@ public class LoadTestQuestion extends AppCompatActivity {
 
                     if (correctAnswer.equals(answer.getText())) {
                         score += 10;
-                        System.out.println("Current Mark: " + score);
                     } else {
                         score -= 5;
-                        System.out.println("Current Mark: " + score);
                     }
+                    System.out.println("Current Mark: " + score);
 
                     answer.setText(""); // reset it
                     new DownloaderTask().execute();
@@ -150,8 +150,16 @@ public class LoadTestQuestion extends AppCompatActivity {
                 String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
                 int latestScore = score + student.getScore();
-                String latestTimeSpent = String.valueOf(timeSpent +
-                        Integer.parseInt(student.getTimeSpent()));
+                String latestTimeSpent = "";
+                System.out.println("Student: " + student.getDate());
+                System.out.println("getTimeSpent: " + student.getTimeSpent());
+
+                if (student.getTimeSpent().equals("")) {
+                    latestTimeSpent += timeSpent;
+                } else {
+                    latestTimeSpent = timeSpent +
+                            String.valueOf(Integer.parseInt(student.getTimeSpent()));
+                }
                 Student updateStudent = new Student(student.getFirstname(), student.getLastname(), student.getId(),
                         formattedDate, latestScore, currentTime, latestTimeSpent, student.getImage(),
                         student.getEmailList(), student.getPhoneNumberList());
@@ -318,7 +326,9 @@ public class LoadTestQuestion extends AppCompatActivity {
                 activateOptionInput(items);
             }
 
-            timeVal = Integer.parseInt(items[3]);
+            // timeVal = Integer.parseInt(items[3]);
+            // TESTING
+            timeVal = 20;
             timeLeftInMilliSeconds = timeVal * 1000;
             startTimer();
         }
@@ -333,8 +343,9 @@ public class LoadTestQuestion extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    // TODO: finish time operation here
-                    System.out.println("DONE");
+                    System.out.println("Current Mark: " + score);
+                    new DownloaderTask().execute();
+                    countDownTimer.cancel();
                 }
             }.start();
         }

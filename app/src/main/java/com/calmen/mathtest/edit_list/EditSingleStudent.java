@@ -117,7 +117,7 @@ public class EditSingleStudent extends AppCompatActivity {
                 try {
                     studentList.updateStudentProfilePictureByURI(this,
                             new Student(currentStudent.getFirstname(),
-                                    currentStudent.getLastname(), currentStudent.getId(), "", 0, "", "",
+                                    currentStudent.getLastname(), currentStudent.getId(),
                                     imageURI, currentStudent.getEmailList(),
                                     currentStudent.getPhoneNumberList()));
                 } catch (IOException e) {

@@ -24,16 +24,15 @@ public class Student implements Serializable {
 
     // Call when creating/registering a new student in ContactRegistration OR
     // Call when creating/registering a new student in ManualRegistration when Browse Photo selected
-    public Student(String inFirstname, String inLastname, int inId, String inDate, int inScore, String inTime,
-                   String inTimeSpent, String inPhotoURI,
+    public Student(String inFirstname, String inLastname, int inId, String inPhotoURI,
                    EmailList inEmailList, PhoneNumberList inPhoneNumberList) {
         this.firstname = inFirstname;
         this.lastname = inLastname;
         this.id = inId;
-        this.date = inDate;
-        this.score = inScore;
-        this.time = inTime;
-        this.timeSpent = inTimeSpent;
+        this.date = "";
+        this.score = 0;
+        this.time = "";
+        this.timeSpent = "";
         this.photoURI = inPhotoURI;
         this.emailList = inEmailList;
         this.phoneNumberList = inPhoneNumberList;

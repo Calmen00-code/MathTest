@@ -181,7 +181,7 @@ public class ManualRegistration extends AppCompatActivity {
                             } else {
                                 // browse photo internally selected
                                 System.out.println("ImageURI: " + imageURI);
-                                studentList.addStudent(new Student(firstname, lastname, id, "", 0, "", "", imageURI,
+                                studentList.addStudent(new Student(firstname, lastname, id, imageURI,
                                         emailList, phoneNumberList), view.getContext());
                             }
                         } catch (IOException e) {
