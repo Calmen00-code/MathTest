@@ -161,7 +161,7 @@ public class ContactRegistration extends AppCompatActivity {
             System.out.println("picURI: " + picURI);
 
             StudentList studentList = new StudentList();
-            studentList.addStudent(new Student(firstname, lastname, studentID, picURI,
+            studentList.addStudent(new Student(firstname, lastname, studentID, "", 0, "", "", picURI,
                     emailList, phoneNumberList), this);
 
         } catch (IOException e) {

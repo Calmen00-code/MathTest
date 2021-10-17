@@ -108,7 +108,7 @@ public class EditSingleStudent extends AppCompatActivity {
                 // take photo OR browse photo online selected
                 studentList.updateStudentProfilePictureByByte(this,
                         new Student(currentStudent.getFirstname(),
-                        currentStudent.getLastname(), currentStudent.getId(),
+                        currentStudent.getLastname(), currentStudent.getId(), "", 0, "", "",
                         image, currentStudent.getEmailList(),
                         currentStudent.getPhoneNumberList()));
             } else {
@@ -117,7 +117,7 @@ public class EditSingleStudent extends AppCompatActivity {
                 try {
                     studentList.updateStudentProfilePictureByURI(this,
                             new Student(currentStudent.getFirstname(),
-                                    currentStudent.getLastname(), currentStudent.getId(),
+                                    currentStudent.getLastname(), currentStudent.getId(), "", 0, "", "",
                                     imageURI, currentStudent.getEmailList(),
                                     currentStudent.getPhoneNumberList()));
                 } catch (IOException e) {

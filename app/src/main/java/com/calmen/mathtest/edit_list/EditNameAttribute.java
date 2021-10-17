@@ -40,7 +40,7 @@ public class EditNameAttribute extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Student newStudent = new Student(
-                                firstname, currentStudent.getLastname(), currentStudent.getId(),
+                                firstname, currentStudent.getLastname(), currentStudent.getId(), "", 0, "", "",
                                 currentStudent.getImage(), currentStudent.getEmailList(),
                                 currentStudent.getPhoneNumberList()
                         );
@@ -54,7 +54,7 @@ public class EditNameAttribute extends AppCompatActivity {
                                 Toast.LENGTH_SHORT).show();
                     } else {
                         Student newStudent = new Student(
-                                currentStudent.getFirstname(), lastname, currentStudent.getId(),
+                                currentStudent.getFirstname(), lastname, currentStudent.getId(), "", 0, "", "",
                                 currentStudent.getImage(), currentStudent.getEmailList(),
                                 currentStudent.getPhoneNumberList()
                         );

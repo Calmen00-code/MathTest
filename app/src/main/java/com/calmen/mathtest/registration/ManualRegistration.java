@@ -176,12 +176,12 @@ public class ManualRegistration extends AppCompatActivity {
                             if (image != null) {
                                 System.out.println("image in confirm (byte[]): " + image);
                                 // take photo OR browse photo online selected
-                                studentList.addStudent(new Student(firstname, lastname, id,
+                                studentList.addStudent(new Student(firstname, lastname, id, "", 0, "", "",
                                         image, emailList, phoneNumberList), view.getContext());
                             } else {
                                 // browse photo internally selected
                                 System.out.println("ImageURI: " + imageURI);
-                                studentList.addStudent(new Student(firstname, lastname, id, imageURI,
+                                studentList.addStudent(new Student(firstname, lastname, id, "", 0, "", "", imageURI,
                                         emailList, phoneNumberList), view.getContext());
                             }
                         } catch (IOException e) {
