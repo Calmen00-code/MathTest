@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import com.calmen.mathtest.answer_mode.FragmentSelectionC;
 import com.calmen.mathtest.answer_mode.FragmentSelectionDefault;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.models.StudentList;
+import com.calmen.mathtest.view_list.ViewStudentDetails;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -140,8 +142,10 @@ public class LoadTestQuestion extends AppCompatActivity {
                 // format for time
                 String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
+                int latestScore = score + student.getScore();
+                String latestTimeSpent = "" + student.getTimeSpent(); // TODO: add time spent
                 Student updateStudent = new Student(student.getFirstname(), student.getLastname(), student.getId(),
-                        formattedDate, score, currentTime, "", student.getImage(),
+                        formattedDate, latestScore, currentTime, "", student.getImage(),
                         student.getEmailList(), student.getPhoneNumberList());
 
                 StudentList studentList = new StudentList();
@@ -150,6 +154,15 @@ public class LoadTestQuestion extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                // View the result of the test
+                Intent intent = new Intent(view.getContext(), ViewStudentDetails.class);
+                intent.putExtra("Date", updateStudent.getDate());
+                intent.putExtra("Score", updateStudent.getScore());
+                intent.putExtra("Time", updateStudent.getTime());
+                intent.putExtra("TimeSpent", updateStudent.getTimeSpent());
+                view.getContext().startActivity(intent);
+
                 ((Activity) view.getContext()).finish();
             }
         });
