@@ -68,7 +68,7 @@ public class FragmentSelectionB extends Fragment {
         RecyclerView rv = view.findViewById(R.id.recyclerFragB);
         rv.setLayoutManager(new LinearLayoutManager(getActivity()));
         RecyclerOptionAdapter recyclerAdapter =
-                new RecyclerOptionAdapter(((LoadTestQuestion) getActivity()).getOptionsArr());
+                new RecyclerOptionAdapter(((LoadTestQuestion) getActivity()).getOptionsB());
         rv.setAdapter(recyclerAdapter);
         return view;
     }
