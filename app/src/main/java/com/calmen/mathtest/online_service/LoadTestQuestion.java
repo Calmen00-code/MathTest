@@ -74,8 +74,10 @@ public class LoadTestQuestion extends AppCompatActivity {
     Button endTest, prev, next, submit;
     TextView question, countdown, answer;
     ArrayList<String> options;
-    String correctAnswer;
-    int score = 0;
+    private String correctAnswer;
+    private int score = 0;
+    private int timeSpent = 0;
+    private int timeSpentPerQuestion = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,9 +145,10 @@ public class LoadTestQuestion extends AppCompatActivity {
                 String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
 
                 int latestScore = score + student.getScore();
-                String latestTimeSpent = "" + student.getTimeSpent(); // TODO: add time spent
+                String latestTimeSpent = String.valueOf(timeSpent +
+                        Integer.parseInt(student.getTimeSpent()));
                 Student updateStudent = new Student(student.getFirstname(), student.getLastname(), student.getId(),
-                        formattedDate, latestScore, currentTime, "", student.getImage(),
+                        formattedDate, latestScore, currentTime, latestTimeSpent, student.getImage(),
                         student.getEmailList(), student.getPhoneNumberList());
 
                 StudentList studentList = new StudentList();
