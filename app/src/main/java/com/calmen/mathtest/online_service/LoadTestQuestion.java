@@ -327,9 +327,9 @@ public class LoadTestQuestion extends AppCompatActivity {
                 activateOptionInput(items);
             }
 
-            // timeVal = Integer.parseInt(items[3]);
+            timeVal = Integer.parseInt(items[3]);
             // TESTING
-            timeVal = 20;
+            // timeVal = 20;
             timeLeftInMilliSeconds = timeVal * 1000;
             startTimer();
         }

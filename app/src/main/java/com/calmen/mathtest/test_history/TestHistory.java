@@ -15,6 +15,7 @@ import com.calmen.mathtest.R;
 import com.calmen.mathtest.models.Student;
 import com.calmen.mathtest.models.StudentList;
 import com.calmen.mathtest.test_history.recycler_test_history.RecyclerTestAdapter;
+import com.calmen.mathtest.test_history.send_email.SendEmail;
 import com.calmen.mathtest.view_list.recycler_view_student.StudentListRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 public class TestHistory extends AppCompatActivity {
+    public static final String LOW_TO_HIGH = "LowToHigh";
+    public static final String HIGH_TO_LOW = "HighToLow";
+
     Button lowToHigh, highToLow, sendRecord;
     ArrayList<Student> students;
 
@@ -41,42 +45,26 @@ public class TestHistory extends AppCompatActivity {
         lowToHigh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                /***
-                 * @Sort
-                 * algorithm taken from StackOverflow
-                 * https://stackoverflow.com/questions/18895915/how-to-sort-an-array-of-objects-in-java
-                 */
-                /*
-                Collections.sort(students, new Comparator<Student>() {
-                    @Override
-                    public int compare(Student s1, Student s2) {
-                        String score1 = "";
-                        score1 += s1.getScore();
-                        String score2 = "";
-                        score2 += s2.getScore();
-                        return score1.compareTo(score2);
-                    }
-                }); */
-
-                for (Student displayStudent: students) {
-                    System.out.println("The score: " + displayStudent.getScore());
-                }
-
                 Intent intent = new Intent(view.getContext(), ViewTestHistory.class);
-                // FIXME: when this was comment out, the activity can be passed
-                // intent.putExtra("Students", students);
-                System.out.println("STARTED ACTIVITY BEFORE");
+                intent.putExtra("Mode", LOW_TO_HIGH);
                 view.getContext().startActivity(intent);
-                System.out.println("STARTED ACTIVITY AFTER");
-                //((Activity) view.getContext()).finish();
             }
         });
 
         highToLow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), ViewTestHistory.class);
+                intent.putExtra("Mode", HIGH_TO_LOW);
+                view.getContext().startActivity(intent);
+            }
+        });
 
+        sendRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), SendEmail.class);
+                view.getContext().startActivity(intent);
             }
         });
     }
