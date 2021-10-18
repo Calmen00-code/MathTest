@@ -54,14 +54,23 @@ public class BrowsePictureOnlineForEdit extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_EDIT_IMAGE_ONLINE && resultCode == RESULT_OK) {
+        System.out.println("ENTER ON ACTIVITY in BrowsePictureOnlineForEdit");
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_EDIT_IMAGE_ONLINE) {
             byte[] image = data.getByteArrayExtra("profileImage");
+            System.out.println("image in edit online: " + image);
             if (image != null) {
                 Intent intent = new Intent();
                 intent.putExtra("profileImage", image);
                 setResult(BrowsePictureOnlineForEdit.RESULT_OK, intent);
             }
             finish();
+        } else {
+            System.out.println("FAILED PICTURE EDIT ONLINE");
+            if (resultCode == Activity.RESULT_OK) {
+                System.out.println("RESULT IS OK");
+            } else {
+                System.out.println("RESULT IS NOT OK");
+            }
         }
     }
 }

@@ -64,6 +64,7 @@ public class EditPhoto extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditPhoto.this, BrowsePictureOnlineForEdit.class);
+                System.out.println("BROWSE ONLINE FOR EDIT");
                 ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_BROWSE_PHOTO_ONLINE);
             }
         });
