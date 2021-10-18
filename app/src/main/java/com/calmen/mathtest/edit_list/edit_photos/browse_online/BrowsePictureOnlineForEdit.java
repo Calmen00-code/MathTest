@@ -10,8 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.calmen.mathtest.R;
-import com.calmen.mathtest.online_service.LoadImagePixabay;
-import com.calmen.mathtest.registration.profile_picture.browse_online.BrowsePictureOnline;
+import com.calmen.mathtest.online_service.LoadImagePixabayCopy;
 
 public class BrowsePictureOnlineForEdit extends AppCompatActivity {
     Button searchBtn;
@@ -38,7 +37,7 @@ public class BrowsePictureOnlineForEdit extends AppCompatActivity {
                     progressBar.setIndeterminate(true);
                     String searchVal = searchImageInput.getText().toString();
 
-                    new LoadImagePixabay(progressBar, view.getContext()).execute(searchVal);
+                    new LoadImagePixabayCopy(progressBar, view.getContext()).execute(searchVal);
                 }
             }
         });

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.online_service.LoadImagePixabay;
-import com.calmen.mathtest.view_list.grid_view_image.GridViewImage;
+import com.calmen.mathtest.online_service.LoadImagePixabayCopy;
 
 import java.io.Serializable;
 
@@ -42,7 +42,9 @@ public class BrowsePictureOnline extends AppCompatActivity implements Serializab
                     progressBar.setIndeterminate(true);
                     String searchVal = searchImageInput.getText().toString();
 
-                    new LoadImagePixabay(progressBar, view.getContext()).execute(searchVal);
+                    Intent intent = new Intent(view.getContext(), LoadImagePixabay.class);
+                    intent.putExtra("searchVal", searchVal);
+                    view.getContext().startActivity(intent);
                 }
             }
         });
