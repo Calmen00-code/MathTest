@@ -14,7 +14,9 @@ import com.calmen.mathtest.R;
 import com.calmen.mathtest.online_service.LoadImagePixabay;
 import com.calmen.mathtest.view_list.grid_view_image.GridViewImage;
 
-public class BrowsePictureOnline extends AppCompatActivity {
+import java.io.Serializable;
+
+public class BrowsePictureOnline extends AppCompatActivity implements Serializable {
 
     Button searchBtn;
     TextView searchImageInput;
