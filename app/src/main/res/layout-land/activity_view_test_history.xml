@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".edit_list.EditEmail">
+    tools:context=".test_history.ViewTestHistory">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listEditEmailRecycler"
+        android:id="@+id/listRecyclerTestView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

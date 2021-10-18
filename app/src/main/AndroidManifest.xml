@@ -16,84 +16,111 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".online_service.LoadImagePixabay"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".test_history.send_email.SendEmail"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".test_history.ViewTestHistory"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".test_history.TestHistory"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".timer.CountdownTimer"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".view_list.ViewStudentDetails"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".online_service.LoadTestQuestion"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".take_test.StudentSelection"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".delete_student.DeleteStudent"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.edit_photos.browse_online.BrowsePictureOnlineForEdit"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditPhoto"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditNumberAttribute"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditEmail"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditEmailAttribute"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditPhoneNo"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditNameAttribute"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditSingleStudent"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".edit_list.EditStudents"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.profile_picture.browse_online.BrowsePictureOnline"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".view_list.ViewStudents"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.phone_number.PhoneNumberRegistration"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.ContactRegistration"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.ManualRegistration"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.profile_picture.ProfilePictureRegistration"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.email.EmailRegistration"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".registration.Registration"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true" />
         <activity
             android:name=".MainActivity"
+            android:configChanges="screenLayout|orientation|screenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

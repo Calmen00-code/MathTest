@@ -4,40 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registration.profile_picture.browse_online.BrowsePictureOnline">
-
-
-    <ProgressBar
-        android:id="@+id/progressBarImage"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="200dp"
-        android:layout_marginEnd="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchImageBtn" />
+    tools:context=".edit_list.EditNameAttribute">
 
     <EditText
-        android:id="@+id/searchImageTxt"
+        android:id="@+id/editNameInputTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
         android:ems="10"
+        android:hint="Firstname/Lastname"
         android:inputType="textPersonName"
-        android:hint="Search Image"
-        app:layout_constraintBottom_toTopOf="@+id/searchImageBtn"
+        app:layout_constraintBottom_toTopOf="@+id/confirmEditName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.481"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.064" />
 
     <Button
-        android:id="@+id/searchImageBtn"
+        android:id="@+id/confirmEditName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="268dp"
-        android:text="Search"
+        android:layout_marginBottom="180dp"
+        android:text="Confirm"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,11 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".edit_list.EditEmail">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/listEditEmailRecycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+    tools:context=".view_list.EditActivity">
 
 </androidx.constraintlayout.widget.ConstraintLayout>
