@@ -1,7 +1,9 @@
 package com.calmen.mathtest.edit_list.edit_photos.browse_online;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +14,11 @@ import android.widget.Toast;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.online_service.LoadImagePixabay;
+import com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration;
 
 public class BrowsePictureOnlineForEdit extends AppCompatActivity {
+    public static final int REQUEST_EDIT_IMAGE_ONLINE = 1;
+
     Button searchBtn;
     TextView searchImageInput;
     ProgressBar progressBar;
@@ -40,9 +45,23 @@ public class BrowsePictureOnlineForEdit extends AppCompatActivity {
 
                     Intent intent = new Intent(view.getContext(), LoadImagePixabay.class);
                     intent.putExtra("searchVal", searchVal);
-                    view.getContext().startActivity(intent);
+                    ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_EDIT_IMAGE_ONLINE);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_EDIT_IMAGE_ONLINE && resultCode == RESULT_OK) {
+            byte[] image = data.getByteArrayExtra("profileImage");
+            if (image != null) {
+                Intent intent = new Intent();
+                intent.putExtra("profileImage", image);
+                setResult(BrowsePictureOnlineForEdit.RESULT_OK, intent);
+            }
+            finish();
+        }
     }
 }

@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.edit_list.edit_photos.browse_online.BrowsePictureOnlineForEdit;
+import com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration;
 import com.calmen.mathtest.shared.Conversion;
 
 import java.io.IOException;
@@ -22,6 +23,7 @@ public class EditPhoto extends AppCompatActivity {
 
     public static final int REQUEST_THUMBNAIL = 1;
     public static final int REQUEST_BROWSE_PHOTO = 2;
+    public static final int REQUEST_BROWSE_PHOTO_ONLINE = 3;
     Button takePhoto, browsePhoto, browsePhotoOnline;
 
     @Override
@@ -62,8 +64,7 @@ public class EditPhoto extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(EditPhoto.this, BrowsePictureOnlineForEdit.class);
-                startActivity(intent);
-                finish();
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_BROWSE_PHOTO_ONLINE);
             }
         });
     }
@@ -92,6 +93,14 @@ public class EditPhoto extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.putExtra("imageURI", imageURI.toString());
                 setResult(EditPhoto.RESULT_OK, intent);
+            }
+            finish();
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_BROWSE_PHOTO_ONLINE) {
+            byte[] image = data.getByteArrayExtra("profileImage");
+            if (image != null) {
+                Intent intent = new Intent();
+                intent.putExtra("profileImage", image);
+                setResult(ProfilePictureRegistration.RESULT_OK, intent);
             }
             finish();
         }
