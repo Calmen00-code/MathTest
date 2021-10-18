@@ -1,8 +1,13 @@
 package com.calmen.mathtest.registration.profile_picture.browse_online;
 
+import static com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration.REQUEST_BROWSE_PIC_ONLINE;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,8 +17,10 @@ import android.widget.Toast;
 
 import com.calmen.mathtest.R;
 import com.calmen.mathtest.online_service.LoadImagePixabay;
-import com.calmen.mathtest.online_service.LoadImagePixabayCopy;
+import com.calmen.mathtest.registration.profile_picture.ProfilePictureRegistration;
+import com.calmen.mathtest.shared.Conversion;
 
+import java.io.IOException;
 import java.io.Serializable;
 
 public class BrowsePictureOnline extends AppCompatActivity implements Serializable {
@@ -44,9 +51,32 @@ public class BrowsePictureOnline extends AppCompatActivity implements Serializab
 
                     Intent intent = new Intent(view.getContext(), LoadImagePixabay.class);
                     intent.putExtra("searchVal", searchVal);
-                    view.getContext().startActivity(intent);
+                    ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_BROWSE_PIC_ONLINE);
                 }
             }
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_BROWSE_PIC_ONLINE && resultCode == RESULT_OK) {
+            // byte[] image = (Bitmap) data.getExtras().get("profileImage");
+            byte[] image = data.getByteArrayExtra("profileImage");
+            if (image != null) {
+                Intent intent = new Intent();
+                intent.putExtra("profileImage", image);
+                System.out.println("Browse Photo Online: " + image);
+                setResult(BrowsePictureOnline.RESULT_OK, intent);
+            }
+            finish();
+        } else {
+            System.out.println("FAILED TO LOAD IMAGE FROM Browse Picture Online");
+            if (resultCode == RESULT_OK) {
+                System.out.println("RESULT IS OK");
+            } else {
+                System.out.println("RESULT IS NOT OK");
+            }
+        }
     }
 }

@@ -1,6 +1,6 @@
 package com.calmen.mathtest.database;
 
-import static com.calmen.mathtest.online_service.LoadImagePixabayCopy.NUM_IMAGES;
+import static com.calmen.mathtest.online_service.LoadImagePixabay.NUM_IMAGES;
 
 import android.content.ContentValues;
 import android.content.Context;

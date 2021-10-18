@@ -2,6 +2,7 @@ package com.calmen.mathtest.edit_list.edit_photos.browse_online;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -10,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.calmen.mathtest.R;
-import com.calmen.mathtest.online_service.LoadImagePixabayCopy;
+import com.calmen.mathtest.online_service.LoadImagePixabay;
 
 public class BrowsePictureOnlineForEdit extends AppCompatActivity {
     Button searchBtn;
@@ -37,7 +38,9 @@ public class BrowsePictureOnlineForEdit extends AppCompatActivity {
                     progressBar.setIndeterminate(true);
                     String searchVal = searchImageInput.getText().toString();
 
-                    new LoadImagePixabayCopy(progressBar, view.getContext()).execute(searchVal);
+                    Intent intent = new Intent(view.getContext(), LoadImagePixabay.class);
+                    intent.putExtra("searchVal", searchVal);
+                    view.getContext().startActivity(intent);
                 }
             }
         });

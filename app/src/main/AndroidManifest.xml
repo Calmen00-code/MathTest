@@ -69,9 +69,6 @@
             android:name=".edit_list.EditStudents"
             android:exported="true" />
         <activity
-            android:name=".view_list.grid_view_image.GridViewImage"
-            android:exported="true" />
-        <activity
             android:name=".registration.profile_picture.browse_online.BrowsePictureOnline"
             android:exported="true" />
         <activity

@@ -23,6 +23,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
 
     public static final int REQUEST_THUMBNAIL = 1;
     public static final int REQUEST_BROWSE_PHOTO = 2;
+    public static final int REQUEST_BROWSE_PIC_ONLINE = 3;
     Button takePhoto, browsePhoto, browsePhotoOnline;
 
     @Override
@@ -63,8 +64,7 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(ProfilePictureRegistration.this, BrowsePictureOnline.class);
-                startActivity(intent);
-                finish();
+                ((Activity) view.getContext()).startActivityForResult(intent, REQUEST_BROWSE_PIC_ONLINE);
             }
         });
     }
@@ -92,6 +92,16 @@ public class ProfilePictureRegistration extends AppCompatActivity {
             if (imageURI != null) {
                 Intent intent = new Intent();
                 intent.putExtra("imageURI", imageURI.toString());
+                setResult(ProfilePictureRegistration.RESULT_OK, intent);
+            }
+            finish();
+        } else if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_BROWSE_PIC_ONLINE) {
+            byte[] image = data.getByteArrayExtra("profileImage");
+            System.out.println("image in ProfileRegistration: " + image);
+            if (image != null) {
+                Intent intent = new Intent();
+                intent.putExtra("profileImage", image);
+                System.out.println("image in ProfileRegistration (2): " + image);
                 setResult(ProfilePictureRegistration.RESULT_OK, intent);
             }
             finish();
